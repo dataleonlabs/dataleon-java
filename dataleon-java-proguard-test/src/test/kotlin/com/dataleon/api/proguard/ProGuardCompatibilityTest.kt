@@ -198,6 +198,7 @@ internal class ProGuardCompatibilityTest {
                         .needReviewAt(null)
                         .notificationConfirmation(false)
                         .qrCode("false")
+                        .rawData(true)
                         .rejectedAt(null)
                         .startedAt(OffsetDateTime.parse("2025-05-05T13:00:00Z"))
                         .transferAt(OffsetDateTime.parse("2025-07-12T14:00:00Z"))

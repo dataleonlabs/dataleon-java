@@ -1339,6 +1339,7 @@ private constructor(
         private val callbackUrl: JsonField<String>,
         private val callbackUrlNotification: JsonField<String>,
         private val language: JsonField<String>,
+        private val rawData: JsonField<Boolean>,
         private val additionalProperties: MutableMap<String, JsonValue>,
     ) {
 
@@ -1350,8 +1351,11 @@ private constructor(
             @JsonProperty("callback_url_notification")
             @ExcludeMissing
             callbackUrlNotification: JsonField<String> = JsonMissing.of(),
-            @JsonProperty("language") @ExcludeMissing language: JsonField<String> = JsonMissing.of(),
-        ) : this(callbackUrl, callbackUrlNotification, language, mutableMapOf())
+            @JsonProperty("language")
+            @ExcludeMissing
+            language: JsonField<String> = JsonMissing.of(),
+            @JsonProperty("raw_data") @ExcludeMissing rawData: JsonField<Boolean> = JsonMissing.of(),
+        ) : this(callbackUrl, callbackUrlNotification, language, rawData, mutableMapOf())
 
         /**
          * URL to receive a callback once the company is processed.
@@ -1379,6 +1383,14 @@ private constructor(
         fun language(): Optional<String> = language.getOptional("language")
 
         /**
+         * Flag indicating whether to include raw data in the response.
+         *
+         * @throws DataleonInvalidDataException if the JSON field has an unexpected type (e.g. if
+         *   the server responded with an unexpected value).
+         */
+        fun rawData(): Optional<Boolean> = rawData.getOptional("raw_data")
+
+        /**
          * Returns the raw JSON value of [callbackUrl].
          *
          * Unlike [callbackUrl], this method doesn't throw if the JSON field has an unexpected type.
@@ -1404,6 +1416,13 @@ private constructor(
          */
         @JsonProperty("language") @ExcludeMissing fun _language(): JsonField<String> = language
 
+        /**
+         * Returns the raw JSON value of [rawData].
+         *
+         * Unlike [rawData], this method doesn't throw if the JSON field has an unexpected type.
+         */
+        @JsonProperty("raw_data") @ExcludeMissing fun _rawData(): JsonField<Boolean> = rawData
+
         @JsonAnySetter
         private fun putAdditionalProperty(key: String, value: JsonValue) {
             additionalProperties.put(key, value)
@@ -1428,6 +1447,7 @@ private constructor(
             private var callbackUrl: JsonField<String> = JsonMissing.of()
             private var callbackUrlNotification: JsonField<String> = JsonMissing.of()
             private var language: JsonField<String> = JsonMissing.of()
+            private var rawData: JsonField<Boolean> = JsonMissing.of()
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
             @JvmSynthetic
@@ -1435,6 +1455,7 @@ private constructor(
                 callbackUrl = technicalData.callbackUrl
                 callbackUrlNotification = technicalData.callbackUrlNotification
                 language = technicalData.language
+                rawData = technicalData.rawData
                 additionalProperties = technicalData.additionalProperties.toMutableMap()
             }
 
@@ -1479,6 +1500,18 @@ private constructor(
              */
             fun language(language: JsonField<String>) = apply { this.language = language }
 
+            /** Flag indicating whether to include raw data in the response. */
+            fun rawData(rawData: Boolean) = rawData(JsonField.of(rawData))
+
+            /**
+             * Sets [Builder.rawData] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.rawData] with a well-typed [Boolean] value instead.
+             * This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
+            fun rawData(rawData: JsonField<Boolean>) = apply { this.rawData = rawData }
+
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
                 putAllAdditionalProperties(additionalProperties)
@@ -1508,6 +1541,7 @@ private constructor(
                     callbackUrl,
                     callbackUrlNotification,
                     language,
+                    rawData,
                     additionalProperties.toMutableMap(),
                 )
         }
@@ -1522,6 +1556,7 @@ private constructor(
             callbackUrl()
             callbackUrlNotification()
             language()
+            rawData()
             validated = true
         }
 
@@ -1543,24 +1578,25 @@ private constructor(
         internal fun validity(): Int =
             (if (callbackUrl.asKnown().isPresent) 1 else 0) +
                 (if (callbackUrlNotification.asKnown().isPresent) 1 else 0) +
-                (if (language.asKnown().isPresent) 1 else 0)
+                (if (language.asKnown().isPresent) 1 else 0) +
+                (if (rawData.asKnown().isPresent) 1 else 0)
 
         override fun equals(other: Any?): Boolean {
             if (this === other) {
                 return true
             }
 
-            return /* spotless:off */ other is TechnicalData && callbackUrl == other.callbackUrl && callbackUrlNotification == other.callbackUrlNotification && language == other.language && additionalProperties == other.additionalProperties /* spotless:on */
+            return /* spotless:off */ other is TechnicalData && callbackUrl == other.callbackUrl && callbackUrlNotification == other.callbackUrlNotification && language == other.language && rawData == other.rawData && additionalProperties == other.additionalProperties /* spotless:on */
         }
 
         /* spotless:off */
-        private val hashCode: Int by lazy { Objects.hash(callbackUrl, callbackUrlNotification, language, additionalProperties) }
+        private val hashCode: Int by lazy { Objects.hash(callbackUrl, callbackUrlNotification, language, rawData, additionalProperties) }
         /* spotless:on */
 
         override fun hashCode(): Int = hashCode
 
         override fun toString() =
-            "TechnicalData{callbackUrl=$callbackUrl, callbackUrlNotification=$callbackUrlNotification, language=$language, additionalProperties=$additionalProperties}"
+            "TechnicalData{callbackUrl=$callbackUrl, callbackUrlNotification=$callbackUrlNotification, language=$language, rawData=$rawData, additionalProperties=$additionalProperties}"
     }
 
     override fun equals(other: Any?): Boolean {
