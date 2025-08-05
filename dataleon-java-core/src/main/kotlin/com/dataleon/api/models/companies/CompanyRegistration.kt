@@ -1420,7 +1420,6 @@ private constructor(
     private constructor(
         private val address: JsonField<String>,
         private val commercialName: JsonField<String>,
-        private val contact: JsonField<Contact>,
         private val country: JsonField<String>,
         private val email: JsonField<String>,
         private val employerIdentificationNumber: JsonField<String>,
@@ -1443,7 +1442,6 @@ private constructor(
             @JsonProperty("commercial_name")
             @ExcludeMissing
             commercialName: JsonField<String> = JsonMissing.of(),
-            @JsonProperty("contact") @ExcludeMissing contact: JsonField<Contact> = JsonMissing.of(),
             @JsonProperty("country") @ExcludeMissing country: JsonField<String> = JsonMissing.of(),
             @JsonProperty("email") @ExcludeMissing email: JsonField<String> = JsonMissing.of(),
             @JsonProperty("employer_identification_number")
@@ -1476,7 +1474,6 @@ private constructor(
         ) : this(
             address,
             commercialName,
-            contact,
             country,
             email,
             employerIdentificationNumber,
@@ -1508,14 +1505,6 @@ private constructor(
          *   the server responded with an unexpected value).
          */
         fun commercialName(): Optional<String> = commercialName.getOptional("commercial_name")
-
-        /**
-         * Contact information for the company, including email, phone number, and address.
-         *
-         * @throws DataleonInvalidDataException if the JSON field has an unexpected type (e.g. if
-         *   the server responded with an unexpected value).
-         */
-        fun contact(): Optional<Contact> = contact.getOptional("contact")
 
         /**
          * Country code where the company is registered.
@@ -1640,13 +1629,6 @@ private constructor(
         @JsonProperty("commercial_name")
         @ExcludeMissing
         fun _commercialName(): JsonField<String> = commercialName
-
-        /**
-         * Returns the raw JSON value of [contact].
-         *
-         * Unlike [contact], this method doesn't throw if the JSON field has an unexpected type.
-         */
-        @JsonProperty("contact") @ExcludeMissing fun _contact(): JsonField<Contact> = contact
 
         /**
          * Returns the raw JSON value of [country].
@@ -1781,7 +1763,6 @@ private constructor(
 
             private var address: JsonField<String> = JsonMissing.of()
             private var commercialName: JsonField<String> = JsonMissing.of()
-            private var contact: JsonField<Contact> = JsonMissing.of()
             private var country: JsonField<String> = JsonMissing.of()
             private var email: JsonField<String> = JsonMissing.of()
             private var employerIdentificationNumber: JsonField<String> = JsonMissing.of()
@@ -1801,7 +1782,6 @@ private constructor(
             internal fun from(company: Company) = apply {
                 address = company.address
                 commercialName = company.commercialName
-                contact = company.contact
                 country = company.country
                 email = company.email
                 employerIdentificationNumber = company.employerIdentificationNumber
@@ -1844,18 +1824,6 @@ private constructor(
             fun commercialName(commercialName: JsonField<String>) = apply {
                 this.commercialName = commercialName
             }
-
-            /** Contact information for the company, including email, phone number, and address. */
-            fun contact(contact: Contact) = contact(JsonField.of(contact))
-
-            /**
-             * Sets [Builder.contact] to an arbitrary JSON value.
-             *
-             * You should usually call [Builder.contact] with a well-typed [Contact] value instead.
-             * This method is primarily for setting the field to an undocumented or not yet
-             * supported value.
-             */
-            fun contact(contact: JsonField<Contact>) = apply { this.contact = contact }
 
             /** Country code where the company is registered. */
             fun country(country: String) = country(JsonField.of(country))
@@ -2058,7 +2026,6 @@ private constructor(
                 Company(
                     address,
                     commercialName,
-                    contact,
                     country,
                     email,
                     employerIdentificationNumber,
@@ -2085,7 +2052,6 @@ private constructor(
 
             address()
             commercialName()
-            contact().ifPresent { it.validate() }
             country()
             email()
             employerIdentificationNumber()
@@ -2120,7 +2086,6 @@ private constructor(
         internal fun validity(): Int =
             (if (address.asKnown().isPresent) 1 else 0) +
                 (if (commercialName.asKnown().isPresent) 1 else 0) +
-                (contact.asKnown().getOrNull()?.validity() ?: 0) +
                 (if (country.asKnown().isPresent) 1 else 0) +
                 (if (email.asKnown().isPresent) 1 else 0) +
                 (if (employerIdentificationNumber.asKnown().isPresent) 1 else 0) +
@@ -2135,330 +2100,22 @@ private constructor(
                 (if (type.asKnown().isPresent) 1 else 0) +
                 (if (websiteUrl.asKnown().isPresent) 1 else 0)
 
-        /** Contact information for the company, including email, phone number, and address. */
-        class Contact
-        private constructor(
-            private val department: JsonField<String>,
-            private val email: JsonField<String>,
-            private val firstName: JsonField<String>,
-            private val lastName: JsonField<String>,
-            private val phoneNumber: JsonField<String>,
-            private val additionalProperties: MutableMap<String, JsonValue>,
-        ) {
-
-            @JsonCreator
-            private constructor(
-                @JsonProperty("department")
-                @ExcludeMissing
-                department: JsonField<String> = JsonMissing.of(),
-                @JsonProperty("email") @ExcludeMissing email: JsonField<String> = JsonMissing.of(),
-                @JsonProperty("first_name")
-                @ExcludeMissing
-                firstName: JsonField<String> = JsonMissing.of(),
-                @JsonProperty("last_name")
-                @ExcludeMissing
-                lastName: JsonField<String> = JsonMissing.of(),
-                @JsonProperty("phone_number")
-                @ExcludeMissing
-                phoneNumber: JsonField<String> = JsonMissing.of(),
-            ) : this(department, email, firstName, lastName, phoneNumber, mutableMapOf())
-
-            /**
-             * Department of the contact person.
-             *
-             * @throws DataleonInvalidDataException if the JSON field has an unexpected type (e.g.
-             *   if the server responded with an unexpected value).
-             */
-            fun department(): Optional<String> = department.getOptional("department")
-
-            /**
-             * Email address of the contact person.
-             *
-             * @throws DataleonInvalidDataException if the JSON field has an unexpected type (e.g.
-             *   if the server responded with an unexpected value).
-             */
-            fun email(): Optional<String> = email.getOptional("email")
-
-            /**
-             * First name of the contact person.
-             *
-             * @throws DataleonInvalidDataException if the JSON field has an unexpected type (e.g.
-             *   if the server responded with an unexpected value).
-             */
-            fun firstName(): Optional<String> = firstName.getOptional("first_name")
-
-            /**
-             * Last name of the contact person.
-             *
-             * @throws DataleonInvalidDataException if the JSON field has an unexpected type (e.g.
-             *   if the server responded with an unexpected value).
-             */
-            fun lastName(): Optional<String> = lastName.getOptional("last_name")
-
-            /**
-             * Phone number of the contact person.
-             *
-             * @throws DataleonInvalidDataException if the JSON field has an unexpected type (e.g.
-             *   if the server responded with an unexpected value).
-             */
-            fun phoneNumber(): Optional<String> = phoneNumber.getOptional("phone_number")
-
-            /**
-             * Returns the raw JSON value of [department].
-             *
-             * Unlike [department], this method doesn't throw if the JSON field has an unexpected
-             * type.
-             */
-            @JsonProperty("department")
-            @ExcludeMissing
-            fun _department(): JsonField<String> = department
-
-            /**
-             * Returns the raw JSON value of [email].
-             *
-             * Unlike [email], this method doesn't throw if the JSON field has an unexpected type.
-             */
-            @JsonProperty("email") @ExcludeMissing fun _email(): JsonField<String> = email
-
-            /**
-             * Returns the raw JSON value of [firstName].
-             *
-             * Unlike [firstName], this method doesn't throw if the JSON field has an unexpected
-             * type.
-             */
-            @JsonProperty("first_name")
-            @ExcludeMissing
-            fun _firstName(): JsonField<String> = firstName
-
-            /**
-             * Returns the raw JSON value of [lastName].
-             *
-             * Unlike [lastName], this method doesn't throw if the JSON field has an unexpected
-             * type.
-             */
-            @JsonProperty("last_name") @ExcludeMissing fun _lastName(): JsonField<String> = lastName
-
-            /**
-             * Returns the raw JSON value of [phoneNumber].
-             *
-             * Unlike [phoneNumber], this method doesn't throw if the JSON field has an unexpected
-             * type.
-             */
-            @JsonProperty("phone_number")
-            @ExcludeMissing
-            fun _phoneNumber(): JsonField<String> = phoneNumber
-
-            @JsonAnySetter
-            private fun putAdditionalProperty(key: String, value: JsonValue) {
-                additionalProperties.put(key, value)
-            }
-
-            @JsonAnyGetter
-            @ExcludeMissing
-            fun _additionalProperties(): Map<String, JsonValue> =
-                Collections.unmodifiableMap(additionalProperties)
-
-            fun toBuilder() = Builder().from(this)
-
-            companion object {
-
-                /** Returns a mutable builder for constructing an instance of [Contact]. */
-                @JvmStatic fun builder() = Builder()
-            }
-
-            /** A builder for [Contact]. */
-            class Builder internal constructor() {
-
-                private var department: JsonField<String> = JsonMissing.of()
-                private var email: JsonField<String> = JsonMissing.of()
-                private var firstName: JsonField<String> = JsonMissing.of()
-                private var lastName: JsonField<String> = JsonMissing.of()
-                private var phoneNumber: JsonField<String> = JsonMissing.of()
-                private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
-
-                @JvmSynthetic
-                internal fun from(contact: Contact) = apply {
-                    department = contact.department
-                    email = contact.email
-                    firstName = contact.firstName
-                    lastName = contact.lastName
-                    phoneNumber = contact.phoneNumber
-                    additionalProperties = contact.additionalProperties.toMutableMap()
-                }
-
-                /** Department of the contact person. */
-                fun department(department: String) = department(JsonField.of(department))
-
-                /**
-                 * Sets [Builder.department] to an arbitrary JSON value.
-                 *
-                 * You should usually call [Builder.department] with a well-typed [String] value
-                 * instead. This method is primarily for setting the field to an undocumented or not
-                 * yet supported value.
-                 */
-                fun department(department: JsonField<String>) = apply {
-                    this.department = department
-                }
-
-                /** Email address of the contact person. */
-                fun email(email: String) = email(JsonField.of(email))
-
-                /**
-                 * Sets [Builder.email] to an arbitrary JSON value.
-                 *
-                 * You should usually call [Builder.email] with a well-typed [String] value instead.
-                 * This method is primarily for setting the field to an undocumented or not yet
-                 * supported value.
-                 */
-                fun email(email: JsonField<String>) = apply { this.email = email }
-
-                /** First name of the contact person. */
-                fun firstName(firstName: String) = firstName(JsonField.of(firstName))
-
-                /**
-                 * Sets [Builder.firstName] to an arbitrary JSON value.
-                 *
-                 * You should usually call [Builder.firstName] with a well-typed [String] value
-                 * instead. This method is primarily for setting the field to an undocumented or not
-                 * yet supported value.
-                 */
-                fun firstName(firstName: JsonField<String>) = apply { this.firstName = firstName }
-
-                /** Last name of the contact person. */
-                fun lastName(lastName: String) = lastName(JsonField.of(lastName))
-
-                /**
-                 * Sets [Builder.lastName] to an arbitrary JSON value.
-                 *
-                 * You should usually call [Builder.lastName] with a well-typed [String] value
-                 * instead. This method is primarily for setting the field to an undocumented or not
-                 * yet supported value.
-                 */
-                fun lastName(lastName: JsonField<String>) = apply { this.lastName = lastName }
-
-                /** Phone number of the contact person. */
-                fun phoneNumber(phoneNumber: String) = phoneNumber(JsonField.of(phoneNumber))
-
-                /**
-                 * Sets [Builder.phoneNumber] to an arbitrary JSON value.
-                 *
-                 * You should usually call [Builder.phoneNumber] with a well-typed [String] value
-                 * instead. This method is primarily for setting the field to an undocumented or not
-                 * yet supported value.
-                 */
-                fun phoneNumber(phoneNumber: JsonField<String>) = apply {
-                    this.phoneNumber = phoneNumber
-                }
-
-                fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
-                    this.additionalProperties.clear()
-                    putAllAdditionalProperties(additionalProperties)
-                }
-
-                fun putAdditionalProperty(key: String, value: JsonValue) = apply {
-                    additionalProperties.put(key, value)
-                }
-
-                fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) =
-                    apply {
-                        this.additionalProperties.putAll(additionalProperties)
-                    }
-
-                fun removeAdditionalProperty(key: String) = apply {
-                    additionalProperties.remove(key)
-                }
-
-                fun removeAllAdditionalProperties(keys: Set<String>) = apply {
-                    keys.forEach(::removeAdditionalProperty)
-                }
-
-                /**
-                 * Returns an immutable instance of [Contact].
-                 *
-                 * Further updates to this [Builder] will not mutate the returned instance.
-                 */
-                fun build(): Contact =
-                    Contact(
-                        department,
-                        email,
-                        firstName,
-                        lastName,
-                        phoneNumber,
-                        additionalProperties.toMutableMap(),
-                    )
-            }
-
-            private var validated: Boolean = false
-
-            fun validate(): Contact = apply {
-                if (validated) {
-                    return@apply
-                }
-
-                department()
-                email()
-                firstName()
-                lastName()
-                phoneNumber()
-                validated = true
-            }
-
-            fun isValid(): Boolean =
-                try {
-                    validate()
-                    true
-                } catch (e: DataleonInvalidDataException) {
-                    false
-                }
-
-            /**
-             * Returns a score indicating how many valid values are contained in this object
-             * recursively.
-             *
-             * Used for best match union deserialization.
-             */
-            @JvmSynthetic
-            internal fun validity(): Int =
-                (if (department.asKnown().isPresent) 1 else 0) +
-                    (if (email.asKnown().isPresent) 1 else 0) +
-                    (if (firstName.asKnown().isPresent) 1 else 0) +
-                    (if (lastName.asKnown().isPresent) 1 else 0) +
-                    (if (phoneNumber.asKnown().isPresent) 1 else 0)
-
-            override fun equals(other: Any?): Boolean {
-                if (this === other) {
-                    return true
-                }
-
-                return /* spotless:off */ other is Contact && department == other.department && email == other.email && firstName == other.firstName && lastName == other.lastName && phoneNumber == other.phoneNumber && additionalProperties == other.additionalProperties /* spotless:on */
-            }
-
-            /* spotless:off */
-            private val hashCode: Int by lazy { Objects.hash(department, email, firstName, lastName, phoneNumber, additionalProperties) }
-            /* spotless:on */
-
-            override fun hashCode(): Int = hashCode
-
-            override fun toString() =
-                "Contact{department=$department, email=$email, firstName=$firstName, lastName=$lastName, phoneNumber=$phoneNumber, additionalProperties=$additionalProperties}"
-        }
-
         override fun equals(other: Any?): Boolean {
             if (this === other) {
                 return true
             }
 
-            return /* spotless:off */ other is Company && address == other.address && commercialName == other.commercialName && contact == other.contact && country == other.country && email == other.email && employerIdentificationNumber == other.employerIdentificationNumber && legalForm == other.legalForm && name == other.name && phoneNumber == other.phoneNumber && registrationDate == other.registrationDate && registrationId == other.registrationId && shareCapital == other.shareCapital && status == other.status && taxIdentificationNumber == other.taxIdentificationNumber && type == other.type && websiteUrl == other.websiteUrl && additionalProperties == other.additionalProperties /* spotless:on */
+            return /* spotless:off */ other is Company && address == other.address && commercialName == other.commercialName && country == other.country && email == other.email && employerIdentificationNumber == other.employerIdentificationNumber && legalForm == other.legalForm && name == other.name && phoneNumber == other.phoneNumber && registrationDate == other.registrationDate && registrationId == other.registrationId && shareCapital == other.shareCapital && status == other.status && taxIdentificationNumber == other.taxIdentificationNumber && type == other.type && websiteUrl == other.websiteUrl && additionalProperties == other.additionalProperties /* spotless:on */
         }
 
         /* spotless:off */
-        private val hashCode: Int by lazy { Objects.hash(address, commercialName, contact, country, email, employerIdentificationNumber, legalForm, name, phoneNumber, registrationDate, registrationId, shareCapital, status, taxIdentificationNumber, type, websiteUrl, additionalProperties) }
+        private val hashCode: Int by lazy { Objects.hash(address, commercialName, country, email, employerIdentificationNumber, legalForm, name, phoneNumber, registrationDate, registrationId, shareCapital, status, taxIdentificationNumber, type, websiteUrl, additionalProperties) }
         /* spotless:on */
 
         override fun hashCode(): Int = hashCode
 
         override fun toString() =
-            "Company{address=$address, commercialName=$commercialName, contact=$contact, country=$country, email=$email, employerIdentificationNumber=$employerIdentificationNumber, legalForm=$legalForm, name=$name, phoneNumber=$phoneNumber, registrationDate=$registrationDate, registrationId=$registrationId, shareCapital=$shareCapital, status=$status, taxIdentificationNumber=$taxIdentificationNumber, type=$type, websiteUrl=$websiteUrl, additionalProperties=$additionalProperties}"
+            "Company{address=$address, commercialName=$commercialName, country=$country, email=$email, employerIdentificationNumber=$employerIdentificationNumber, legalForm=$legalForm, name=$name, phoneNumber=$phoneNumber, registrationDate=$registrationDate, registrationId=$registrationId, shareCapital=$shareCapital, status=$status, taxIdentificationNumber=$taxIdentificationNumber, type=$type, websiteUrl=$websiteUrl, additionalProperties=$additionalProperties}"
     }
 
     /** Represents a member or actor of a company, including personal and ownership information. */
@@ -4255,7 +3912,6 @@ private constructor(
         private val needReviewAt: JsonField<OffsetDateTime>,
         private val notificationConfirmation: JsonField<Boolean>,
         private val qrCode: JsonField<String>,
-        private val rawData: JsonField<Boolean>,
         private val rejectedAt: JsonField<OffsetDateTime>,
         private val startedAt: JsonField<OffsetDateTime>,
         private val transferAt: JsonField<OffsetDateTime>,
@@ -4303,9 +3959,6 @@ private constructor(
             @ExcludeMissing
             notificationConfirmation: JsonField<Boolean> = JsonMissing.of(),
             @JsonProperty("qr_code") @ExcludeMissing qrCode: JsonField<String> = JsonMissing.of(),
-            @JsonProperty("raw_data")
-            @ExcludeMissing
-            rawData: JsonField<Boolean> = JsonMissing.of(),
             @JsonProperty("rejected_at")
             @ExcludeMissing
             rejectedAt: JsonField<OffsetDateTime> = JsonMissing.of(),
@@ -4333,7 +3986,6 @@ private constructor(
             needReviewAt,
             notificationConfirmation,
             qrCode,
-            rawData,
             rejectedAt,
             startedAt,
             transferAt,
@@ -4456,14 +4108,6 @@ private constructor(
          *   the server responded with an unexpected value).
          */
         fun qrCode(): Optional<String> = qrCode.getOptional("qr_code")
-
-        /**
-         * Flag indicating whether to include raw data in the response.
-         *
-         * @throws DataleonInvalidDataException if the JSON field has an unexpected type (e.g. if
-         *   the server responded with an unexpected value).
-         */
-        fun rawData(): Optional<Boolean> = rawData.getOptional("raw_data")
 
         /**
          * Timestamp when the request or process was rejected; null if not rejected.
@@ -4621,13 +4265,6 @@ private constructor(
         @JsonProperty("qr_code") @ExcludeMissing fun _qrCode(): JsonField<String> = qrCode
 
         /**
-         * Returns the raw JSON value of [rawData].
-         *
-         * Unlike [rawData], this method doesn't throw if the JSON field has an unexpected type.
-         */
-        @JsonProperty("raw_data") @ExcludeMissing fun _rawData(): JsonField<Boolean> = rawData
-
-        /**
          * Returns the raw JSON value of [rejectedAt].
          *
          * Unlike [rejectedAt], this method doesn't throw if the JSON field has an unexpected type.
@@ -4699,7 +4336,6 @@ private constructor(
             private var needReviewAt: JsonField<OffsetDateTime> = JsonMissing.of()
             private var notificationConfirmation: JsonField<Boolean> = JsonMissing.of()
             private var qrCode: JsonField<String> = JsonMissing.of()
-            private var rawData: JsonField<Boolean> = JsonMissing.of()
             private var rejectedAt: JsonField<OffsetDateTime> = JsonMissing.of()
             private var startedAt: JsonField<OffsetDateTime> = JsonMissing.of()
             private var transferAt: JsonField<OffsetDateTime> = JsonMissing.of()
@@ -4722,7 +4358,6 @@ private constructor(
                 needReviewAt = technicalData.needReviewAt
                 notificationConfirmation = technicalData.notificationConfirmation
                 qrCode = technicalData.qrCode
-                rawData = technicalData.rawData
                 rejectedAt = technicalData.rejectedAt
                 startedAt = technicalData.startedAt
                 transferAt = technicalData.transferAt
@@ -4931,18 +4566,6 @@ private constructor(
              */
             fun qrCode(qrCode: JsonField<String>) = apply { this.qrCode = qrCode }
 
-            /** Flag indicating whether to include raw data in the response. */
-            fun rawData(rawData: Boolean) = rawData(JsonField.of(rawData))
-
-            /**
-             * Sets [Builder.rawData] to an arbitrary JSON value.
-             *
-             * You should usually call [Builder.rawData] with a well-typed [Boolean] value instead.
-             * This method is primarily for setting the field to an undocumented or not yet
-             * supported value.
-             */
-            fun rawData(rawData: JsonField<Boolean>) = apply { this.rawData = rawData }
-
             /** Timestamp when the request or process was rejected; null if not rejected. */
             fun rejectedAt(rejectedAt: OffsetDateTime?) =
                 rejectedAt(JsonField.ofNullable(rejectedAt))
@@ -5044,7 +4667,6 @@ private constructor(
                     needReviewAt,
                     notificationConfirmation,
                     qrCode,
-                    rawData,
                     rejectedAt,
                     startedAt,
                     transferAt,
@@ -5074,7 +4696,6 @@ private constructor(
             needReviewAt()
             notificationConfirmation()
             qrCode()
-            rawData()
             rejectedAt()
             startedAt()
             transferAt()
@@ -5112,7 +4733,6 @@ private constructor(
                 (if (needReviewAt.asKnown().isPresent) 1 else 0) +
                 (if (notificationConfirmation.asKnown().isPresent) 1 else 0) +
                 (if (qrCode.asKnown().isPresent) 1 else 0) +
-                (if (rawData.asKnown().isPresent) 1 else 0) +
                 (if (rejectedAt.asKnown().isPresent) 1 else 0) +
                 (if (startedAt.asKnown().isPresent) 1 else 0) +
                 (if (transferAt.asKnown().isPresent) 1 else 0) +
@@ -5123,17 +4743,17 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is TechnicalData && apiVersion == other.apiVersion && approvedAt == other.approvedAt && callbackUrl == other.callbackUrl && callbackUrlNotification == other.callbackUrlNotification && disableNotification == other.disableNotification && disableNotificationDate == other.disableNotificationDate && exportType == other.exportType && finishedAt == other.finishedAt && ip == other.ip && language == other.language && locationIp == other.locationIp && needReviewAt == other.needReviewAt && notificationConfirmation == other.notificationConfirmation && qrCode == other.qrCode && rawData == other.rawData && rejectedAt == other.rejectedAt && startedAt == other.startedAt && transferAt == other.transferAt && transferMode == other.transferMode && additionalProperties == other.additionalProperties /* spotless:on */
+            return /* spotless:off */ other is TechnicalData && apiVersion == other.apiVersion && approvedAt == other.approvedAt && callbackUrl == other.callbackUrl && callbackUrlNotification == other.callbackUrlNotification && disableNotification == other.disableNotification && disableNotificationDate == other.disableNotificationDate && exportType == other.exportType && finishedAt == other.finishedAt && ip == other.ip && language == other.language && locationIp == other.locationIp && needReviewAt == other.needReviewAt && notificationConfirmation == other.notificationConfirmation && qrCode == other.qrCode && rejectedAt == other.rejectedAt && startedAt == other.startedAt && transferAt == other.transferAt && transferMode == other.transferMode && additionalProperties == other.additionalProperties /* spotless:on */
         }
 
         /* spotless:off */
-        private val hashCode: Int by lazy { Objects.hash(apiVersion, approvedAt, callbackUrl, callbackUrlNotification, disableNotification, disableNotificationDate, exportType, finishedAt, ip, language, locationIp, needReviewAt, notificationConfirmation, qrCode, rawData, rejectedAt, startedAt, transferAt, transferMode, additionalProperties) }
+        private val hashCode: Int by lazy { Objects.hash(apiVersion, approvedAt, callbackUrl, callbackUrlNotification, disableNotification, disableNotificationDate, exportType, finishedAt, ip, language, locationIp, needReviewAt, notificationConfirmation, qrCode, rejectedAt, startedAt, transferAt, transferMode, additionalProperties) }
         /* spotless:on */
 
         override fun hashCode(): Int = hashCode
 
         override fun toString() =
-            "TechnicalData{apiVersion=$apiVersion, approvedAt=$approvedAt, callbackUrl=$callbackUrl, callbackUrlNotification=$callbackUrlNotification, disableNotification=$disableNotification, disableNotificationDate=$disableNotificationDate, exportType=$exportType, finishedAt=$finishedAt, ip=$ip, language=$language, locationIp=$locationIp, needReviewAt=$needReviewAt, notificationConfirmation=$notificationConfirmation, qrCode=$qrCode, rawData=$rawData, rejectedAt=$rejectedAt, startedAt=$startedAt, transferAt=$transferAt, transferMode=$transferMode, additionalProperties=$additionalProperties}"
+            "TechnicalData{apiVersion=$apiVersion, approvedAt=$approvedAt, callbackUrl=$callbackUrl, callbackUrlNotification=$callbackUrlNotification, disableNotification=$disableNotification, disableNotificationDate=$disableNotificationDate, exportType=$exportType, finishedAt=$finishedAt, ip=$ip, language=$language, locationIp=$locationIp, needReviewAt=$needReviewAt, notificationConfirmation=$notificationConfirmation, qrCode=$qrCode, rejectedAt=$rejectedAt, startedAt=$startedAt, transferAt=$transferAt, transferMode=$transferMode, additionalProperties=$additionalProperties}"
     }
 
     override fun equals(other: Any?): Boolean {

@@ -6,8 +6,6 @@ import com.dataleon.api.TestServerExtension
 import com.dataleon.api.client.okhttp.DataleonOkHttpClient
 import com.dataleon.api.models.companies.CompanyCreateParams
 import com.dataleon.api.models.companies.CompanyListParams
-import com.dataleon.api.models.companies.CompanyRetrieveParams
-import com.dataleon.api.models.companies.CompanyUpdateParams
 import java.time.LocalDate
 import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
@@ -55,78 +53,6 @@ internal class CompanyServiceTest {
                             .callbackUrl("https://example.com/callback")
                             .callbackUrlNotification("https://example.com/notify")
                             .language("fra")
-                            .rawData(true)
-                            .build()
-                    )
-                    .build()
-            )
-
-        companyRegistration.validate()
-    }
-
-    @Disabled("skipped: tests are disabled for the time being")
-    @Test
-    fun retrieve() {
-        val client =
-            DataleonOkHttpClient.builder()
-                .baseUrl(TestServerExtension.BASE_URL)
-                .apiKey("My API Key")
-                .build()
-        val companyService = client.companies()
-
-        val companyRegistration =
-            companyService.retrieve(
-                CompanyRetrieveParams.builder()
-                    .companyId("company_id")
-                    .document(true)
-                    .scope("scope")
-                    .build()
-            )
-
-        companyRegistration.validate()
-    }
-
-    @Disabled("skipped: tests are disabled for the time being")
-    @Test
-    fun update() {
-        val client =
-            DataleonOkHttpClient.builder()
-                .baseUrl(TestServerExtension.BASE_URL)
-                .apiKey("My API Key")
-                .build()
-        val companyService = client.companies()
-
-        val companyRegistration =
-            companyService.update(
-                CompanyUpdateParams.builder()
-                    .companyId("company_id")
-                    .company(
-                        CompanyUpdateParams.Company.builder()
-                            .name("ACME Corp")
-                            .address("123 rue Exemple, Paris")
-                            .commercialName("ACME")
-                            .country("FR")
-                            .email("info@acme.fr")
-                            .employerIdentificationNumber("EIN123456")
-                            .legalForm("SARL")
-                            .phoneNumber("+33 1 23 45 67 89")
-                            .registrationDate("2010-05-15")
-                            .registrationId("RCS123456")
-                            .shareCapital("100000")
-                            .status("active")
-                            .taxIdentificationNumber("FR123456789")
-                            .type("main")
-                            .websiteUrl("https://acme.fr")
-                            .build()
-                    )
-                    .workspaceId("wk_123")
-                    .sourceId("ID54410069066")
-                    .technicalData(
-                        CompanyUpdateParams.TechnicalData.builder()
-                            .callbackUrl("https://example.com/callback")
-                            .callbackUrlNotification("https://example.com/notify")
-                            .language("fra")
-                            .rawData(true)
                             .build()
                     )
                     .build()
@@ -160,18 +86,5 @@ internal class CompanyServiceTest {
             )
 
         companyRegistrations.forEach { it.validate() }
-    }
-
-    @Disabled("skipped: tests are disabled for the time being")
-    @Test
-    fun delete() {
-        val client =
-            DataleonOkHttpClient.builder()
-                .baseUrl(TestServerExtension.BASE_URL)
-                .apiKey("My API Key")
-                .build()
-        val companyService = client.companies()
-
-        companyService.delete("company_id")
     }
 }
