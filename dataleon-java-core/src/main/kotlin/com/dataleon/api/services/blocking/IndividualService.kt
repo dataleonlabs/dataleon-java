@@ -4,14 +4,10 @@ package com.dataleon.api.services.blocking
 
 import com.dataleon.api.core.ClientOptions
 import com.dataleon.api.core.RequestOptions
-import com.dataleon.api.core.http.HttpResponse
 import com.dataleon.api.core.http.HttpResponseFor
 import com.dataleon.api.models.individuals.Individual
 import com.dataleon.api.models.individuals.IndividualCreateParams
-import com.dataleon.api.models.individuals.IndividualDeleteParams
 import com.dataleon.api.models.individuals.IndividualListParams
-import com.dataleon.api.models.individuals.IndividualRetrieveParams
-import com.dataleon.api.models.individuals.IndividualUpdateParams
 import com.dataleon.api.services.blocking.individuals.DocumentService
 import com.google.errorprone.annotations.MustBeClosed
 import java.util.function.Consumer
@@ -41,57 +37,6 @@ interface IndividualService {
         requestOptions: RequestOptions = RequestOptions.none(),
     ): Individual
 
-    /** Get an individual by ID */
-    fun retrieve(individualId: String): Individual =
-        retrieve(individualId, IndividualRetrieveParams.none())
-
-    /** @see retrieve */
-    fun retrieve(
-        individualId: String,
-        params: IndividualRetrieveParams = IndividualRetrieveParams.none(),
-        requestOptions: RequestOptions = RequestOptions.none(),
-    ): Individual = retrieve(params.toBuilder().individualId(individualId).build(), requestOptions)
-
-    /** @see retrieve */
-    fun retrieve(
-        individualId: String,
-        params: IndividualRetrieveParams = IndividualRetrieveParams.none(),
-    ): Individual = retrieve(individualId, params, RequestOptions.none())
-
-    /** @see retrieve */
-    fun retrieve(
-        params: IndividualRetrieveParams,
-        requestOptions: RequestOptions = RequestOptions.none(),
-    ): Individual
-
-    /** @see retrieve */
-    fun retrieve(params: IndividualRetrieveParams): Individual =
-        retrieve(params, RequestOptions.none())
-
-    /** @see retrieve */
-    fun retrieve(individualId: String, requestOptions: RequestOptions): Individual =
-        retrieve(individualId, IndividualRetrieveParams.none(), requestOptions)
-
-    /** Update an individual by ID */
-    fun update(individualId: String, params: IndividualUpdateParams): Individual =
-        update(individualId, params, RequestOptions.none())
-
-    /** @see update */
-    fun update(
-        individualId: String,
-        params: IndividualUpdateParams,
-        requestOptions: RequestOptions = RequestOptions.none(),
-    ): Individual = update(params.toBuilder().individualId(individualId).build(), requestOptions)
-
-    /** @see update */
-    fun update(params: IndividualUpdateParams): Individual = update(params, RequestOptions.none())
-
-    /** @see update */
-    fun update(
-        params: IndividualUpdateParams,
-        requestOptions: RequestOptions = RequestOptions.none(),
-    ): Individual
-
     /** Get all individuals */
     fun list(): List<Individual> = list(IndividualListParams.none())
 
@@ -108,35 +53,6 @@ interface IndividualService {
     /** @see list */
     fun list(requestOptions: RequestOptions): List<Individual> =
         list(IndividualListParams.none(), requestOptions)
-
-    /** Delete an individual by ID */
-    fun delete(individualId: String) = delete(individualId, IndividualDeleteParams.none())
-
-    /** @see delete */
-    fun delete(
-        individualId: String,
-        params: IndividualDeleteParams = IndividualDeleteParams.none(),
-        requestOptions: RequestOptions = RequestOptions.none(),
-    ) = delete(params.toBuilder().individualId(individualId).build(), requestOptions)
-
-    /** @see delete */
-    fun delete(
-        individualId: String,
-        params: IndividualDeleteParams = IndividualDeleteParams.none(),
-    ) = delete(individualId, params, RequestOptions.none())
-
-    /** @see delete */
-    fun delete(
-        params: IndividualDeleteParams,
-        requestOptions: RequestOptions = RequestOptions.none(),
-    )
-
-    /** @see delete */
-    fun delete(params: IndividualDeleteParams) = delete(params, RequestOptions.none())
-
-    /** @see delete */
-    fun delete(individualId: String, requestOptions: RequestOptions) =
-        delete(individualId, IndividualDeleteParams.none(), requestOptions)
 
     /** A view of [IndividualService] that provides access to raw HTTP responses for each method. */
     interface WithRawResponse {
@@ -168,81 +84,6 @@ interface IndividualService {
         ): HttpResponseFor<Individual>
 
         /**
-         * Returns a raw HTTP response for `get /individuals/{individual_id}`, but is otherwise the
-         * same as [IndividualService.retrieve].
-         */
-        @MustBeClosed
-        fun retrieve(individualId: String): HttpResponseFor<Individual> =
-            retrieve(individualId, IndividualRetrieveParams.none())
-
-        /** @see retrieve */
-        @MustBeClosed
-        fun retrieve(
-            individualId: String,
-            params: IndividualRetrieveParams = IndividualRetrieveParams.none(),
-            requestOptions: RequestOptions = RequestOptions.none(),
-        ): HttpResponseFor<Individual> =
-            retrieve(params.toBuilder().individualId(individualId).build(), requestOptions)
-
-        /** @see retrieve */
-        @MustBeClosed
-        fun retrieve(
-            individualId: String,
-            params: IndividualRetrieveParams = IndividualRetrieveParams.none(),
-        ): HttpResponseFor<Individual> = retrieve(individualId, params, RequestOptions.none())
-
-        /** @see retrieve */
-        @MustBeClosed
-        fun retrieve(
-            params: IndividualRetrieveParams,
-            requestOptions: RequestOptions = RequestOptions.none(),
-        ): HttpResponseFor<Individual>
-
-        /** @see retrieve */
-        @MustBeClosed
-        fun retrieve(params: IndividualRetrieveParams): HttpResponseFor<Individual> =
-            retrieve(params, RequestOptions.none())
-
-        /** @see retrieve */
-        @MustBeClosed
-        fun retrieve(
-            individualId: String,
-            requestOptions: RequestOptions,
-        ): HttpResponseFor<Individual> =
-            retrieve(individualId, IndividualRetrieveParams.none(), requestOptions)
-
-        /**
-         * Returns a raw HTTP response for `put /individuals/{individual_id}`, but is otherwise the
-         * same as [IndividualService.update].
-         */
-        @MustBeClosed
-        fun update(
-            individualId: String,
-            params: IndividualUpdateParams,
-        ): HttpResponseFor<Individual> = update(individualId, params, RequestOptions.none())
-
-        /** @see update */
-        @MustBeClosed
-        fun update(
-            individualId: String,
-            params: IndividualUpdateParams,
-            requestOptions: RequestOptions = RequestOptions.none(),
-        ): HttpResponseFor<Individual> =
-            update(params.toBuilder().individualId(individualId).build(), requestOptions)
-
-        /** @see update */
-        @MustBeClosed
-        fun update(params: IndividualUpdateParams): HttpResponseFor<Individual> =
-            update(params, RequestOptions.none())
-
-        /** @see update */
-        @MustBeClosed
-        fun update(
-            params: IndividualUpdateParams,
-            requestOptions: RequestOptions = RequestOptions.none(),
-        ): HttpResponseFor<Individual>
-
-        /**
          * Returns a raw HTTP response for `get /individuals`, but is otherwise the same as
          * [IndividualService.list].
          */
@@ -266,46 +107,5 @@ interface IndividualService {
         @MustBeClosed
         fun list(requestOptions: RequestOptions): HttpResponseFor<List<Individual>> =
             list(IndividualListParams.none(), requestOptions)
-
-        /**
-         * Returns a raw HTTP response for `delete /individuals/{individual_id}`, but is otherwise
-         * the same as [IndividualService.delete].
-         */
-        @MustBeClosed
-        fun delete(individualId: String): HttpResponse =
-            delete(individualId, IndividualDeleteParams.none())
-
-        /** @see delete */
-        @MustBeClosed
-        fun delete(
-            individualId: String,
-            params: IndividualDeleteParams = IndividualDeleteParams.none(),
-            requestOptions: RequestOptions = RequestOptions.none(),
-        ): HttpResponse =
-            delete(params.toBuilder().individualId(individualId).build(), requestOptions)
-
-        /** @see delete */
-        @MustBeClosed
-        fun delete(
-            individualId: String,
-            params: IndividualDeleteParams = IndividualDeleteParams.none(),
-        ): HttpResponse = delete(individualId, params, RequestOptions.none())
-
-        /** @see delete */
-        @MustBeClosed
-        fun delete(
-            params: IndividualDeleteParams,
-            requestOptions: RequestOptions = RequestOptions.none(),
-        ): HttpResponse
-
-        /** @see delete */
-        @MustBeClosed
-        fun delete(params: IndividualDeleteParams): HttpResponse =
-            delete(params, RequestOptions.none())
-
-        /** @see delete */
-        @MustBeClosed
-        fun delete(individualId: String, requestOptions: RequestOptions): HttpResponse =
-            delete(individualId, IndividualDeleteParams.none(), requestOptions)
     }
 }

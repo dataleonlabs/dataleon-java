@@ -28,7 +28,6 @@ internal class IndividualCreateParamsTest {
                     .callbackUrl("https://example.com/callback")
                     .callbackUrlNotification("https://example.com/notify")
                     .language("fra")
-                    .rawData(true)
                     .build()
             )
             .build()
@@ -56,7 +55,6 @@ internal class IndividualCreateParamsTest {
                         .callbackUrl("https://example.com/callback")
                         .callbackUrlNotification("https://example.com/notify")
                         .language("fra")
-                        .rawData(true)
                         .build()
                 )
                 .build()
@@ -83,7 +81,6 @@ internal class IndividualCreateParamsTest {
                     .callbackUrl("https://example.com/callback")
                     .callbackUrlNotification("https://example.com/notify")
                     .language("fra")
-                    .rawData(true)
                     .build()
             )
     }

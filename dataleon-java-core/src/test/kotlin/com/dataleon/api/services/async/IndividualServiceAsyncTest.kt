@@ -6,8 +6,6 @@ import com.dataleon.api.TestServerExtension
 import com.dataleon.api.client.okhttp.DataleonOkHttpClientAsync
 import com.dataleon.api.models.individuals.IndividualCreateParams
 import com.dataleon.api.models.individuals.IndividualListParams
-import com.dataleon.api.models.individuals.IndividualRetrieveParams
-import com.dataleon.api.models.individuals.IndividualUpdateParams
 import java.time.LocalDate
 import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
@@ -47,72 +45,6 @@ internal class IndividualServiceAsyncTest {
                             .callbackUrl("https://example.com/callback")
                             .callbackUrlNotification("https://example.com/notify")
                             .language("fra")
-                            .rawData(true)
-                            .build()
-                    )
-                    .build()
-            )
-
-        val individual = individualFuture.get()
-        individual.validate()
-    }
-
-    @Disabled("skipped: tests are disabled for the time being")
-    @Test
-    fun retrieve() {
-        val client =
-            DataleonOkHttpClientAsync.builder()
-                .baseUrl(TestServerExtension.BASE_URL)
-                .apiKey("My API Key")
-                .build()
-        val individualServiceAsync = client.individuals()
-
-        val individualFuture =
-            individualServiceAsync.retrieve(
-                IndividualRetrieveParams.builder()
-                    .individualId("individual_id")
-                    .document(true)
-                    .scope("scope")
-                    .build()
-            )
-
-        val individual = individualFuture.get()
-        individual.validate()
-    }
-
-    @Disabled("skipped: tests are disabled for the time being")
-    @Test
-    fun update() {
-        val client =
-            DataleonOkHttpClientAsync.builder()
-                .baseUrl(TestServerExtension.BASE_URL)
-                .apiKey("My API Key")
-                .build()
-        val individualServiceAsync = client.individuals()
-
-        val individualFuture =
-            individualServiceAsync.update(
-                IndividualUpdateParams.builder()
-                    .individualId("individual_id")
-                    .workspaceId("wk_123")
-                    .person(
-                        IndividualUpdateParams.Person.builder()
-                            .birthday("15/05/1985")
-                            .email("john.doe@example.com")
-                            .firstName("John")
-                            .gender(IndividualUpdateParams.Person.Gender.M)
-                            .lastName("Doe")
-                            .maidenName("John Doe")
-                            .phoneNumber("+33 1 23 45 67 89")
-                            .build()
-                    )
-                    .sourceId("ID54410069066")
-                    .technicalData(
-                        IndividualUpdateParams.TechnicalData.builder()
-                            .callbackUrl("https://example.com/callback")
-                            .callbackUrlNotification("https://example.com/notify")
-                            .language("fra")
-                            .rawData(true)
                             .build()
                     )
                     .build()
@@ -148,20 +80,5 @@ internal class IndividualServiceAsyncTest {
 
         val individuals = individualsFuture.get()
         individuals.forEach { it.validate() }
-    }
-
-    @Disabled("skipped: tests are disabled for the time being")
-    @Test
-    fun delete() {
-        val client =
-            DataleonOkHttpClientAsync.builder()
-                .baseUrl(TestServerExtension.BASE_URL)
-                .apiKey("My API Key")
-                .build()
-        val individualServiceAsync = client.individuals()
-
-        val future = individualServiceAsync.delete("individual_id")
-
-        val response = future.get()
     }
 }
