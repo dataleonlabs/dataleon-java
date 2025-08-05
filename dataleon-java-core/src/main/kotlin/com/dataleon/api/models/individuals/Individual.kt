@@ -3470,7 +3470,6 @@ private constructor(
         private val needReviewAt: JsonField<OffsetDateTime>,
         private val notificationConfirmation: JsonField<Boolean>,
         private val qrCode: JsonField<String>,
-        private val rawData: JsonField<Boolean>,
         private val rejectedAt: JsonField<OffsetDateTime>,
         private val startedAt: JsonField<OffsetDateTime>,
         private val transferAt: JsonField<OffsetDateTime>,
@@ -3518,9 +3517,6 @@ private constructor(
             @ExcludeMissing
             notificationConfirmation: JsonField<Boolean> = JsonMissing.of(),
             @JsonProperty("qr_code") @ExcludeMissing qrCode: JsonField<String> = JsonMissing.of(),
-            @JsonProperty("raw_data")
-            @ExcludeMissing
-            rawData: JsonField<Boolean> = JsonMissing.of(),
             @JsonProperty("rejected_at")
             @ExcludeMissing
             rejectedAt: JsonField<OffsetDateTime> = JsonMissing.of(),
@@ -3548,7 +3544,6 @@ private constructor(
             needReviewAt,
             notificationConfirmation,
             qrCode,
-            rawData,
             rejectedAt,
             startedAt,
             transferAt,
@@ -3671,14 +3666,6 @@ private constructor(
          *   the server responded with an unexpected value).
          */
         fun qrCode(): Optional<String> = qrCode.getOptional("qr_code")
-
-        /**
-         * Flag indicating whether to include raw data in the response.
-         *
-         * @throws DataleonInvalidDataException if the JSON field has an unexpected type (e.g. if
-         *   the server responded with an unexpected value).
-         */
-        fun rawData(): Optional<Boolean> = rawData.getOptional("raw_data")
 
         /**
          * Timestamp when the request or process was rejected; null if not rejected.
@@ -3836,13 +3823,6 @@ private constructor(
         @JsonProperty("qr_code") @ExcludeMissing fun _qrCode(): JsonField<String> = qrCode
 
         /**
-         * Returns the raw JSON value of [rawData].
-         *
-         * Unlike [rawData], this method doesn't throw if the JSON field has an unexpected type.
-         */
-        @JsonProperty("raw_data") @ExcludeMissing fun _rawData(): JsonField<Boolean> = rawData
-
-        /**
          * Returns the raw JSON value of [rejectedAt].
          *
          * Unlike [rejectedAt], this method doesn't throw if the JSON field has an unexpected type.
@@ -3914,7 +3894,6 @@ private constructor(
             private var needReviewAt: JsonField<OffsetDateTime> = JsonMissing.of()
             private var notificationConfirmation: JsonField<Boolean> = JsonMissing.of()
             private var qrCode: JsonField<String> = JsonMissing.of()
-            private var rawData: JsonField<Boolean> = JsonMissing.of()
             private var rejectedAt: JsonField<OffsetDateTime> = JsonMissing.of()
             private var startedAt: JsonField<OffsetDateTime> = JsonMissing.of()
             private var transferAt: JsonField<OffsetDateTime> = JsonMissing.of()
@@ -3937,7 +3916,6 @@ private constructor(
                 needReviewAt = technicalData.needReviewAt
                 notificationConfirmation = technicalData.notificationConfirmation
                 qrCode = technicalData.qrCode
-                rawData = technicalData.rawData
                 rejectedAt = technicalData.rejectedAt
                 startedAt = technicalData.startedAt
                 transferAt = technicalData.transferAt
@@ -4146,18 +4124,6 @@ private constructor(
              */
             fun qrCode(qrCode: JsonField<String>) = apply { this.qrCode = qrCode }
 
-            /** Flag indicating whether to include raw data in the response. */
-            fun rawData(rawData: Boolean) = rawData(JsonField.of(rawData))
-
-            /**
-             * Sets [Builder.rawData] to an arbitrary JSON value.
-             *
-             * You should usually call [Builder.rawData] with a well-typed [Boolean] value instead.
-             * This method is primarily for setting the field to an undocumented or not yet
-             * supported value.
-             */
-            fun rawData(rawData: JsonField<Boolean>) = apply { this.rawData = rawData }
-
             /** Timestamp when the request or process was rejected; null if not rejected. */
             fun rejectedAt(rejectedAt: OffsetDateTime?) =
                 rejectedAt(JsonField.ofNullable(rejectedAt))
@@ -4259,7 +4225,6 @@ private constructor(
                     needReviewAt,
                     notificationConfirmation,
                     qrCode,
-                    rawData,
                     rejectedAt,
                     startedAt,
                     transferAt,
@@ -4289,7 +4254,6 @@ private constructor(
             needReviewAt()
             notificationConfirmation()
             qrCode()
-            rawData()
             rejectedAt()
             startedAt()
             transferAt()
@@ -4327,7 +4291,6 @@ private constructor(
                 (if (needReviewAt.asKnown().isPresent) 1 else 0) +
                 (if (notificationConfirmation.asKnown().isPresent) 1 else 0) +
                 (if (qrCode.asKnown().isPresent) 1 else 0) +
-                (if (rawData.asKnown().isPresent) 1 else 0) +
                 (if (rejectedAt.asKnown().isPresent) 1 else 0) +
                 (if (startedAt.asKnown().isPresent) 1 else 0) +
                 (if (transferAt.asKnown().isPresent) 1 else 0) +
@@ -4338,17 +4301,17 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is TechnicalData && apiVersion == other.apiVersion && approvedAt == other.approvedAt && callbackUrl == other.callbackUrl && callbackUrlNotification == other.callbackUrlNotification && disableNotification == other.disableNotification && disableNotificationDate == other.disableNotificationDate && exportType == other.exportType && finishedAt == other.finishedAt && ip == other.ip && language == other.language && locationIp == other.locationIp && needReviewAt == other.needReviewAt && notificationConfirmation == other.notificationConfirmation && qrCode == other.qrCode && rawData == other.rawData && rejectedAt == other.rejectedAt && startedAt == other.startedAt && transferAt == other.transferAt && transferMode == other.transferMode && additionalProperties == other.additionalProperties /* spotless:on */
+            return /* spotless:off */ other is TechnicalData && apiVersion == other.apiVersion && approvedAt == other.approvedAt && callbackUrl == other.callbackUrl && callbackUrlNotification == other.callbackUrlNotification && disableNotification == other.disableNotification && disableNotificationDate == other.disableNotificationDate && exportType == other.exportType && finishedAt == other.finishedAt && ip == other.ip && language == other.language && locationIp == other.locationIp && needReviewAt == other.needReviewAt && notificationConfirmation == other.notificationConfirmation && qrCode == other.qrCode && rejectedAt == other.rejectedAt && startedAt == other.startedAt && transferAt == other.transferAt && transferMode == other.transferMode && additionalProperties == other.additionalProperties /* spotless:on */
         }
 
         /* spotless:off */
-        private val hashCode: Int by lazy { Objects.hash(apiVersion, approvedAt, callbackUrl, callbackUrlNotification, disableNotification, disableNotificationDate, exportType, finishedAt, ip, language, locationIp, needReviewAt, notificationConfirmation, qrCode, rawData, rejectedAt, startedAt, transferAt, transferMode, additionalProperties) }
+        private val hashCode: Int by lazy { Objects.hash(apiVersion, approvedAt, callbackUrl, callbackUrlNotification, disableNotification, disableNotificationDate, exportType, finishedAt, ip, language, locationIp, needReviewAt, notificationConfirmation, qrCode, rejectedAt, startedAt, transferAt, transferMode, additionalProperties) }
         /* spotless:on */
 
         override fun hashCode(): Int = hashCode
 
         override fun toString() =
-            "TechnicalData{apiVersion=$apiVersion, approvedAt=$approvedAt, callbackUrl=$callbackUrl, callbackUrlNotification=$callbackUrlNotification, disableNotification=$disableNotification, disableNotificationDate=$disableNotificationDate, exportType=$exportType, finishedAt=$finishedAt, ip=$ip, language=$language, locationIp=$locationIp, needReviewAt=$needReviewAt, notificationConfirmation=$notificationConfirmation, qrCode=$qrCode, rawData=$rawData, rejectedAt=$rejectedAt, startedAt=$startedAt, transferAt=$transferAt, transferMode=$transferMode, additionalProperties=$additionalProperties}"
+            "TechnicalData{apiVersion=$apiVersion, approvedAt=$approvedAt, callbackUrl=$callbackUrl, callbackUrlNotification=$callbackUrlNotification, disableNotification=$disableNotification, disableNotificationDate=$disableNotificationDate, exportType=$exportType, finishedAt=$finishedAt, ip=$ip, language=$language, locationIp=$locationIp, needReviewAt=$needReviewAt, notificationConfirmation=$notificationConfirmation, qrCode=$qrCode, rejectedAt=$rejectedAt, startedAt=$startedAt, transferAt=$transferAt, transferMode=$transferMode, additionalProperties=$additionalProperties}"
     }
 
     override fun equals(other: Any?): Boolean {

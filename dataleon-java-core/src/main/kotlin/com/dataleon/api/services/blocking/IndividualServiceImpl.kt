@@ -4,8 +4,6 @@ package com.dataleon.api.services.blocking
 
 import com.dataleon.api.core.ClientOptions
 import com.dataleon.api.core.RequestOptions
-import com.dataleon.api.core.checkRequired
-import com.dataleon.api.core.handlers.emptyHandler
 import com.dataleon.api.core.handlers.errorBodyHandler
 import com.dataleon.api.core.handlers.errorHandler
 import com.dataleon.api.core.handlers.jsonHandler
@@ -19,14 +17,10 @@ import com.dataleon.api.core.http.parseable
 import com.dataleon.api.core.prepare
 import com.dataleon.api.models.individuals.Individual
 import com.dataleon.api.models.individuals.IndividualCreateParams
-import com.dataleon.api.models.individuals.IndividualDeleteParams
 import com.dataleon.api.models.individuals.IndividualListParams
-import com.dataleon.api.models.individuals.IndividualRetrieveParams
-import com.dataleon.api.models.individuals.IndividualUpdateParams
 import com.dataleon.api.services.blocking.individuals.DocumentService
 import com.dataleon.api.services.blocking.individuals.DocumentServiceImpl
 import java.util.function.Consumer
-import kotlin.jvm.optionals.getOrNull
 
 class IndividualServiceImpl internal constructor(private val clientOptions: ClientOptions) :
     IndividualService {
@@ -51,31 +45,12 @@ class IndividualServiceImpl internal constructor(private val clientOptions: Clie
         // post /individuals
         withRawResponse().create(params, requestOptions).parse()
 
-    override fun retrieve(
-        params: IndividualRetrieveParams,
-        requestOptions: RequestOptions,
-    ): Individual =
-        // get /individuals/{individual_id}
-        withRawResponse().retrieve(params, requestOptions).parse()
-
-    override fun update(
-        params: IndividualUpdateParams,
-        requestOptions: RequestOptions,
-    ): Individual =
-        // put /individuals/{individual_id}
-        withRawResponse().update(params, requestOptions).parse()
-
     override fun list(
         params: IndividualListParams,
         requestOptions: RequestOptions,
     ): List<Individual> =
         // get /individuals
         withRawResponse().list(params, requestOptions).parse()
-
-    override fun delete(params: IndividualDeleteParams, requestOptions: RequestOptions) {
-        // delete /individuals/{individual_id}
-        withRawResponse().delete(params, requestOptions)
-    }
 
     class WithRawResponseImpl internal constructor(private val clientOptions: ClientOptions) :
         IndividualService.WithRawResponse {
@@ -124,67 +99,6 @@ class IndividualServiceImpl internal constructor(private val clientOptions: Clie
             }
         }
 
-        private val retrieveHandler: Handler<Individual> =
-            jsonHandler<Individual>(clientOptions.jsonMapper)
-
-        override fun retrieve(
-            params: IndividualRetrieveParams,
-            requestOptions: RequestOptions,
-        ): HttpResponseFor<Individual> {
-            // We check here instead of in the params builder because this can be specified
-            // positionally or in the params class.
-            checkRequired("individualId", params.individualId().getOrNull())
-            val request =
-                HttpRequest.builder()
-                    .method(HttpMethod.GET)
-                    .baseUrl(clientOptions.baseUrl())
-                    .addPathSegments("individuals", params._pathParam(0))
-                    .build()
-                    .prepare(clientOptions, params)
-            val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
-            val response = clientOptions.httpClient.execute(request, requestOptions)
-            return errorHandler.handle(response).parseable {
-                response
-                    .use { retrieveHandler.handle(it) }
-                    .also {
-                        if (requestOptions.responseValidation!!) {
-                            it.validate()
-                        }
-                    }
-            }
-        }
-
-        private val updateHandler: Handler<Individual> =
-            jsonHandler<Individual>(clientOptions.jsonMapper)
-
-        override fun update(
-            params: IndividualUpdateParams,
-            requestOptions: RequestOptions,
-        ): HttpResponseFor<Individual> {
-            // We check here instead of in the params builder because this can be specified
-            // positionally or in the params class.
-            checkRequired("individualId", params.individualId().getOrNull())
-            val request =
-                HttpRequest.builder()
-                    .method(HttpMethod.PUT)
-                    .baseUrl(clientOptions.baseUrl())
-                    .addPathSegments("individuals", params._pathParam(0))
-                    .body(json(clientOptions.jsonMapper, params._body()))
-                    .build()
-                    .prepare(clientOptions, params)
-            val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
-            val response = clientOptions.httpClient.execute(request, requestOptions)
-            return errorHandler.handle(response).parseable {
-                response
-                    .use { updateHandler.handle(it) }
-                    .also {
-                        if (requestOptions.responseValidation!!) {
-                            it.validate()
-                        }
-                    }
-            }
-        }
-
         private val listHandler: Handler<List<Individual>> =
             jsonHandler<List<Individual>>(clientOptions.jsonMapper)
 
@@ -209,30 +123,6 @@ class IndividualServiceImpl internal constructor(private val clientOptions: Clie
                             it.forEach { it.validate() }
                         }
                     }
-            }
-        }
-
-        private val deleteHandler: Handler<Void?> = emptyHandler()
-
-        override fun delete(
-            params: IndividualDeleteParams,
-            requestOptions: RequestOptions,
-        ): HttpResponse {
-            // We check here instead of in the params builder because this can be specified
-            // positionally or in the params class.
-            checkRequired("individualId", params.individualId().getOrNull())
-            val request =
-                HttpRequest.builder()
-                    .method(HttpMethod.DELETE)
-                    .baseUrl(clientOptions.baseUrl())
-                    .addPathSegments("individuals", params._pathParam(0))
-                    .apply { params._body().ifPresent { body(json(clientOptions.jsonMapper, it)) } }
-                    .build()
-                    .prepare(clientOptions, params)
-            val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
-            val response = clientOptions.httpClient.execute(request, requestOptions)
-            return errorHandler.handle(response).parseable {
-                response.use { deleteHandler.handle(it) }
             }
         }
     }
