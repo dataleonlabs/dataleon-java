@@ -4,8 +4,6 @@ package com.dataleon.api.services.async
 
 import com.dataleon.api.core.ClientOptions
 import com.dataleon.api.core.RequestOptions
-import com.dataleon.api.core.checkRequired
-import com.dataleon.api.core.handlers.emptyHandler
 import com.dataleon.api.core.handlers.errorBodyHandler
 import com.dataleon.api.core.handlers.errorHandler
 import com.dataleon.api.core.handlers.jsonHandler
@@ -19,15 +17,11 @@ import com.dataleon.api.core.http.parseable
 import com.dataleon.api.core.prepareAsync
 import com.dataleon.api.models.individuals.Individual
 import com.dataleon.api.models.individuals.IndividualCreateParams
-import com.dataleon.api.models.individuals.IndividualDeleteParams
 import com.dataleon.api.models.individuals.IndividualListParams
-import com.dataleon.api.models.individuals.IndividualRetrieveParams
-import com.dataleon.api.models.individuals.IndividualUpdateParams
 import com.dataleon.api.services.async.individuals.DocumentServiceAsync
 import com.dataleon.api.services.async.individuals.DocumentServiceAsyncImpl
 import java.util.concurrent.CompletableFuture
 import java.util.function.Consumer
-import kotlin.jvm.optionals.getOrNull
 
 class IndividualServiceAsyncImpl internal constructor(private val clientOptions: ClientOptions) :
     IndividualServiceAsync {
@@ -52,33 +46,12 @@ class IndividualServiceAsyncImpl internal constructor(private val clientOptions:
         // post /individuals
         withRawResponse().create(params, requestOptions).thenApply { it.parse() }
 
-    override fun retrieve(
-        params: IndividualRetrieveParams,
-        requestOptions: RequestOptions,
-    ): CompletableFuture<Individual> =
-        // get /individuals/{individual_id}
-        withRawResponse().retrieve(params, requestOptions).thenApply { it.parse() }
-
-    override fun update(
-        params: IndividualUpdateParams,
-        requestOptions: RequestOptions,
-    ): CompletableFuture<Individual> =
-        // put /individuals/{individual_id}
-        withRawResponse().update(params, requestOptions).thenApply { it.parse() }
-
     override fun list(
         params: IndividualListParams,
         requestOptions: RequestOptions,
     ): CompletableFuture<List<Individual>> =
         // get /individuals
         withRawResponse().list(params, requestOptions).thenApply { it.parse() }
-
-    override fun delete(
-        params: IndividualDeleteParams,
-        requestOptions: RequestOptions,
-    ): CompletableFuture<Void?> =
-        // delete /individuals/{individual_id}
-        withRawResponse().delete(params, requestOptions).thenAccept {}
 
     class WithRawResponseImpl internal constructor(private val clientOptions: ClientOptions) :
         IndividualServiceAsync.WithRawResponse {
@@ -130,73 +103,6 @@ class IndividualServiceAsyncImpl internal constructor(private val clientOptions:
                 }
         }
 
-        private val retrieveHandler: Handler<Individual> =
-            jsonHandler<Individual>(clientOptions.jsonMapper)
-
-        override fun retrieve(
-            params: IndividualRetrieveParams,
-            requestOptions: RequestOptions,
-        ): CompletableFuture<HttpResponseFor<Individual>> {
-            // We check here instead of in the params builder because this can be specified
-            // positionally or in the params class.
-            checkRequired("individualId", params.individualId().getOrNull())
-            val request =
-                HttpRequest.builder()
-                    .method(HttpMethod.GET)
-                    .baseUrl(clientOptions.baseUrl())
-                    .addPathSegments("individuals", params._pathParam(0))
-                    .build()
-                    .prepareAsync(clientOptions, params)
-            val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
-            return request
-                .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
-                .thenApply { response ->
-                    errorHandler.handle(response).parseable {
-                        response
-                            .use { retrieveHandler.handle(it) }
-                            .also {
-                                if (requestOptions.responseValidation!!) {
-                                    it.validate()
-                                }
-                            }
-                    }
-                }
-        }
-
-        private val updateHandler: Handler<Individual> =
-            jsonHandler<Individual>(clientOptions.jsonMapper)
-
-        override fun update(
-            params: IndividualUpdateParams,
-            requestOptions: RequestOptions,
-        ): CompletableFuture<HttpResponseFor<Individual>> {
-            // We check here instead of in the params builder because this can be specified
-            // positionally or in the params class.
-            checkRequired("individualId", params.individualId().getOrNull())
-            val request =
-                HttpRequest.builder()
-                    .method(HttpMethod.PUT)
-                    .baseUrl(clientOptions.baseUrl())
-                    .addPathSegments("individuals", params._pathParam(0))
-                    .body(json(clientOptions.jsonMapper, params._body()))
-                    .build()
-                    .prepareAsync(clientOptions, params)
-            val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
-            return request
-                .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
-                .thenApply { response ->
-                    errorHandler.handle(response).parseable {
-                        response
-                            .use { updateHandler.handle(it) }
-                            .also {
-                                if (requestOptions.responseValidation!!) {
-                                    it.validate()
-                                }
-                            }
-                    }
-                }
-        }
-
         private val listHandler: Handler<List<Individual>> =
             jsonHandler<List<Individual>>(clientOptions.jsonMapper)
 
@@ -223,33 +129,6 @@ class IndividualServiceAsyncImpl internal constructor(private val clientOptions:
                                     it.forEach { it.validate() }
                                 }
                             }
-                    }
-                }
-        }
-
-        private val deleteHandler: Handler<Void?> = emptyHandler()
-
-        override fun delete(
-            params: IndividualDeleteParams,
-            requestOptions: RequestOptions,
-        ): CompletableFuture<HttpResponse> {
-            // We check here instead of in the params builder because this can be specified
-            // positionally or in the params class.
-            checkRequired("individualId", params.individualId().getOrNull())
-            val request =
-                HttpRequest.builder()
-                    .method(HttpMethod.DELETE)
-                    .baseUrl(clientOptions.baseUrl())
-                    .addPathSegments("individuals", params._pathParam(0))
-                    .apply { params._body().ifPresent { body(json(clientOptions.jsonMapper, it)) } }
-                    .build()
-                    .prepareAsync(clientOptions, params)
-            val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
-            return request
-                .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
-                .thenApply { response ->
-                    errorHandler.handle(response).parseable {
-                        response.use { deleteHandler.handle(it) }
                     }
                 }
         }

@@ -62,7 +62,6 @@ internal class ServiceParamsTest {
                         .callbackUrl("https://example.com/callback")
                         .callbackUrlNotification("https://example.com/notify")
                         .language("fra")
-                        .rawData(true)
                         .build()
                 )
                 .putAdditionalHeader("Secret-Header", "42")
