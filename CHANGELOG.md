@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.1.0-alpha.2 (2025-08-09)
+
+Full Changelog: [v0.1.0-alpha.1...v0.1.0-alpha.2](https://github.com/dataleonlabs/dataleon-java/compare/v0.1.0-alpha.1...v0.1.0-alpha.2)
+
+### Chores
+
+* increase max gradle JVM heap to 8GB ([74ddf40](https://github.com/dataleonlabs/dataleon-java/commit/74ddf4043cc4e809c73cd75e050092cf6912b5b3))
+* update @stainless-api/prism-cli to v5.15.0 ([a7b153f](https://github.com/dataleonlabs/dataleon-java/commit/a7b153f798387607dcdd7e3f755005635c39e68f))
+
 ## 0.1.0-alpha.1 (2025-08-05)
 
 Full Changelog: [v0.0.1-alpha.0...v0.1.0-alpha.1](https://github.com/dataleonlabs/dataleon-java/compare/v0.0.1-alpha.0...v0.1.0-alpha.1)
