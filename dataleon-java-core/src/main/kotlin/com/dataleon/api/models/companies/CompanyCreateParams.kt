@@ -604,12 +604,17 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is Body && company == other.company && workspaceId == other.workspaceId && sourceId == other.sourceId && technicalData == other.technicalData && additionalProperties == other.additionalProperties /* spotless:on */
+            return other is Body &&
+                company == other.company &&
+                workspaceId == other.workspaceId &&
+                sourceId == other.sourceId &&
+                technicalData == other.technicalData &&
+                additionalProperties == other.additionalProperties
         }
 
-        /* spotless:off */
-        private val hashCode: Int by lazy { Objects.hash(company, workspaceId, sourceId, technicalData, additionalProperties) }
-        /* spotless:on */
+        private val hashCode: Int by lazy {
+            Objects.hash(company, workspaceId, sourceId, technicalData, additionalProperties)
+        }
 
         override fun hashCode(): Int = hashCode
 
@@ -1320,12 +1325,45 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is Company && name == other.name && address == other.address && commercialName == other.commercialName && country == other.country && email == other.email && employerIdentificationNumber == other.employerIdentificationNumber && legalForm == other.legalForm && phoneNumber == other.phoneNumber && registrationDate == other.registrationDate && registrationId == other.registrationId && shareCapital == other.shareCapital && status == other.status && taxIdentificationNumber == other.taxIdentificationNumber && type == other.type && websiteUrl == other.websiteUrl && additionalProperties == other.additionalProperties /* spotless:on */
+            return other is Company &&
+                name == other.name &&
+                address == other.address &&
+                commercialName == other.commercialName &&
+                country == other.country &&
+                email == other.email &&
+                employerIdentificationNumber == other.employerIdentificationNumber &&
+                legalForm == other.legalForm &&
+                phoneNumber == other.phoneNumber &&
+                registrationDate == other.registrationDate &&
+                registrationId == other.registrationId &&
+                shareCapital == other.shareCapital &&
+                status == other.status &&
+                taxIdentificationNumber == other.taxIdentificationNumber &&
+                type == other.type &&
+                websiteUrl == other.websiteUrl &&
+                additionalProperties == other.additionalProperties
         }
 
-        /* spotless:off */
-        private val hashCode: Int by lazy { Objects.hash(name, address, commercialName, country, email, employerIdentificationNumber, legalForm, phoneNumber, registrationDate, registrationId, shareCapital, status, taxIdentificationNumber, type, websiteUrl, additionalProperties) }
-        /* spotless:on */
+        private val hashCode: Int by lazy {
+            Objects.hash(
+                name,
+                address,
+                commercialName,
+                country,
+                email,
+                employerIdentificationNumber,
+                legalForm,
+                phoneNumber,
+                registrationDate,
+                registrationId,
+                shareCapital,
+                status,
+                taxIdentificationNumber,
+                type,
+                websiteUrl,
+                additionalProperties,
+            )
+        }
 
         override fun hashCode(): Int = hashCode
 
@@ -1586,12 +1624,23 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is TechnicalData && callbackUrl == other.callbackUrl && callbackUrlNotification == other.callbackUrlNotification && language == other.language && rawData == other.rawData && additionalProperties == other.additionalProperties /* spotless:on */
+            return other is TechnicalData &&
+                callbackUrl == other.callbackUrl &&
+                callbackUrlNotification == other.callbackUrlNotification &&
+                language == other.language &&
+                rawData == other.rawData &&
+                additionalProperties == other.additionalProperties
         }
 
-        /* spotless:off */
-        private val hashCode: Int by lazy { Objects.hash(callbackUrl, callbackUrlNotification, language, rawData, additionalProperties) }
-        /* spotless:on */
+        private val hashCode: Int by lazy {
+            Objects.hash(
+                callbackUrl,
+                callbackUrlNotification,
+                language,
+                rawData,
+                additionalProperties,
+            )
+        }
 
         override fun hashCode(): Int = hashCode
 
@@ -1604,10 +1653,13 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is CompanyCreateParams && body == other.body && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
+        return other is CompanyCreateParams &&
+            body == other.body &&
+            additionalHeaders == other.additionalHeaders &&
+            additionalQueryParams == other.additionalQueryParams
     }
 
-    override fun hashCode(): Int = /* spotless:off */ Objects.hash(body, additionalHeaders, additionalQueryParams) /* spotless:on */
+    override fun hashCode(): Int = Objects.hash(body, additionalHeaders, additionalQueryParams)
 
     override fun toString() =
         "CompanyCreateParams{body=$body, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
