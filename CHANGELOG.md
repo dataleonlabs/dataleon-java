@@ -1,5 +1,31 @@
 # Changelog
 
+## 0.1.0-alpha.2 (2025-08-15)
+
+Full Changelog: [v0.1.0-alpha.1...v0.1.0-alpha.2](https://github.com/dataleonlabs/dataleon-java/compare/v0.1.0-alpha.1...v0.1.0-alpha.2)
+
+### Features
+
+* **api:** api update ([975e5f7](https://github.com/dataleonlabs/dataleon-java/commit/975e5f7b79d8a0ad3658f8664f10a3136f0d0dbe))
+* **api:** api update ([9647460](https://github.com/dataleonlabs/dataleon-java/commit/9647460913ee8775c7cc84d39df6402989b7cee9))
+
+
+### Performance Improvements
+
+* **internal:** make formatting faster ([6e21ad2](https://github.com/dataleonlabs/dataleon-java/commit/6e21ad26ac1626a9a217d31fecda3ac186f04729))
+
+
+### Chores
+
+* **ci:** add build job ([7587e8f](https://github.com/dataleonlabs/dataleon-java/commit/7587e8f441b8e4eb14a3982c944f6f109a4a286d))
+* increase max gradle JVM heap to 8GB ([74ddf40](https://github.com/dataleonlabs/dataleon-java/commit/74ddf4043cc4e809c73cd75e050092cf6912b5b3))
+* **internal:** codegen related update ([806c609](https://github.com/dataleonlabs/dataleon-java/commit/806c609235e9be208d4ea269012b22e339b7f5c9))
+* **internal:** codegen related update ([0055f97](https://github.com/dataleonlabs/dataleon-java/commit/0055f973b17b9a11f9033621a98c12f8f9445840))
+* **internal:** dynamically determine included projects ([d9dc399](https://github.com/dataleonlabs/dataleon-java/commit/d9dc39997668cdd5915b1c2e5298fc322265bd30))
+* **internal:** support passing arguments to test script ([98055d2](https://github.com/dataleonlabs/dataleon-java/commit/98055d23b786136459d90f1d0d36a908c837e7a3))
+* **internal:** update comment in script ([5a64702](https://github.com/dataleonlabs/dataleon-java/commit/5a647028f5d98ae22ea83cd2090ad9041dc38367))
+* update @stainless-api/prism-cli to v5.15.0 ([a7b153f](https://github.com/dataleonlabs/dataleon-java/commit/a7b153f798387607dcdd7e3f755005635c39e68f))
+
 ## 0.1.0-alpha.1 (2025-08-05)
 
 Full Changelog: [v0.0.1-alpha.0...v0.1.0-alpha.1](https://github.com/dataleonlabs/dataleon-java/compare/v0.0.1-alpha.0...v0.1.0-alpha.1)
