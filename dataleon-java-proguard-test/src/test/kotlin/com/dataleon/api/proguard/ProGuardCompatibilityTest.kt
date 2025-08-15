@@ -200,7 +200,6 @@ internal class ProGuardCompatibilityTest {
                         .qrCode("false")
                         .rawData(true)
                         .rejectedAt(null)
-                        .sessionDuration(45L)
                         .startedAt(OffsetDateTime.parse("2025-05-05T13:00:00Z"))
                         .transferAt(OffsetDateTime.parse("2025-07-12T14:00:00Z"))
                         .transferMode("API")
