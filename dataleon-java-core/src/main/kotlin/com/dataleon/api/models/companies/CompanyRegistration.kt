@@ -4383,6 +4383,7 @@ private constructor(
         private val qrCode: JsonField<String>,
         private val rawData: JsonField<Boolean>,
         private val rejectedAt: JsonField<OffsetDateTime>,
+        private val sessionDuration: JsonField<Long>,
         private val startedAt: JsonField<OffsetDateTime>,
         private val transferAt: JsonField<OffsetDateTime>,
         private val transferMode: JsonField<String>,
@@ -4435,6 +4436,9 @@ private constructor(
             @JsonProperty("rejected_at")
             @ExcludeMissing
             rejectedAt: JsonField<OffsetDateTime> = JsonMissing.of(),
+            @JsonProperty("session_duration")
+            @ExcludeMissing
+            sessionDuration: JsonField<Long> = JsonMissing.of(),
             @JsonProperty("started_at")
             @ExcludeMissing
             startedAt: JsonField<OffsetDateTime> = JsonMissing.of(),
@@ -4461,6 +4465,7 @@ private constructor(
             qrCode,
             rawData,
             rejectedAt,
+            sessionDuration,
             startedAt,
             transferAt,
             transferMode,
@@ -4598,6 +4603,14 @@ private constructor(
          *   the server responded with an unexpected value).
          */
         fun rejectedAt(): Optional<OffsetDateTime> = rejectedAt.getOptional("rejected_at")
+
+        /**
+         * Duration of the user session in seconds.
+         *
+         * @throws DataleonInvalidDataException if the JSON field has an unexpected type (e.g. if
+         *   the server responded with an unexpected value).
+         */
+        fun sessionDuration(): Optional<Long> = sessionDuration.getOptional("session_duration")
 
         /**
          * Timestamp when the process started.
@@ -4763,6 +4776,16 @@ private constructor(
         fun _rejectedAt(): JsonField<OffsetDateTime> = rejectedAt
 
         /**
+         * Returns the raw JSON value of [sessionDuration].
+         *
+         * Unlike [sessionDuration], this method doesn't throw if the JSON field has an unexpected
+         * type.
+         */
+        @JsonProperty("session_duration")
+        @ExcludeMissing
+        fun _sessionDuration(): JsonField<Long> = sessionDuration
+
+        /**
          * Returns the raw JSON value of [startedAt].
          *
          * Unlike [startedAt], this method doesn't throw if the JSON field has an unexpected type.
@@ -4827,6 +4850,7 @@ private constructor(
             private var qrCode: JsonField<String> = JsonMissing.of()
             private var rawData: JsonField<Boolean> = JsonMissing.of()
             private var rejectedAt: JsonField<OffsetDateTime> = JsonMissing.of()
+            private var sessionDuration: JsonField<Long> = JsonMissing.of()
             private var startedAt: JsonField<OffsetDateTime> = JsonMissing.of()
             private var transferAt: JsonField<OffsetDateTime> = JsonMissing.of()
             private var transferMode: JsonField<String> = JsonMissing.of()
@@ -4850,6 +4874,7 @@ private constructor(
                 qrCode = technicalData.qrCode
                 rawData = technicalData.rawData
                 rejectedAt = technicalData.rejectedAt
+                sessionDuration = technicalData.sessionDuration
                 startedAt = technicalData.startedAt
                 transferAt = technicalData.transferAt
                 transferMode = technicalData.transferMode
@@ -5088,6 +5113,21 @@ private constructor(
                 this.rejectedAt = rejectedAt
             }
 
+            /** Duration of the user session in seconds. */
+            fun sessionDuration(sessionDuration: Long) =
+                sessionDuration(JsonField.of(sessionDuration))
+
+            /**
+             * Sets [Builder.sessionDuration] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.sessionDuration] with a well-typed [Long] value
+             * instead. This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
+            fun sessionDuration(sessionDuration: JsonField<Long>) = apply {
+                this.sessionDuration = sessionDuration
+            }
+
             /** Timestamp when the process started. */
             fun startedAt(startedAt: OffsetDateTime) = startedAt(JsonField.of(startedAt))
 
@@ -5172,6 +5212,7 @@ private constructor(
                     qrCode,
                     rawData,
                     rejectedAt,
+                    sessionDuration,
                     startedAt,
                     transferAt,
                     transferMode,
@@ -5202,6 +5243,7 @@ private constructor(
             qrCode()
             rawData()
             rejectedAt()
+            sessionDuration()
             startedAt()
             transferAt()
             transferMode()
@@ -5240,6 +5282,7 @@ private constructor(
                 (if (qrCode.asKnown().isPresent) 1 else 0) +
                 (if (rawData.asKnown().isPresent) 1 else 0) +
                 (if (rejectedAt.asKnown().isPresent) 1 else 0) +
+                (if (sessionDuration.asKnown().isPresent) 1 else 0) +
                 (if (startedAt.asKnown().isPresent) 1 else 0) +
                 (if (transferAt.asKnown().isPresent) 1 else 0) +
                 (if (transferMode.asKnown().isPresent) 1 else 0)
@@ -5266,6 +5309,7 @@ private constructor(
                 qrCode == other.qrCode &&
                 rawData == other.rawData &&
                 rejectedAt == other.rejectedAt &&
+                sessionDuration == other.sessionDuration &&
                 startedAt == other.startedAt &&
                 transferAt == other.transferAt &&
                 transferMode == other.transferMode &&
@@ -5290,6 +5334,7 @@ private constructor(
                 qrCode,
                 rawData,
                 rejectedAt,
+                sessionDuration,
                 startedAt,
                 transferAt,
                 transferMode,
@@ -5300,7 +5345,7 @@ private constructor(
         override fun hashCode(): Int = hashCode
 
         override fun toString() =
-            "TechnicalData{apiVersion=$apiVersion, approvedAt=$approvedAt, callbackUrl=$callbackUrl, callbackUrlNotification=$callbackUrlNotification, disableNotification=$disableNotification, disableNotificationDate=$disableNotificationDate, exportType=$exportType, finishedAt=$finishedAt, ip=$ip, language=$language, locationIp=$locationIp, needReviewAt=$needReviewAt, notificationConfirmation=$notificationConfirmation, qrCode=$qrCode, rawData=$rawData, rejectedAt=$rejectedAt, startedAt=$startedAt, transferAt=$transferAt, transferMode=$transferMode, additionalProperties=$additionalProperties}"
+            "TechnicalData{apiVersion=$apiVersion, approvedAt=$approvedAt, callbackUrl=$callbackUrl, callbackUrlNotification=$callbackUrlNotification, disableNotification=$disableNotification, disableNotificationDate=$disableNotificationDate, exportType=$exportType, finishedAt=$finishedAt, ip=$ip, language=$language, locationIp=$locationIp, needReviewAt=$needReviewAt, notificationConfirmation=$notificationConfirmation, qrCode=$qrCode, rawData=$rawData, rejectedAt=$rejectedAt, sessionDuration=$sessionDuration, startedAt=$startedAt, transferAt=$transferAt, transferMode=$transferMode, additionalProperties=$additionalProperties}"
     }
 
     override fun equals(other: Any?): Boolean {
