@@ -456,7 +456,7 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is State && value == other.value /* spotless:on */
+            return other is State && value == other.value
         }
 
         override fun hashCode() = value.hashCode()
@@ -590,7 +590,7 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is Status && value == other.value /* spotless:on */
+            return other is Status && value == other.value
         }
 
         override fun hashCode() = value.hashCode()
@@ -603,10 +603,32 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is IndividualListParams && endDate == other.endDate && limit == other.limit && offset == other.offset && sourceId == other.sourceId && startDate == other.startDate && state == other.state && status == other.status && workspaceId == other.workspaceId && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
+        return other is IndividualListParams &&
+            endDate == other.endDate &&
+            limit == other.limit &&
+            offset == other.offset &&
+            sourceId == other.sourceId &&
+            startDate == other.startDate &&
+            state == other.state &&
+            status == other.status &&
+            workspaceId == other.workspaceId &&
+            additionalHeaders == other.additionalHeaders &&
+            additionalQueryParams == other.additionalQueryParams
     }
 
-    override fun hashCode(): Int = /* spotless:off */ Objects.hash(endDate, limit, offset, sourceId, startDate, state, status, workspaceId, additionalHeaders, additionalQueryParams) /* spotless:on */
+    override fun hashCode(): Int =
+        Objects.hash(
+            endDate,
+            limit,
+            offset,
+            sourceId,
+            startDate,
+            state,
+            status,
+            workspaceId,
+            additionalHeaders,
+            additionalQueryParams,
+        )
 
     override fun toString() =
         "IndividualListParams{endDate=$endDate, limit=$limit, offset=$offset, sourceId=$sourceId, startDate=$startDate, state=$state, status=$status, workspaceId=$workspaceId, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"

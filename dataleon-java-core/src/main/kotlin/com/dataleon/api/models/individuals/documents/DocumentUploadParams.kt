@@ -548,12 +548,16 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is Body && documentType == other.documentType && file == other.file && url == other.url && additionalProperties == other.additionalProperties /* spotless:on */
+            return other is Body &&
+                documentType == other.documentType &&
+                file == other.file &&
+                url == other.url &&
+                additionalProperties == other.additionalProperties
         }
 
-        /* spotless:off */
-        private val hashCode: Int by lazy { Objects.hash(documentType, file, url, additionalProperties) }
-        /* spotless:on */
+        private val hashCode: Int by lazy {
+            Objects.hash(documentType, file, url, additionalProperties)
+        }
 
         override fun hashCode(): Int = hashCode
 
@@ -756,7 +760,7 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is DocumentType && value == other.value /* spotless:on */
+            return other is DocumentType && value == other.value
         }
 
         override fun hashCode() = value.hashCode()
@@ -769,10 +773,15 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is DocumentUploadParams && individualId == other.individualId && body == other.body && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
+        return other is DocumentUploadParams &&
+            individualId == other.individualId &&
+            body == other.body &&
+            additionalHeaders == other.additionalHeaders &&
+            additionalQueryParams == other.additionalQueryParams
     }
 
-    override fun hashCode(): Int = /* spotless:off */ Objects.hash(individualId, body, additionalHeaders, additionalQueryParams) /* spotless:on */
+    override fun hashCode(): Int =
+        Objects.hash(individualId, body, additionalHeaders, additionalQueryParams)
 
     override fun toString() =
         "DocumentUploadParams{individualId=$individualId, body=$body, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"

@@ -220,10 +220,16 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is CompanyRetrieveParams && companyId == other.companyId && document == other.document && scope == other.scope && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
+        return other is CompanyRetrieveParams &&
+            companyId == other.companyId &&
+            document == other.document &&
+            scope == other.scope &&
+            additionalHeaders == other.additionalHeaders &&
+            additionalQueryParams == other.additionalQueryParams
     }
 
-    override fun hashCode(): Int = /* spotless:off */ Objects.hash(companyId, document, scope, additionalHeaders, additionalQueryParams) /* spotless:on */
+    override fun hashCode(): Int =
+        Objects.hash(companyId, document, scope, additionalHeaders, additionalQueryParams)
 
     override fun toString() =
         "CompanyRetrieveParams{companyId=$companyId, document=$document, scope=$scope, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"

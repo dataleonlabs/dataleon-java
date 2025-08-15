@@ -605,12 +605,31 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is Document && id == other.id && documentType == other.documentType && filename == other.filename && name == other.name && signedUrl == other.signedUrl && state == other.state && status == other.status && workspaceId == other.workspaceId && additionalProperties == other.additionalProperties /* spotless:on */
+            return other is Document &&
+                id == other.id &&
+                documentType == other.documentType &&
+                filename == other.filename &&
+                name == other.name &&
+                signedUrl == other.signedUrl &&
+                state == other.state &&
+                status == other.status &&
+                workspaceId == other.workspaceId &&
+                additionalProperties == other.additionalProperties
         }
 
-        /* spotless:off */
-        private val hashCode: Int by lazy { Objects.hash(id, documentType, filename, name, signedUrl, state, status, workspaceId, additionalProperties) }
-        /* spotless:on */
+        private val hashCode: Int by lazy {
+            Objects.hash(
+                id,
+                documentType,
+                filename,
+                name,
+                signedUrl,
+                state,
+                status,
+                workspaceId,
+                additionalProperties,
+            )
+        }
 
         override fun hashCode(): Int = hashCode
 
@@ -623,12 +642,15 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is DocumentResponse && documents == other.documents && totalDocument == other.totalDocument && additionalProperties == other.additionalProperties /* spotless:on */
+        return other is DocumentResponse &&
+            documents == other.documents &&
+            totalDocument == other.totalDocument &&
+            additionalProperties == other.additionalProperties
     }
 
-    /* spotless:off */
-    private val hashCode: Int by lazy { Objects.hash(documents, totalDocument, additionalProperties) }
-    /* spotless:on */
+    private val hashCode: Int by lazy {
+        Objects.hash(documents, totalDocument, additionalProperties)
+    }
 
     override fun hashCode(): Int = hashCode
 
