@@ -1440,11 +1440,15 @@ private constructor(
     class Company
     private constructor(
         private val address: JsonField<String>,
+        private val closureDate: JsonField<LocalDate>,
         private val commercialName: JsonField<String>,
         private val contact: JsonField<Contact>,
         private val country: JsonField<String>,
         private val email: JsonField<String>,
+        private val employees: JsonField<Long>,
         private val employerIdentificationNumber: JsonField<String>,
+        private val insolvencyExists: JsonField<Boolean>,
+        private val insolvencyOngoing: JsonField<Boolean>,
         private val legalForm: JsonField<String>,
         private val name: JsonField<String>,
         private val phoneNumber: JsonField<String>,
@@ -1461,15 +1465,27 @@ private constructor(
         @JsonCreator
         private constructor(
             @JsonProperty("address") @ExcludeMissing address: JsonField<String> = JsonMissing.of(),
+            @JsonProperty("closure_date")
+            @ExcludeMissing
+            closureDate: JsonField<LocalDate> = JsonMissing.of(),
             @JsonProperty("commercial_name")
             @ExcludeMissing
             commercialName: JsonField<String> = JsonMissing.of(),
             @JsonProperty("contact") @ExcludeMissing contact: JsonField<Contact> = JsonMissing.of(),
             @JsonProperty("country") @ExcludeMissing country: JsonField<String> = JsonMissing.of(),
             @JsonProperty("email") @ExcludeMissing email: JsonField<String> = JsonMissing.of(),
+            @JsonProperty("employees")
+            @ExcludeMissing
+            employees: JsonField<Long> = JsonMissing.of(),
             @JsonProperty("employer_identification_number")
             @ExcludeMissing
             employerIdentificationNumber: JsonField<String> = JsonMissing.of(),
+            @JsonProperty("insolvency_exists")
+            @ExcludeMissing
+            insolvencyExists: JsonField<Boolean> = JsonMissing.of(),
+            @JsonProperty("insolvency_ongoing")
+            @ExcludeMissing
+            insolvencyOngoing: JsonField<Boolean> = JsonMissing.of(),
             @JsonProperty("legal_form")
             @ExcludeMissing
             legalForm: JsonField<String> = JsonMissing.of(),
@@ -1496,11 +1512,15 @@ private constructor(
             websiteUrl: JsonField<String> = JsonMissing.of(),
         ) : this(
             address,
+            closureDate,
             commercialName,
             contact,
             country,
             email,
+            employees,
             employerIdentificationNumber,
+            insolvencyExists,
+            insolvencyOngoing,
             legalForm,
             name,
             phoneNumber,
@@ -1521,6 +1541,14 @@ private constructor(
          *   the server responded with an unexpected value).
          */
         fun address(): Optional<String> = address.getOptional("address")
+
+        /**
+         * Closure date of the company, if applicable.
+         *
+         * @throws DataleonInvalidDataException if the JSON field has an unexpected type (e.g. if
+         *   the server responded with an unexpected value).
+         */
+        fun closureDate(): Optional<LocalDate> = closureDate.getOptional("closure_date")
 
         /**
          * Trade or commercial name of the company.
@@ -1555,6 +1583,14 @@ private constructor(
         fun email(): Optional<String> = email.getOptional("email")
 
         /**
+         * Number of employees in the company.
+         *
+         * @throws DataleonInvalidDataException if the JSON field has an unexpected type (e.g. if
+         *   the server responded with an unexpected value).
+         */
+        fun employees(): Optional<Long> = employees.getOptional("employees")
+
+        /**
          * Employer Identification Number (EIN) or equivalent.
          *
          * @throws DataleonInvalidDataException if the JSON field has an unexpected type (e.g. if
@@ -1562,6 +1598,24 @@ private constructor(
          */
         fun employerIdentificationNumber(): Optional<String> =
             employerIdentificationNumber.getOptional("employer_identification_number")
+
+        /**
+         * Indicates whether an insolvency procedure exists for the company.
+         *
+         * @throws DataleonInvalidDataException if the JSON field has an unexpected type (e.g. if
+         *   the server responded with an unexpected value).
+         */
+        fun insolvencyExists(): Optional<Boolean> =
+            insolvencyExists.getOptional("insolvency_exists")
+
+        /**
+         * Indicates whether an insolvency procedure is ongoing for the company.
+         *
+         * @throws DataleonInvalidDataException if the JSON field has an unexpected type (e.g. if
+         *   the server responded with an unexpected value).
+         */
+        fun insolvencyOngoing(): Optional<Boolean> =
+            insolvencyOngoing.getOptional("insolvency_ongoing")
 
         /**
          * Legal form or structure of the company (e.g., LLC, SARL).
@@ -1653,6 +1707,15 @@ private constructor(
         @JsonProperty("address") @ExcludeMissing fun _address(): JsonField<String> = address
 
         /**
+         * Returns the raw JSON value of [closureDate].
+         *
+         * Unlike [closureDate], this method doesn't throw if the JSON field has an unexpected type.
+         */
+        @JsonProperty("closure_date")
+        @ExcludeMissing
+        fun _closureDate(): JsonField<LocalDate> = closureDate
+
+        /**
          * Returns the raw JSON value of [commercialName].
          *
          * Unlike [commercialName], this method doesn't throw if the JSON field has an unexpected
@@ -1684,6 +1747,13 @@ private constructor(
         @JsonProperty("email") @ExcludeMissing fun _email(): JsonField<String> = email
 
         /**
+         * Returns the raw JSON value of [employees].
+         *
+         * Unlike [employees], this method doesn't throw if the JSON field has an unexpected type.
+         */
+        @JsonProperty("employees") @ExcludeMissing fun _employees(): JsonField<Long> = employees
+
+        /**
          * Returns the raw JSON value of [employerIdentificationNumber].
          *
          * Unlike [employerIdentificationNumber], this method doesn't throw if the JSON field has an
@@ -1692,6 +1762,26 @@ private constructor(
         @JsonProperty("employer_identification_number")
         @ExcludeMissing
         fun _employerIdentificationNumber(): JsonField<String> = employerIdentificationNumber
+
+        /**
+         * Returns the raw JSON value of [insolvencyExists].
+         *
+         * Unlike [insolvencyExists], this method doesn't throw if the JSON field has an unexpected
+         * type.
+         */
+        @JsonProperty("insolvency_exists")
+        @ExcludeMissing
+        fun _insolvencyExists(): JsonField<Boolean> = insolvencyExists
+
+        /**
+         * Returns the raw JSON value of [insolvencyOngoing].
+         *
+         * Unlike [insolvencyOngoing], this method doesn't throw if the JSON field has an unexpected
+         * type.
+         */
+        @JsonProperty("insolvency_ongoing")
+        @ExcludeMissing
+        fun _insolvencyOngoing(): JsonField<Boolean> = insolvencyOngoing
 
         /**
          * Returns the raw JSON value of [legalForm].
@@ -1801,11 +1891,15 @@ private constructor(
         class Builder internal constructor() {
 
             private var address: JsonField<String> = JsonMissing.of()
+            private var closureDate: JsonField<LocalDate> = JsonMissing.of()
             private var commercialName: JsonField<String> = JsonMissing.of()
             private var contact: JsonField<Contact> = JsonMissing.of()
             private var country: JsonField<String> = JsonMissing.of()
             private var email: JsonField<String> = JsonMissing.of()
+            private var employees: JsonField<Long> = JsonMissing.of()
             private var employerIdentificationNumber: JsonField<String> = JsonMissing.of()
+            private var insolvencyExists: JsonField<Boolean> = JsonMissing.of()
+            private var insolvencyOngoing: JsonField<Boolean> = JsonMissing.of()
             private var legalForm: JsonField<String> = JsonMissing.of()
             private var name: JsonField<String> = JsonMissing.of()
             private var phoneNumber: JsonField<String> = JsonMissing.of()
@@ -1821,11 +1915,15 @@ private constructor(
             @JvmSynthetic
             internal fun from(company: Company) = apply {
                 address = company.address
+                closureDate = company.closureDate
                 commercialName = company.commercialName
                 contact = company.contact
                 country = company.country
                 email = company.email
+                employees = company.employees
                 employerIdentificationNumber = company.employerIdentificationNumber
+                insolvencyExists = company.insolvencyExists
+                insolvencyOngoing = company.insolvencyOngoing
                 legalForm = company.legalForm
                 name = company.name
                 phoneNumber = company.phoneNumber
@@ -1850,6 +1948,20 @@ private constructor(
              * supported value.
              */
             fun address(address: JsonField<String>) = apply { this.address = address }
+
+            /** Closure date of the company, if applicable. */
+            fun closureDate(closureDate: LocalDate) = closureDate(JsonField.of(closureDate))
+
+            /**
+             * Sets [Builder.closureDate] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.closureDate] with a well-typed [LocalDate] value
+             * instead. This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
+            fun closureDate(closureDate: JsonField<LocalDate>) = apply {
+                this.closureDate = closureDate
+            }
 
             /** Trade or commercial name of the company. */
             fun commercialName(commercialName: String) =
@@ -1902,6 +2014,18 @@ private constructor(
              */
             fun email(email: JsonField<String>) = apply { this.email = email }
 
+            /** Number of employees in the company. */
+            fun employees(employees: Long) = employees(JsonField.of(employees))
+
+            /**
+             * Sets [Builder.employees] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.employees] with a well-typed [Long] value instead.
+             * This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
+            fun employees(employees: JsonField<Long>) = apply { this.employees = employees }
+
             /** Employer Identification Number (EIN) or equivalent. */
             fun employerIdentificationNumber(employerIdentificationNumber: String) =
                 employerIdentificationNumber(JsonField.of(employerIdentificationNumber))
@@ -1917,6 +2041,36 @@ private constructor(
                 apply {
                     this.employerIdentificationNumber = employerIdentificationNumber
                 }
+
+            /** Indicates whether an insolvency procedure exists for the company. */
+            fun insolvencyExists(insolvencyExists: Boolean) =
+                insolvencyExists(JsonField.of(insolvencyExists))
+
+            /**
+             * Sets [Builder.insolvencyExists] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.insolvencyExists] with a well-typed [Boolean] value
+             * instead. This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
+            fun insolvencyExists(insolvencyExists: JsonField<Boolean>) = apply {
+                this.insolvencyExists = insolvencyExists
+            }
+
+            /** Indicates whether an insolvency procedure is ongoing for the company. */
+            fun insolvencyOngoing(insolvencyOngoing: Boolean) =
+                insolvencyOngoing(JsonField.of(insolvencyOngoing))
+
+            /**
+             * Sets [Builder.insolvencyOngoing] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.insolvencyOngoing] with a well-typed [Boolean] value
+             * instead. This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
+            fun insolvencyOngoing(insolvencyOngoing: JsonField<Boolean>) = apply {
+                this.insolvencyOngoing = insolvencyOngoing
+            }
 
             /** Legal form or structure of the company (e.g., LLC, SARL). */
             fun legalForm(legalForm: String) = legalForm(JsonField.of(legalForm))
@@ -2078,11 +2232,15 @@ private constructor(
             fun build(): Company =
                 Company(
                     address,
+                    closureDate,
                     commercialName,
                     contact,
                     country,
                     email,
+                    employees,
                     employerIdentificationNumber,
+                    insolvencyExists,
+                    insolvencyOngoing,
                     legalForm,
                     name,
                     phoneNumber,
@@ -2105,11 +2263,15 @@ private constructor(
             }
 
             address()
+            closureDate()
             commercialName()
             contact().ifPresent { it.validate() }
             country()
             email()
+            employees()
             employerIdentificationNumber()
+            insolvencyExists()
+            insolvencyOngoing()
             legalForm()
             name()
             phoneNumber()
@@ -2140,11 +2302,15 @@ private constructor(
         @JvmSynthetic
         internal fun validity(): Int =
             (if (address.asKnown().isPresent) 1 else 0) +
+                (if (closureDate.asKnown().isPresent) 1 else 0) +
                 (if (commercialName.asKnown().isPresent) 1 else 0) +
                 (contact.asKnown().getOrNull()?.validity() ?: 0) +
                 (if (country.asKnown().isPresent) 1 else 0) +
                 (if (email.asKnown().isPresent) 1 else 0) +
+                (if (employees.asKnown().isPresent) 1 else 0) +
                 (if (employerIdentificationNumber.asKnown().isPresent) 1 else 0) +
+                (if (insolvencyExists.asKnown().isPresent) 1 else 0) +
+                (if (insolvencyOngoing.asKnown().isPresent) 1 else 0) +
                 (if (legalForm.asKnown().isPresent) 1 else 0) +
                 (if (name.asKnown().isPresent) 1 else 0) +
                 (if (phoneNumber.asKnown().isPresent) 1 else 0) +
@@ -2484,11 +2650,15 @@ private constructor(
 
             return other is Company &&
                 address == other.address &&
+                closureDate == other.closureDate &&
                 commercialName == other.commercialName &&
                 contact == other.contact &&
                 country == other.country &&
                 email == other.email &&
+                employees == other.employees &&
                 employerIdentificationNumber == other.employerIdentificationNumber &&
+                insolvencyExists == other.insolvencyExists &&
+                insolvencyOngoing == other.insolvencyOngoing &&
                 legalForm == other.legalForm &&
                 name == other.name &&
                 phoneNumber == other.phoneNumber &&
@@ -2505,11 +2675,15 @@ private constructor(
         private val hashCode: Int by lazy {
             Objects.hash(
                 address,
+                closureDate,
                 commercialName,
                 contact,
                 country,
                 email,
+                employees,
                 employerIdentificationNumber,
+                insolvencyExists,
+                insolvencyOngoing,
                 legalForm,
                 name,
                 phoneNumber,
@@ -2527,7 +2701,7 @@ private constructor(
         override fun hashCode(): Int = hashCode
 
         override fun toString() =
-            "Company{address=$address, commercialName=$commercialName, contact=$contact, country=$country, email=$email, employerIdentificationNumber=$employerIdentificationNumber, legalForm=$legalForm, name=$name, phoneNumber=$phoneNumber, registrationDate=$registrationDate, registrationId=$registrationId, shareCapital=$shareCapital, status=$status, taxIdentificationNumber=$taxIdentificationNumber, type=$type, websiteUrl=$websiteUrl, additionalProperties=$additionalProperties}"
+            "Company{address=$address, closureDate=$closureDate, commercialName=$commercialName, contact=$contact, country=$country, email=$email, employees=$employees, employerIdentificationNumber=$employerIdentificationNumber, insolvencyExists=$insolvencyExists, insolvencyOngoing=$insolvencyOngoing, legalForm=$legalForm, name=$name, phoneNumber=$phoneNumber, registrationDate=$registrationDate, registrationId=$registrationId, shareCapital=$shareCapital, status=$status, taxIdentificationNumber=$taxIdentificationNumber, type=$type, websiteUrl=$websiteUrl, additionalProperties=$additionalProperties}"
     }
 
     /** Represents a member or actor of a company, including personal and ownership information. */
@@ -4383,6 +4557,7 @@ private constructor(
         private val qrCode: JsonField<String>,
         private val rawData: JsonField<Boolean>,
         private val rejectedAt: JsonField<OffsetDateTime>,
+        private val sessionDuration: JsonField<Long>,
         private val startedAt: JsonField<OffsetDateTime>,
         private val transferAt: JsonField<OffsetDateTime>,
         private val transferMode: JsonField<String>,
@@ -4435,6 +4610,9 @@ private constructor(
             @JsonProperty("rejected_at")
             @ExcludeMissing
             rejectedAt: JsonField<OffsetDateTime> = JsonMissing.of(),
+            @JsonProperty("session_duration")
+            @ExcludeMissing
+            sessionDuration: JsonField<Long> = JsonMissing.of(),
             @JsonProperty("started_at")
             @ExcludeMissing
             startedAt: JsonField<OffsetDateTime> = JsonMissing.of(),
@@ -4461,6 +4639,7 @@ private constructor(
             qrCode,
             rawData,
             rejectedAt,
+            sessionDuration,
             startedAt,
             transferAt,
             transferMode,
@@ -4598,6 +4777,14 @@ private constructor(
          *   the server responded with an unexpected value).
          */
         fun rejectedAt(): Optional<OffsetDateTime> = rejectedAt.getOptional("rejected_at")
+
+        /**
+         * Duration of the user session in seconds.
+         *
+         * @throws DataleonInvalidDataException if the JSON field has an unexpected type (e.g. if
+         *   the server responded with an unexpected value).
+         */
+        fun sessionDuration(): Optional<Long> = sessionDuration.getOptional("session_duration")
 
         /**
          * Timestamp when the process started.
@@ -4763,6 +4950,16 @@ private constructor(
         fun _rejectedAt(): JsonField<OffsetDateTime> = rejectedAt
 
         /**
+         * Returns the raw JSON value of [sessionDuration].
+         *
+         * Unlike [sessionDuration], this method doesn't throw if the JSON field has an unexpected
+         * type.
+         */
+        @JsonProperty("session_duration")
+        @ExcludeMissing
+        fun _sessionDuration(): JsonField<Long> = sessionDuration
+
+        /**
          * Returns the raw JSON value of [startedAt].
          *
          * Unlike [startedAt], this method doesn't throw if the JSON field has an unexpected type.
@@ -4827,6 +5024,7 @@ private constructor(
             private var qrCode: JsonField<String> = JsonMissing.of()
             private var rawData: JsonField<Boolean> = JsonMissing.of()
             private var rejectedAt: JsonField<OffsetDateTime> = JsonMissing.of()
+            private var sessionDuration: JsonField<Long> = JsonMissing.of()
             private var startedAt: JsonField<OffsetDateTime> = JsonMissing.of()
             private var transferAt: JsonField<OffsetDateTime> = JsonMissing.of()
             private var transferMode: JsonField<String> = JsonMissing.of()
@@ -4850,6 +5048,7 @@ private constructor(
                 qrCode = technicalData.qrCode
                 rawData = technicalData.rawData
                 rejectedAt = technicalData.rejectedAt
+                sessionDuration = technicalData.sessionDuration
                 startedAt = technicalData.startedAt
                 transferAt = technicalData.transferAt
                 transferMode = technicalData.transferMode
@@ -5088,6 +5287,21 @@ private constructor(
                 this.rejectedAt = rejectedAt
             }
 
+            /** Duration of the user session in seconds. */
+            fun sessionDuration(sessionDuration: Long) =
+                sessionDuration(JsonField.of(sessionDuration))
+
+            /**
+             * Sets [Builder.sessionDuration] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.sessionDuration] with a well-typed [Long] value
+             * instead. This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
+            fun sessionDuration(sessionDuration: JsonField<Long>) = apply {
+                this.sessionDuration = sessionDuration
+            }
+
             /** Timestamp when the process started. */
             fun startedAt(startedAt: OffsetDateTime) = startedAt(JsonField.of(startedAt))
 
@@ -5172,6 +5386,7 @@ private constructor(
                     qrCode,
                     rawData,
                     rejectedAt,
+                    sessionDuration,
                     startedAt,
                     transferAt,
                     transferMode,
@@ -5202,6 +5417,7 @@ private constructor(
             qrCode()
             rawData()
             rejectedAt()
+            sessionDuration()
             startedAt()
             transferAt()
             transferMode()
@@ -5240,6 +5456,7 @@ private constructor(
                 (if (qrCode.asKnown().isPresent) 1 else 0) +
                 (if (rawData.asKnown().isPresent) 1 else 0) +
                 (if (rejectedAt.asKnown().isPresent) 1 else 0) +
+                (if (sessionDuration.asKnown().isPresent) 1 else 0) +
                 (if (startedAt.asKnown().isPresent) 1 else 0) +
                 (if (transferAt.asKnown().isPresent) 1 else 0) +
                 (if (transferMode.asKnown().isPresent) 1 else 0)
@@ -5266,6 +5483,7 @@ private constructor(
                 qrCode == other.qrCode &&
                 rawData == other.rawData &&
                 rejectedAt == other.rejectedAt &&
+                sessionDuration == other.sessionDuration &&
                 startedAt == other.startedAt &&
                 transferAt == other.transferAt &&
                 transferMode == other.transferMode &&
@@ -5290,6 +5508,7 @@ private constructor(
                 qrCode,
                 rawData,
                 rejectedAt,
+                sessionDuration,
                 startedAt,
                 transferAt,
                 transferMode,
@@ -5300,7 +5519,7 @@ private constructor(
         override fun hashCode(): Int = hashCode
 
         override fun toString() =
-            "TechnicalData{apiVersion=$apiVersion, approvedAt=$approvedAt, callbackUrl=$callbackUrl, callbackUrlNotification=$callbackUrlNotification, disableNotification=$disableNotification, disableNotificationDate=$disableNotificationDate, exportType=$exportType, finishedAt=$finishedAt, ip=$ip, language=$language, locationIp=$locationIp, needReviewAt=$needReviewAt, notificationConfirmation=$notificationConfirmation, qrCode=$qrCode, rawData=$rawData, rejectedAt=$rejectedAt, startedAt=$startedAt, transferAt=$transferAt, transferMode=$transferMode, additionalProperties=$additionalProperties}"
+            "TechnicalData{apiVersion=$apiVersion, approvedAt=$approvedAt, callbackUrl=$callbackUrl, callbackUrlNotification=$callbackUrlNotification, disableNotification=$disableNotification, disableNotificationDate=$disableNotificationDate, exportType=$exportType, finishedAt=$finishedAt, ip=$ip, language=$language, locationIp=$locationIp, needReviewAt=$needReviewAt, notificationConfirmation=$notificationConfirmation, qrCode=$qrCode, rawData=$rawData, rejectedAt=$rejectedAt, sessionDuration=$sessionDuration, startedAt=$startedAt, transferAt=$transferAt, transferMode=$transferMode, additionalProperties=$additionalProperties}"
     }
 
     override fun equals(other: Any?): Boolean {
