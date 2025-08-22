@@ -168,7 +168,7 @@ private constructor(
         fun file(file: ByteArray) = apply { body.file(file) }
 
         /** File to upload (required) */
-        fun file(file: Path) = apply { body.file(file) }
+        fun file(path: Path) = apply { body.file(path) }
 
         /** URL of the file to upload (either `file` or `url` is required) */
         fun url(url: String) = apply { body.url(url) }
@@ -462,11 +462,11 @@ private constructor(
             fun file(file: ByteArray) = file(file.inputStream())
 
             /** File to upload (required) */
-            fun file(file: Path) =
+            fun file(path: Path) =
                 file(
                     MultipartField.builder<InputStream>()
-                        .value(file.inputStream())
-                        .filename(file.name)
+                        .value(path.inputStream())
+                        .filename(path.name)
                         .build()
                 )
 
@@ -548,12 +548,16 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is Body && documentType == other.documentType && file == other.file && url == other.url && additionalProperties == other.additionalProperties /* spotless:on */
+            return other is Body &&
+                documentType == other.documentType &&
+                file == other.file &&
+                url == other.url &&
+                additionalProperties == other.additionalProperties
         }
 
-        /* spotless:off */
-        private val hashCode: Int by lazy { Objects.hash(documentType, file, url, additionalProperties) }
-        /* spotless:on */
+        private val hashCode: Int by lazy {
+            Objects.hash(documentType, file, url, additionalProperties)
+        }
 
         override fun hashCode(): Int = hashCode
 
@@ -744,7 +748,7 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is DocumentType && value == other.value /* spotless:on */
+            return other is DocumentType && value == other.value
         }
 
         override fun hashCode() = value.hashCode()
@@ -757,10 +761,15 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is DocumentUploadParams && companyId == other.companyId && body == other.body && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
+        return other is DocumentUploadParams &&
+            companyId == other.companyId &&
+            body == other.body &&
+            additionalHeaders == other.additionalHeaders &&
+            additionalQueryParams == other.additionalQueryParams
     }
 
-    override fun hashCode(): Int = /* spotless:off */ Objects.hash(companyId, body, additionalHeaders, additionalQueryParams) /* spotless:on */
+    override fun hashCode(): Int =
+        Objects.hash(companyId, body, additionalHeaders, additionalQueryParams)
 
     override fun toString() =
         "DocumentUploadParams{companyId=$companyId, body=$body, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"

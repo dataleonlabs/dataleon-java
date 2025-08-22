@@ -34,6 +34,7 @@ internal class CompanyUpdateParamsTest {
             .sourceId("ID54410069066")
             .technicalData(
                 CompanyUpdateParams.TechnicalData.builder()
+                    .activeAmlSuspicions(false)
                     .callbackUrl("https://example.com/callback")
                     .callbackUrlNotification("https://example.com/notify")
                     .language("fra")
@@ -85,6 +86,7 @@ internal class CompanyUpdateParamsTest {
                 .sourceId("ID54410069066")
                 .technicalData(
                     CompanyUpdateParams.TechnicalData.builder()
+                        .activeAmlSuspicions(false)
                         .callbackUrl("https://example.com/callback")
                         .callbackUrlNotification("https://example.com/notify")
                         .language("fra")
@@ -120,6 +122,7 @@ internal class CompanyUpdateParamsTest {
         assertThat(body.technicalData())
             .contains(
                 CompanyUpdateParams.TechnicalData.builder()
+                    .activeAmlSuspicions(false)
                     .callbackUrl("https://example.com/callback")
                     .callbackUrlNotification("https://example.com/notify")
                     .language("fra")

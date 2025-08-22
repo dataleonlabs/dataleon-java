@@ -663,12 +663,12 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is Table && operation == other.operation && additionalProperties == other.additionalProperties /* spotless:on */
+            return other is Table &&
+                operation == other.operation &&
+                additionalProperties == other.additionalProperties
         }
 
-        /* spotless:off */
         private val hashCode: Int by lazy { Objects.hash(operation, additionalProperties) }
-        /* spotless:on */
 
         override fun hashCode(): Int = hashCode
 
@@ -895,12 +895,16 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is Value && confidence == other.confidence && name == other.name && value == other.value && additionalProperties == other.additionalProperties /* spotless:on */
+            return other is Value &&
+                confidence == other.confidence &&
+                name == other.name &&
+                value == other.value &&
+                additionalProperties == other.additionalProperties
         }
 
-        /* spotless:off */
-        private val hashCode: Int by lazy { Objects.hash(confidence, name, value, additionalProperties) }
-        /* spotless:on */
+        private val hashCode: Int by lazy {
+            Objects.hash(confidence, name, value, additionalProperties)
+        }
 
         override fun hashCode(): Int = hashCode
 
@@ -913,12 +917,35 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is GenericDocument && id == other.id && checks == other.checks && createdAt == other.createdAt && documentType == other.documentType && name == other.name && signedUrl == other.signedUrl && state == other.state && status == other.status && tables == other.tables && values == other.values && additionalProperties == other.additionalProperties /* spotless:on */
+        return other is GenericDocument &&
+            id == other.id &&
+            checks == other.checks &&
+            createdAt == other.createdAt &&
+            documentType == other.documentType &&
+            name == other.name &&
+            signedUrl == other.signedUrl &&
+            state == other.state &&
+            status == other.status &&
+            tables == other.tables &&
+            values == other.values &&
+            additionalProperties == other.additionalProperties
     }
 
-    /* spotless:off */
-    private val hashCode: Int by lazy { Objects.hash(id, checks, createdAt, documentType, name, signedUrl, state, status, tables, values, additionalProperties) }
-    /* spotless:on */
+    private val hashCode: Int by lazy {
+        Objects.hash(
+            id,
+            checks,
+            createdAt,
+            documentType,
+            name,
+            signedUrl,
+            state,
+            status,
+            tables,
+            values,
+            additionalProperties,
+        )
+    }
 
     override fun hashCode(): Int = hashCode
 

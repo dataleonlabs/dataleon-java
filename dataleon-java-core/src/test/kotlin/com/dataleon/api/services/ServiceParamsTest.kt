@@ -36,7 +36,7 @@ internal class ServiceParamsTest {
                 .build()
     }
 
-    @Disabled("skipped: tests are disabled for the time being")
+    @Disabled("Prism tests are disabled")
     @Test
     fun create() {
         val individualService = client.individuals()
@@ -59,6 +59,7 @@ internal class ServiceParamsTest {
                 .sourceId("ID54410069066")
                 .technicalData(
                     IndividualCreateParams.TechnicalData.builder()
+                        .activeAmlSuspicions(false)
                         .callbackUrl("https://example.com/callback")
                         .callbackUrlNotification("https://example.com/notify")
                         .language("fra")
