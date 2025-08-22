@@ -1001,7 +1001,7 @@ private constructor(
         fun schema(): Optional<String> = schema.getOptional("schema")
 
         /**
-         * Risk score between 0.0 and 0.85 indicating the severity of the suspicion.
+         * Risk score between 0.0 and 1 indicating the severity of the suspicion.
          *
          * @throws DataleonInvalidDataException if the JSON field has an unexpected type (e.g. if
          *   the server responded with an unexpected value).
@@ -1206,7 +1206,7 @@ private constructor(
              */
             fun schema(schema: JsonField<String>) = apply { this.schema = schema }
 
-            /** Risk score between 0.0 and 0.85 indicating the severity of the suspicion. */
+            /** Risk score between 0.0 and 1 indicating the severity of the suspicion. */
             fun score(score: Float) = score(JsonField.of(score))
 
             /**
