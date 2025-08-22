@@ -1374,6 +1374,7 @@ private constructor(
     /** Technical metadata and callback configuration. */
     class TechnicalData
     private constructor(
+        private val activeAmlSuspicions: JsonField<Boolean>,
         private val callbackUrl: JsonField<String>,
         private val callbackUrlNotification: JsonField<String>,
         private val language: JsonField<String>,
@@ -1383,6 +1384,9 @@ private constructor(
 
         @JsonCreator
         private constructor(
+            @JsonProperty("active_aml_suspicions")
+            @ExcludeMissing
+            activeAmlSuspicions: JsonField<Boolean> = JsonMissing.of(),
             @JsonProperty("callback_url")
             @ExcludeMissing
             callbackUrl: JsonField<String> = JsonMissing.of(),
@@ -1393,7 +1397,24 @@ private constructor(
             @ExcludeMissing
             language: JsonField<String> = JsonMissing.of(),
             @JsonProperty("raw_data") @ExcludeMissing rawData: JsonField<Boolean> = JsonMissing.of(),
-        ) : this(callbackUrl, callbackUrlNotification, language, rawData, mutableMapOf())
+        ) : this(
+            activeAmlSuspicions,
+            callbackUrl,
+            callbackUrlNotification,
+            language,
+            rawData,
+            mutableMapOf(),
+        )
+
+        /**
+         * Flag indicating whether there are active research AML (Anti-Money Laundering) suspicions
+         * for the company when you apply for a new entry or get an existing one.
+         *
+         * @throws DataleonInvalidDataException if the JSON field has an unexpected type (e.g. if
+         *   the server responded with an unexpected value).
+         */
+        fun activeAmlSuspicions(): Optional<Boolean> =
+            activeAmlSuspicions.getOptional("active_aml_suspicions")
 
         /**
          * URL to receive a callback once the company is processed.
@@ -1427,6 +1448,16 @@ private constructor(
          *   the server responded with an unexpected value).
          */
         fun rawData(): Optional<Boolean> = rawData.getOptional("raw_data")
+
+        /**
+         * Returns the raw JSON value of [activeAmlSuspicions].
+         *
+         * Unlike [activeAmlSuspicions], this method doesn't throw if the JSON field has an
+         * unexpected type.
+         */
+        @JsonProperty("active_aml_suspicions")
+        @ExcludeMissing
+        fun _activeAmlSuspicions(): JsonField<Boolean> = activeAmlSuspicions
 
         /**
          * Returns the raw JSON value of [callbackUrl].
@@ -1482,6 +1513,7 @@ private constructor(
         /** A builder for [TechnicalData]. */
         class Builder internal constructor() {
 
+            private var activeAmlSuspicions: JsonField<Boolean> = JsonMissing.of()
             private var callbackUrl: JsonField<String> = JsonMissing.of()
             private var callbackUrlNotification: JsonField<String> = JsonMissing.of()
             private var language: JsonField<String> = JsonMissing.of()
@@ -1490,11 +1522,30 @@ private constructor(
 
             @JvmSynthetic
             internal fun from(technicalData: TechnicalData) = apply {
+                activeAmlSuspicions = technicalData.activeAmlSuspicions
                 callbackUrl = technicalData.callbackUrl
                 callbackUrlNotification = technicalData.callbackUrlNotification
                 language = technicalData.language
                 rawData = technicalData.rawData
                 additionalProperties = technicalData.additionalProperties.toMutableMap()
+            }
+
+            /**
+             * Flag indicating whether there are active research AML (Anti-Money Laundering)
+             * suspicions for the company when you apply for a new entry or get an existing one.
+             */
+            fun activeAmlSuspicions(activeAmlSuspicions: Boolean) =
+                activeAmlSuspicions(JsonField.of(activeAmlSuspicions))
+
+            /**
+             * Sets [Builder.activeAmlSuspicions] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.activeAmlSuspicions] with a well-typed [Boolean]
+             * value instead. This method is primarily for setting the field to an undocumented or
+             * not yet supported value.
+             */
+            fun activeAmlSuspicions(activeAmlSuspicions: JsonField<Boolean>) = apply {
+                this.activeAmlSuspicions = activeAmlSuspicions
             }
 
             /** URL to receive a callback once the company is processed. */
@@ -1576,6 +1627,7 @@ private constructor(
              */
             fun build(): TechnicalData =
                 TechnicalData(
+                    activeAmlSuspicions,
                     callbackUrl,
                     callbackUrlNotification,
                     language,
@@ -1591,6 +1643,7 @@ private constructor(
                 return@apply
             }
 
+            activeAmlSuspicions()
             callbackUrl()
             callbackUrlNotification()
             language()
@@ -1614,7 +1667,8 @@ private constructor(
          */
         @JvmSynthetic
         internal fun validity(): Int =
-            (if (callbackUrl.asKnown().isPresent) 1 else 0) +
+            (if (activeAmlSuspicions.asKnown().isPresent) 1 else 0) +
+                (if (callbackUrl.asKnown().isPresent) 1 else 0) +
                 (if (callbackUrlNotification.asKnown().isPresent) 1 else 0) +
                 (if (language.asKnown().isPresent) 1 else 0) +
                 (if (rawData.asKnown().isPresent) 1 else 0)
@@ -1625,6 +1679,7 @@ private constructor(
             }
 
             return other is TechnicalData &&
+                activeAmlSuspicions == other.activeAmlSuspicions &&
                 callbackUrl == other.callbackUrl &&
                 callbackUrlNotification == other.callbackUrlNotification &&
                 language == other.language &&
@@ -1634,6 +1689,7 @@ private constructor(
 
         private val hashCode: Int by lazy {
             Objects.hash(
+                activeAmlSuspicions,
                 callbackUrl,
                 callbackUrlNotification,
                 language,
@@ -1645,7 +1701,7 @@ private constructor(
         override fun hashCode(): Int = hashCode
 
         override fun toString() =
-            "TechnicalData{callbackUrl=$callbackUrl, callbackUrlNotification=$callbackUrlNotification, language=$language, rawData=$rawData, additionalProperties=$additionalProperties}"
+            "TechnicalData{activeAmlSuspicions=$activeAmlSuspicions, callbackUrl=$callbackUrl, callbackUrlNotification=$callbackUrlNotification, language=$language, rawData=$rawData, additionalProperties=$additionalProperties}"
     }
 
     override fun equals(other: Any?): Boolean {

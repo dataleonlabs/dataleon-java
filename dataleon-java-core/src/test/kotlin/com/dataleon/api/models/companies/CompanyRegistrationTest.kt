@@ -191,6 +191,7 @@ internal class CompanyRegistrationTest {
                 .sourceId("src-001")
                 .technicalData(
                     CompanyRegistration.TechnicalData.builder()
+                        .activeAmlSuspicions(false)
                         .apiVersion(2L)
                         .approvedAt(OffsetDateTime.parse("2025-05-01T12:00:00Z"))
                         .callbackUrl("https://example.com/callback")
@@ -397,6 +398,7 @@ internal class CompanyRegistrationTest {
         assertThat(companyRegistration.technicalData())
             .contains(
                 CompanyRegistration.TechnicalData.builder()
+                    .activeAmlSuspicions(false)
                     .apiVersion(2L)
                     .approvedAt(OffsetDateTime.parse("2025-05-01T12:00:00Z"))
                     .callbackUrl("https://example.com/callback")
@@ -599,6 +601,7 @@ internal class CompanyRegistrationTest {
                 .sourceId("src-001")
                 .technicalData(
                     CompanyRegistration.TechnicalData.builder()
+                        .activeAmlSuspicions(false)
                         .apiVersion(2L)
                         .approvedAt(OffsetDateTime.parse("2025-05-01T12:00:00Z"))
                         .callbackUrl("https://example.com/callback")

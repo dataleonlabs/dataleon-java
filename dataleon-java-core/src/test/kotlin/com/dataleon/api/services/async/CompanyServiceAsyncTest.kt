@@ -52,6 +52,7 @@ internal class CompanyServiceAsyncTest {
                     .sourceId("ID54410069066")
                     .technicalData(
                         CompanyCreateParams.TechnicalData.builder()
+                            .activeAmlSuspicions(false)
                             .callbackUrl("https://example.com/callback")
                             .callbackUrlNotification("https://example.com/notify")
                             .language("fra")
@@ -125,6 +126,7 @@ internal class CompanyServiceAsyncTest {
                     .sourceId("ID54410069066")
                     .technicalData(
                         CompanyUpdateParams.TechnicalData.builder()
+                            .activeAmlSuspicions(false)
                             .callbackUrl("https://example.com/callback")
                             .callbackUrlNotification("https://example.com/notify")
                             .language("fra")

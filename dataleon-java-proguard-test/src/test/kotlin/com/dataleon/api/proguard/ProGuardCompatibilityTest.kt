@@ -186,6 +186,7 @@ internal class ProGuardCompatibilityTest {
                 )
                 .technicalData(
                     Individual.TechnicalData.builder()
+                        .activeAmlSuspicions(false)
                         .apiVersion(2L)
                         .approvedAt(OffsetDateTime.parse("2025-05-01T12:00:00Z"))
                         .callbackUrl("https://example.com/callback")
