@@ -44,6 +44,7 @@ internal class IndividualServiceAsyncTest {
                     .sourceId("ID54410069066")
                     .technicalData(
                         IndividualCreateParams.TechnicalData.builder()
+                            .activeAmlSuspicions(false)
                             .callbackUrl("https://example.com/callback")
                             .callbackUrlNotification("https://example.com/notify")
                             .language("fra")
@@ -109,6 +110,7 @@ internal class IndividualServiceAsyncTest {
                     .sourceId("ID54410069066")
                     .technicalData(
                         IndividualUpdateParams.TechnicalData.builder()
+                            .activeAmlSuspicions(false)
                             .callbackUrl("https://example.com/callback")
                             .callbackUrlNotification("https://example.com/notify")
                             .language("fra")
