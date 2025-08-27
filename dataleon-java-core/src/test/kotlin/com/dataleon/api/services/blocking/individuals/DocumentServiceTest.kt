@@ -41,7 +41,7 @@ internal class DocumentServiceTest {
             documentService.upload(
                 DocumentUploadParams.builder()
                     .individualId("individual_id")
-                    .documentType(DocumentUploadParams.DocumentType.BANK_STATEMENTS)
+                    .documentType(DocumentUploadParams.DocumentType.LIASSE_FISCALE)
                     .file("some content".byteInputStream())
                     .url("https://example.com/sample.pdf")
                     .build()

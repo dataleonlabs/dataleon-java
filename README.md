@@ -196,7 +196,7 @@ import java.nio.file.Paths;
 
 DocumentUploadParams params = DocumentUploadParams.builder()
     .individualId("individual_id")
-    .documentType(DocumentUploadParams.DocumentType.BANK_STATEMENTS)
+    .documentType(DocumentUploadParams.DocumentType.LIASSE_FISCALE)
     .file(Paths.get("/path/to/file"))
     .build();
 GenericDocument genericDocument = client.individuals().documents().upload(params);
@@ -211,7 +211,7 @@ import java.net.URL;
 
 DocumentUploadParams params = DocumentUploadParams.builder()
     .individualId("individual_id")
-    .documentType(DocumentUploadParams.DocumentType.BANK_STATEMENTS)
+    .documentType(DocumentUploadParams.DocumentType.LIASSE_FISCALE)
     .file(new URL("https://example.com//path/to/file").openStream())
     .build();
 GenericDocument genericDocument = client.individuals().documents().upload(params);
@@ -225,7 +225,7 @@ import com.dataleon.api.models.individuals.documents.GenericDocument;
 
 DocumentUploadParams params = DocumentUploadParams.builder()
     .individualId("individual_id")
-    .documentType(DocumentUploadParams.DocumentType.BANK_STATEMENTS)
+    .documentType(DocumentUploadParams.DocumentType.LIASSE_FISCALE)
     .file("content".getBytes())
     .build();
 GenericDocument genericDocument = client.individuals().documents().upload(params);
@@ -242,7 +242,7 @@ import java.net.URL;
 
 DocumentUploadParams params = DocumentUploadParams.builder()
     .individualId("individual_id")
-    .documentType(DocumentUploadParams.DocumentType.BANK_STATEMENTS)
+    .documentType(DocumentUploadParams.DocumentType.LIASSE_FISCALE)
     .file(MultipartField.<InputStream>builder()
         .value(new URL("https://example.com//path/to/file").openStream())
         .filename("/path/to/file")
