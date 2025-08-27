@@ -13,7 +13,7 @@ internal class DocumentUploadParamsTest {
     fun create() {
         DocumentUploadParams.builder()
             .companyId("company_id")
-            .documentType(DocumentUploadParams.DocumentType.BANK_STATEMENTS)
+            .documentType(DocumentUploadParams.DocumentType.LIASSE_FISCALE)
             .file("some content".byteInputStream())
             .url("https://example.com/sample.pdf")
             .build()
@@ -24,7 +24,7 @@ internal class DocumentUploadParamsTest {
         val params =
             DocumentUploadParams.builder()
                 .companyId("company_id")
-                .documentType(DocumentUploadParams.DocumentType.BANK_STATEMENTS)
+                .documentType(DocumentUploadParams.DocumentType.LIASSE_FISCALE)
                 .build()
 
         assertThat(params._pathParam(0)).isEqualTo("company_id")
@@ -37,7 +37,7 @@ internal class DocumentUploadParamsTest {
         val params =
             DocumentUploadParams.builder()
                 .companyId("company_id")
-                .documentType(DocumentUploadParams.DocumentType.BANK_STATEMENTS)
+                .documentType(DocumentUploadParams.DocumentType.LIASSE_FISCALE)
                 .file("some content".byteInputStream())
                 .url("https://example.com/sample.pdf")
                 .build()
@@ -55,7 +55,7 @@ internal class DocumentUploadParamsTest {
             .isEqualTo(
                 mapOf(
                         "document_type" to
-                            MultipartField.of(DocumentUploadParams.DocumentType.BANK_STATEMENTS),
+                            MultipartField.of(DocumentUploadParams.DocumentType.LIASSE_FISCALE),
                         "file" to MultipartField.of("some content".byteInputStream()),
                         "url" to MultipartField.of("https://example.com/sample.pdf"),
                     )
@@ -70,7 +70,7 @@ internal class DocumentUploadParamsTest {
         val params =
             DocumentUploadParams.builder()
                 .companyId("company_id")
-                .documentType(DocumentUploadParams.DocumentType.BANK_STATEMENTS)
+                .documentType(DocumentUploadParams.DocumentType.LIASSE_FISCALE)
                 .build()
 
         val body = params._body()
@@ -86,7 +86,7 @@ internal class DocumentUploadParamsTest {
             .isEqualTo(
                 mapOf(
                         "document_type" to
-                            MultipartField.of(DocumentUploadParams.DocumentType.BANK_STATEMENTS)
+                            MultipartField.of(DocumentUploadParams.DocumentType.LIASSE_FISCALE)
                     )
                     .mapValues { (_, field) ->
                         field.map { (it as? ByteArray)?.inputStream() ?: it }
