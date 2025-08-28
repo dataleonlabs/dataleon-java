@@ -25,6 +25,7 @@ internal class IndividualCreateParamsTest {
             .sourceId("ID54410069066")
             .technicalData(
                 IndividualCreateParams.TechnicalData.builder()
+                    .activeAmlSuspicions(false)
                     .callbackUrl("https://example.com/callback")
                     .callbackUrlNotification("https://example.com/notify")
                     .language("fra")
@@ -53,6 +54,7 @@ internal class IndividualCreateParamsTest {
                 .sourceId("ID54410069066")
                 .technicalData(
                     IndividualCreateParams.TechnicalData.builder()
+                        .activeAmlSuspicions(false)
                         .callbackUrl("https://example.com/callback")
                         .callbackUrlNotification("https://example.com/notify")
                         .language("fra")
@@ -80,6 +82,7 @@ internal class IndividualCreateParamsTest {
         assertThat(body.technicalData())
             .contains(
                 IndividualCreateParams.TechnicalData.builder()
+                    .activeAmlSuspicions(false)
                     .callbackUrl("https://example.com/callback")
                     .callbackUrlNotification("https://example.com/notify")
                     .language("fra")

@@ -46,7 +46,7 @@ class DataleonClientAsyncImpl(private val clientOptions: ClientOptions) : Datale
 
     override fun companies(): CompanyServiceAsync = companies
 
-    override fun close() = clientOptions.httpClient.close()
+    override fun close() = clientOptions.close()
 
     class WithRawResponseImpl internal constructor(private val clientOptions: ClientOptions) :
         DataleonClientAsync.WithRawResponse {
