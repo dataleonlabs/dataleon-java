@@ -12,7 +12,7 @@ import org.junit.jupiter.api.extension.ExtendWith
 @ExtendWith(TestServerExtension::class)
 internal class DocumentServiceTest {
 
-    @Disabled("skipped: tests are disabled for the time being")
+    @Disabled("Prism tests are disabled")
     @Test
     fun list() {
         val client =
@@ -27,7 +27,7 @@ internal class DocumentServiceTest {
         documentResponse.validate()
     }
 
-    @Disabled("skipped: tests are disabled for the time being")
+    @Disabled("Prism tests are disabled")
     @Test
     fun upload() {
         val client =
@@ -41,7 +41,7 @@ internal class DocumentServiceTest {
             documentService.upload(
                 DocumentUploadParams.builder()
                     .companyId("company_id")
-                    .documentType(DocumentUploadParams.DocumentType.BANK_STATEMENTS)
+                    .documentType(DocumentUploadParams.DocumentType.LIASSE_FISCALE)
                     .file("some content".byteInputStream())
                     .url("https://example.com/sample.pdf")
                     .build()

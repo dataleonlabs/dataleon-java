@@ -44,7 +44,7 @@ class DataleonClientImpl(private val clientOptions: ClientOptions) : DataleonCli
 
     override fun companies(): CompanyService = companies
 
-    override fun close() = clientOptions.httpClient.close()
+    override fun close() = clientOptions.close()
 
     class WithRawResponseImpl internal constructor(private val clientOptions: ClientOptions) :
         DataleonClient.WithRawResponse {
