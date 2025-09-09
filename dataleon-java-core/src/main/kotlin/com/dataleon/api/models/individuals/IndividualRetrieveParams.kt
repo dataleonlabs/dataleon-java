@@ -220,10 +220,16 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is IndividualRetrieveParams && individualId == other.individualId && document == other.document && scope == other.scope && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
+        return other is IndividualRetrieveParams &&
+            individualId == other.individualId &&
+            document == other.document &&
+            scope == other.scope &&
+            additionalHeaders == other.additionalHeaders &&
+            additionalQueryParams == other.additionalQueryParams
     }
 
-    override fun hashCode(): Int = /* spotless:off */ Objects.hash(individualId, document, scope, additionalHeaders, additionalQueryParams) /* spotless:on */
+    override fun hashCode(): Int =
+        Objects.hash(individualId, document, scope, additionalHeaders, additionalQueryParams)
 
     override fun toString() =
         "IndividualRetrieveParams{individualId=$individualId, document=$document, scope=$scope, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"

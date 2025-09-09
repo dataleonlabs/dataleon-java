@@ -615,12 +615,17 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is Body && workspaceId == other.workspaceId && person == other.person && sourceId == other.sourceId && technicalData == other.technicalData && additionalProperties == other.additionalProperties /* spotless:on */
+            return other is Body &&
+                workspaceId == other.workspaceId &&
+                person == other.person &&
+                sourceId == other.sourceId &&
+                technicalData == other.technicalData &&
+                additionalProperties == other.additionalProperties
         }
 
-        /* spotless:off */
-        private val hashCode: Int by lazy { Objects.hash(workspaceId, person, sourceId, technicalData, additionalProperties) }
-        /* spotless:on */
+        private val hashCode: Int by lazy {
+            Objects.hash(workspaceId, person, sourceId, technicalData, additionalProperties)
+        }
 
         override fun hashCode(): Int = hashCode
 
@@ -1108,7 +1113,7 @@ private constructor(
                     return true
                 }
 
-                return /* spotless:off */ other is Gender && value == other.value /* spotless:on */
+                return other is Gender && value == other.value
             }
 
             override fun hashCode() = value.hashCode()
@@ -1121,12 +1126,29 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is Person && birthday == other.birthday && email == other.email && firstName == other.firstName && gender == other.gender && lastName == other.lastName && maidenName == other.maidenName && phoneNumber == other.phoneNumber && additionalProperties == other.additionalProperties /* spotless:on */
+            return other is Person &&
+                birthday == other.birthday &&
+                email == other.email &&
+                firstName == other.firstName &&
+                gender == other.gender &&
+                lastName == other.lastName &&
+                maidenName == other.maidenName &&
+                phoneNumber == other.phoneNumber &&
+                additionalProperties == other.additionalProperties
         }
 
-        /* spotless:off */
-        private val hashCode: Int by lazy { Objects.hash(birthday, email, firstName, gender, lastName, maidenName, phoneNumber, additionalProperties) }
-        /* spotless:on */
+        private val hashCode: Int by lazy {
+            Objects.hash(
+                birthday,
+                email,
+                firstName,
+                gender,
+                lastName,
+                maidenName,
+                phoneNumber,
+                additionalProperties,
+            )
+        }
 
         override fun hashCode(): Int = hashCode
 
@@ -1137,6 +1159,7 @@ private constructor(
     /** Technical metadata related to the request or processing. */
     class TechnicalData
     private constructor(
+        private val activeAmlSuspicions: JsonField<Boolean>,
         private val callbackUrl: JsonField<String>,
         private val callbackUrlNotification: JsonField<String>,
         private val language: JsonField<String>,
@@ -1146,6 +1169,9 @@ private constructor(
 
         @JsonCreator
         private constructor(
+            @JsonProperty("active_aml_suspicions")
+            @ExcludeMissing
+            activeAmlSuspicions: JsonField<Boolean> = JsonMissing.of(),
             @JsonProperty("callback_url")
             @ExcludeMissing
             callbackUrl: JsonField<String> = JsonMissing.of(),
@@ -1156,7 +1182,24 @@ private constructor(
             @ExcludeMissing
             language: JsonField<String> = JsonMissing.of(),
             @JsonProperty("raw_data") @ExcludeMissing rawData: JsonField<Boolean> = JsonMissing.of(),
-        ) : this(callbackUrl, callbackUrlNotification, language, rawData, mutableMapOf())
+        ) : this(
+            activeAmlSuspicions,
+            callbackUrl,
+            callbackUrlNotification,
+            language,
+            rawData,
+            mutableMapOf(),
+        )
+
+        /**
+         * Flag indicating whether there are active research AML (Anti-Money Laundering) suspicions
+         * for the individual when you apply for a new entry or get an existing one.
+         *
+         * @throws DataleonInvalidDataException if the JSON field has an unexpected type (e.g. if
+         *   the server responded with an unexpected value).
+         */
+        fun activeAmlSuspicions(): Optional<Boolean> =
+            activeAmlSuspicions.getOptional("active_aml_suspicions")
 
         /**
          * URL to call back upon completion of processing.
@@ -1190,6 +1233,16 @@ private constructor(
          *   the server responded with an unexpected value).
          */
         fun rawData(): Optional<Boolean> = rawData.getOptional("raw_data")
+
+        /**
+         * Returns the raw JSON value of [activeAmlSuspicions].
+         *
+         * Unlike [activeAmlSuspicions], this method doesn't throw if the JSON field has an
+         * unexpected type.
+         */
+        @JsonProperty("active_aml_suspicions")
+        @ExcludeMissing
+        fun _activeAmlSuspicions(): JsonField<Boolean> = activeAmlSuspicions
 
         /**
          * Returns the raw JSON value of [callbackUrl].
@@ -1245,6 +1298,7 @@ private constructor(
         /** A builder for [TechnicalData]. */
         class Builder internal constructor() {
 
+            private var activeAmlSuspicions: JsonField<Boolean> = JsonMissing.of()
             private var callbackUrl: JsonField<String> = JsonMissing.of()
             private var callbackUrlNotification: JsonField<String> = JsonMissing.of()
             private var language: JsonField<String> = JsonMissing.of()
@@ -1253,11 +1307,30 @@ private constructor(
 
             @JvmSynthetic
             internal fun from(technicalData: TechnicalData) = apply {
+                activeAmlSuspicions = technicalData.activeAmlSuspicions
                 callbackUrl = technicalData.callbackUrl
                 callbackUrlNotification = technicalData.callbackUrlNotification
                 language = technicalData.language
                 rawData = technicalData.rawData
                 additionalProperties = technicalData.additionalProperties.toMutableMap()
+            }
+
+            /**
+             * Flag indicating whether there are active research AML (Anti-Money Laundering)
+             * suspicions for the individual when you apply for a new entry or get an existing one.
+             */
+            fun activeAmlSuspicions(activeAmlSuspicions: Boolean) =
+                activeAmlSuspicions(JsonField.of(activeAmlSuspicions))
+
+            /**
+             * Sets [Builder.activeAmlSuspicions] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.activeAmlSuspicions] with a well-typed [Boolean]
+             * value instead. This method is primarily for setting the field to an undocumented or
+             * not yet supported value.
+             */
+            fun activeAmlSuspicions(activeAmlSuspicions: JsonField<Boolean>) = apply {
+                this.activeAmlSuspicions = activeAmlSuspicions
             }
 
             /** URL to call back upon completion of processing. */
@@ -1339,6 +1412,7 @@ private constructor(
              */
             fun build(): TechnicalData =
                 TechnicalData(
+                    activeAmlSuspicions,
                     callbackUrl,
                     callbackUrlNotification,
                     language,
@@ -1354,6 +1428,7 @@ private constructor(
                 return@apply
             }
 
+            activeAmlSuspicions()
             callbackUrl()
             callbackUrlNotification()
             language()
@@ -1377,7 +1452,8 @@ private constructor(
          */
         @JvmSynthetic
         internal fun validity(): Int =
-            (if (callbackUrl.asKnown().isPresent) 1 else 0) +
+            (if (activeAmlSuspicions.asKnown().isPresent) 1 else 0) +
+                (if (callbackUrl.asKnown().isPresent) 1 else 0) +
                 (if (callbackUrlNotification.asKnown().isPresent) 1 else 0) +
                 (if (language.asKnown().isPresent) 1 else 0) +
                 (if (rawData.asKnown().isPresent) 1 else 0)
@@ -1387,17 +1463,30 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is TechnicalData && callbackUrl == other.callbackUrl && callbackUrlNotification == other.callbackUrlNotification && language == other.language && rawData == other.rawData && additionalProperties == other.additionalProperties /* spotless:on */
+            return other is TechnicalData &&
+                activeAmlSuspicions == other.activeAmlSuspicions &&
+                callbackUrl == other.callbackUrl &&
+                callbackUrlNotification == other.callbackUrlNotification &&
+                language == other.language &&
+                rawData == other.rawData &&
+                additionalProperties == other.additionalProperties
         }
 
-        /* spotless:off */
-        private val hashCode: Int by lazy { Objects.hash(callbackUrl, callbackUrlNotification, language, rawData, additionalProperties) }
-        /* spotless:on */
+        private val hashCode: Int by lazy {
+            Objects.hash(
+                activeAmlSuspicions,
+                callbackUrl,
+                callbackUrlNotification,
+                language,
+                rawData,
+                additionalProperties,
+            )
+        }
 
         override fun hashCode(): Int = hashCode
 
         override fun toString() =
-            "TechnicalData{callbackUrl=$callbackUrl, callbackUrlNotification=$callbackUrlNotification, language=$language, rawData=$rawData, additionalProperties=$additionalProperties}"
+            "TechnicalData{activeAmlSuspicions=$activeAmlSuspicions, callbackUrl=$callbackUrl, callbackUrlNotification=$callbackUrlNotification, language=$language, rawData=$rawData, additionalProperties=$additionalProperties}"
     }
 
     override fun equals(other: Any?): Boolean {
@@ -1405,10 +1494,15 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is IndividualUpdateParams && individualId == other.individualId && body == other.body && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
+        return other is IndividualUpdateParams &&
+            individualId == other.individualId &&
+            body == other.body &&
+            additionalHeaders == other.additionalHeaders &&
+            additionalQueryParams == other.additionalQueryParams
     }
 
-    override fun hashCode(): Int = /* spotless:off */ Objects.hash(individualId, body, additionalHeaders, additionalQueryParams) /* spotless:on */
+    override fun hashCode(): Int =
+        Objects.hash(individualId, body, additionalHeaders, additionalQueryParams)
 
     override fun toString() =
         "IndividualUpdateParams{individualId=$individualId, body=$body, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"

@@ -922,11 +922,13 @@ private constructor(
     class AmlSuspicion
     private constructor(
         private val caption: JsonField<String>,
-        private val checked: JsonField<Boolean>,
+        private val country: JsonField<String>,
+        private val gender: JsonField<String>,
         private val relation: JsonField<String>,
         private val schema: JsonField<String>,
         private val score: JsonField<Float>,
         private val source: JsonField<String>,
+        private val status: JsonField<Status>,
         private val type: JsonField<Type>,
         private val additionalProperties: MutableMap<String, JsonValue>,
     ) {
@@ -934,15 +936,28 @@ private constructor(
         @JsonCreator
         private constructor(
             @JsonProperty("caption") @ExcludeMissing caption: JsonField<String> = JsonMissing.of(),
-            @JsonProperty("checked") @ExcludeMissing checked: JsonField<Boolean> = JsonMissing.of(),
+            @JsonProperty("country") @ExcludeMissing country: JsonField<String> = JsonMissing.of(),
+            @JsonProperty("gender") @ExcludeMissing gender: JsonField<String> = JsonMissing.of(),
             @JsonProperty("relation")
             @ExcludeMissing
             relation: JsonField<String> = JsonMissing.of(),
             @JsonProperty("schema") @ExcludeMissing schema: JsonField<String> = JsonMissing.of(),
             @JsonProperty("score") @ExcludeMissing score: JsonField<Float> = JsonMissing.of(),
             @JsonProperty("source") @ExcludeMissing source: JsonField<String> = JsonMissing.of(),
+            @JsonProperty("status") @ExcludeMissing status: JsonField<Status> = JsonMissing.of(),
             @JsonProperty("type") @ExcludeMissing type: JsonField<Type> = JsonMissing.of(),
-        ) : this(caption, checked, relation, schema, score, source, type, mutableMapOf())
+        ) : this(
+            caption,
+            country,
+            gender,
+            relation,
+            schema,
+            score,
+            source,
+            status,
+            type,
+            mutableMapOf(),
+        )
 
         /**
          * Human-readable description or title for the suspicious finding.
@@ -953,12 +968,20 @@ private constructor(
         fun caption(): Optional<String> = caption.getOptional("caption")
 
         /**
-         * Indicates whether this suspicion has been manually reviewed or confirmed.
+         * Country associated with the suspicion (ISO 3166-1 alpha-2 code).
          *
          * @throws DataleonInvalidDataException if the JSON field has an unexpected type (e.g. if
          *   the server responded with an unexpected value).
          */
-        fun checked(): Optional<Boolean> = checked.getOptional("checked")
+        fun country(): Optional<String> = country.getOptional("country")
+
+        /**
+         * Gender associated with the suspicion, if applicable.
+         *
+         * @throws DataleonInvalidDataException if the JSON field has an unexpected type (e.g. if
+         *   the server responded with an unexpected value).
+         */
+        fun gender(): Optional<String> = gender.getOptional("gender")
 
         /**
          * Nature of the relationship between the entity and the suspicious activity (e.g.,
@@ -978,7 +1001,7 @@ private constructor(
         fun schema(): Optional<String> = schema.getOptional("schema")
 
         /**
-         * Risk score between 0.0 and 1.0 indicating the severity of the suspicion.
+         * Risk score between 0.0 and 1 indicating the severity of the suspicion.
          *
          * @throws DataleonInvalidDataException if the JSON field has an unexpected type (e.g. if
          *   the server responded with an unexpected value).
@@ -986,7 +1009,7 @@ private constructor(
         fun score(): Optional<Float> = score.getOptional("score")
 
         /**
-         * URL identifying the source system or service providing this suspicion.
+         * Source system or service providing this suspicion.
          *
          * @throws DataleonInvalidDataException if the JSON field has an unexpected type (e.g. if
          *   the server responded with an unexpected value).
@@ -994,8 +1017,17 @@ private constructor(
         fun source(): Optional<String> = source.getOptional("source")
 
         /**
-         * Watchlist category associated with the suspicion. Possible values include Watchlist types
-         * like "PEP", "Sanctions", "RiskyEntity", or "Crime".
+         * Status of the suspicion review process. Possible values: "true_positive",
+         * "false_positive", "pending".
+         *
+         * @throws DataleonInvalidDataException if the JSON field has an unexpected type (e.g. if
+         *   the server responded with an unexpected value).
+         */
+        fun status(): Optional<Status> = status.getOptional("status")
+
+        /**
+         * Category of the suspicion. Possible values: "crime", "sanction", "pep", "adverse_news",
+         * "other".
          *
          * @throws DataleonInvalidDataException if the JSON field has an unexpected type (e.g. if
          *   the server responded with an unexpected value).
@@ -1010,11 +1042,18 @@ private constructor(
         @JsonProperty("caption") @ExcludeMissing fun _caption(): JsonField<String> = caption
 
         /**
-         * Returns the raw JSON value of [checked].
+         * Returns the raw JSON value of [country].
          *
-         * Unlike [checked], this method doesn't throw if the JSON field has an unexpected type.
+         * Unlike [country], this method doesn't throw if the JSON field has an unexpected type.
          */
-        @JsonProperty("checked") @ExcludeMissing fun _checked(): JsonField<Boolean> = checked
+        @JsonProperty("country") @ExcludeMissing fun _country(): JsonField<String> = country
+
+        /**
+         * Returns the raw JSON value of [gender].
+         *
+         * Unlike [gender], this method doesn't throw if the JSON field has an unexpected type.
+         */
+        @JsonProperty("gender") @ExcludeMissing fun _gender(): JsonField<String> = gender
 
         /**
          * Returns the raw JSON value of [relation].
@@ -1045,6 +1084,13 @@ private constructor(
         @JsonProperty("source") @ExcludeMissing fun _source(): JsonField<String> = source
 
         /**
+         * Returns the raw JSON value of [status].
+         *
+         * Unlike [status], this method doesn't throw if the JSON field has an unexpected type.
+         */
+        @JsonProperty("status") @ExcludeMissing fun _status(): JsonField<Status> = status
+
+        /**
          * Returns the raw JSON value of [type].
          *
          * Unlike [type], this method doesn't throw if the JSON field has an unexpected type.
@@ -1073,22 +1119,26 @@ private constructor(
         class Builder internal constructor() {
 
             private var caption: JsonField<String> = JsonMissing.of()
-            private var checked: JsonField<Boolean> = JsonMissing.of()
+            private var country: JsonField<String> = JsonMissing.of()
+            private var gender: JsonField<String> = JsonMissing.of()
             private var relation: JsonField<String> = JsonMissing.of()
             private var schema: JsonField<String> = JsonMissing.of()
             private var score: JsonField<Float> = JsonMissing.of()
             private var source: JsonField<String> = JsonMissing.of()
+            private var status: JsonField<Status> = JsonMissing.of()
             private var type: JsonField<Type> = JsonMissing.of()
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
             @JvmSynthetic
             internal fun from(amlSuspicion: AmlSuspicion) = apply {
                 caption = amlSuspicion.caption
-                checked = amlSuspicion.checked
+                country = amlSuspicion.country
+                gender = amlSuspicion.gender
                 relation = amlSuspicion.relation
                 schema = amlSuspicion.schema
                 score = amlSuspicion.score
                 source = amlSuspicion.source
+                status = amlSuspicion.status
                 type = amlSuspicion.type
                 additionalProperties = amlSuspicion.additionalProperties.toMutableMap()
             }
@@ -1105,17 +1155,29 @@ private constructor(
              */
             fun caption(caption: JsonField<String>) = apply { this.caption = caption }
 
-            /** Indicates whether this suspicion has been manually reviewed or confirmed. */
-            fun checked(checked: Boolean) = checked(JsonField.of(checked))
+            /** Country associated with the suspicion (ISO 3166-1 alpha-2 code). */
+            fun country(country: String) = country(JsonField.of(country))
 
             /**
-             * Sets [Builder.checked] to an arbitrary JSON value.
+             * Sets [Builder.country] to an arbitrary JSON value.
              *
-             * You should usually call [Builder.checked] with a well-typed [Boolean] value instead.
+             * You should usually call [Builder.country] with a well-typed [String] value instead.
              * This method is primarily for setting the field to an undocumented or not yet
              * supported value.
              */
-            fun checked(checked: JsonField<Boolean>) = apply { this.checked = checked }
+            fun country(country: JsonField<String>) = apply { this.country = country }
+
+            /** Gender associated with the suspicion, if applicable. */
+            fun gender(gender: String) = gender(JsonField.of(gender))
+
+            /**
+             * Sets [Builder.gender] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.gender] with a well-typed [String] value instead.
+             * This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
+            fun gender(gender: JsonField<String>) = apply { this.gender = gender }
 
             /**
              * Nature of the relationship between the entity and the suspicious activity (e.g.,
@@ -1144,7 +1206,7 @@ private constructor(
              */
             fun schema(schema: JsonField<String>) = apply { this.schema = schema }
 
-            /** Risk score between 0.0 and 1.0 indicating the severity of the suspicion. */
+            /** Risk score between 0.0 and 1 indicating the severity of the suspicion. */
             fun score(score: Float) = score(JsonField.of(score))
 
             /**
@@ -1156,7 +1218,7 @@ private constructor(
              */
             fun score(score: JsonField<Float>) = apply { this.score = score }
 
-            /** URL identifying the source system or service providing this suspicion. */
+            /** Source system or service providing this suspicion. */
             fun source(source: String) = source(JsonField.of(source))
 
             /**
@@ -1169,8 +1231,23 @@ private constructor(
             fun source(source: JsonField<String>) = apply { this.source = source }
 
             /**
-             * Watchlist category associated with the suspicion. Possible values include Watchlist
-             * types like "PEP", "Sanctions", "RiskyEntity", or "Crime".
+             * Status of the suspicion review process. Possible values: "true_positive",
+             * "false_positive", "pending".
+             */
+            fun status(status: Status) = status(JsonField.of(status))
+
+            /**
+             * Sets [Builder.status] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.status] with a well-typed [Status] value instead.
+             * This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
+            fun status(status: JsonField<Status>) = apply { this.status = status }
+
+            /**
+             * Category of the suspicion. Possible values: "crime", "sanction", "pep",
+             * "adverse_news", "other".
              */
             fun type(type: Type) = type(JsonField.of(type))
 
@@ -1210,11 +1287,13 @@ private constructor(
             fun build(): AmlSuspicion =
                 AmlSuspicion(
                     caption,
-                    checked,
+                    country,
+                    gender,
                     relation,
                     schema,
                     score,
                     source,
+                    status,
                     type,
                     additionalProperties.toMutableMap(),
                 )
@@ -1228,11 +1307,13 @@ private constructor(
             }
 
             caption()
-            checked()
+            country()
+            gender()
             relation()
             schema()
             score()
             source()
+            status().ifPresent { it.validate() }
             type().ifPresent { it.validate() }
             validated = true
         }
@@ -1254,16 +1335,157 @@ private constructor(
         @JvmSynthetic
         internal fun validity(): Int =
             (if (caption.asKnown().isPresent) 1 else 0) +
-                (if (checked.asKnown().isPresent) 1 else 0) +
+                (if (country.asKnown().isPresent) 1 else 0) +
+                (if (gender.asKnown().isPresent) 1 else 0) +
                 (if (relation.asKnown().isPresent) 1 else 0) +
                 (if (schema.asKnown().isPresent) 1 else 0) +
                 (if (score.asKnown().isPresent) 1 else 0) +
                 (if (source.asKnown().isPresent) 1 else 0) +
+                (status.asKnown().getOrNull()?.validity() ?: 0) +
                 (type.asKnown().getOrNull()?.validity() ?: 0)
 
         /**
-         * Watchlist category associated with the suspicion. Possible values include Watchlist types
-         * like "PEP", "Sanctions", "RiskyEntity", or "Crime".
+         * Status of the suspicion review process. Possible values: "true_positive",
+         * "false_positive", "pending".
+         */
+        class Status @JsonCreator private constructor(private val value: JsonField<String>) : Enum {
+
+            /**
+             * Returns this class instance's raw value.
+             *
+             * This is usually only useful if this instance was deserialized from data that doesn't
+             * match any known member, and you want to know that value. For example, if the SDK is
+             * on an older version than the API, then the API may respond with new members that the
+             * SDK is unaware of.
+             */
+            @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
+
+            companion object {
+
+                @JvmField val TRUE_POSITIVE = of("true_positive")
+
+                @JvmField val FALSE_POSITIVE = of("false_positive")
+
+                @JvmField val PENDING = of("pending")
+
+                @JvmStatic fun of(value: String) = Status(JsonField.of(value))
+            }
+
+            /** An enum containing [Status]'s known values. */
+            enum class Known {
+                TRUE_POSITIVE,
+                FALSE_POSITIVE,
+                PENDING,
+            }
+
+            /**
+             * An enum containing [Status]'s known values, as well as an [_UNKNOWN] member.
+             *
+             * An instance of [Status] can contain an unknown value in a couple of cases:
+             * - It was deserialized from data that doesn't match any known member. For example, if
+             *   the SDK is on an older version than the API, then the API may respond with new
+             *   members that the SDK is unaware of.
+             * - It was constructed with an arbitrary value using the [of] method.
+             */
+            enum class Value {
+                TRUE_POSITIVE,
+                FALSE_POSITIVE,
+                PENDING,
+                /**
+                 * An enum member indicating that [Status] was instantiated with an unknown value.
+                 */
+                _UNKNOWN,
+            }
+
+            /**
+             * Returns an enum member corresponding to this class instance's value, or
+             * [Value._UNKNOWN] if the class was instantiated with an unknown value.
+             *
+             * Use the [known] method instead if you're certain the value is always known or if you
+             * want to throw for the unknown case.
+             */
+            fun value(): Value =
+                when (this) {
+                    TRUE_POSITIVE -> Value.TRUE_POSITIVE
+                    FALSE_POSITIVE -> Value.FALSE_POSITIVE
+                    PENDING -> Value.PENDING
+                    else -> Value._UNKNOWN
+                }
+
+            /**
+             * Returns an enum member corresponding to this class instance's value.
+             *
+             * Use the [value] method instead if you're uncertain the value is always known and
+             * don't want to throw for the unknown case.
+             *
+             * @throws DataleonInvalidDataException if this class instance's value is a not a known
+             *   member.
+             */
+            fun known(): Known =
+                when (this) {
+                    TRUE_POSITIVE -> Known.TRUE_POSITIVE
+                    FALSE_POSITIVE -> Known.FALSE_POSITIVE
+                    PENDING -> Known.PENDING
+                    else -> throw DataleonInvalidDataException("Unknown Status: $value")
+                }
+
+            /**
+             * Returns this class instance's primitive wire representation.
+             *
+             * This differs from the [toString] method because that method is primarily for
+             * debugging and generally doesn't throw.
+             *
+             * @throws DataleonInvalidDataException if this class instance's value does not have the
+             *   expected primitive type.
+             */
+            fun asString(): String =
+                _value().asString().orElseThrow {
+                    DataleonInvalidDataException("Value is not a String")
+                }
+
+            private var validated: Boolean = false
+
+            fun validate(): Status = apply {
+                if (validated) {
+                    return@apply
+                }
+
+                known()
+                validated = true
+            }
+
+            fun isValid(): Boolean =
+                try {
+                    validate()
+                    true
+                } catch (e: DataleonInvalidDataException) {
+                    false
+                }
+
+            /**
+             * Returns a score indicating how many valid values are contained in this object
+             * recursively.
+             *
+             * Used for best match union deserialization.
+             */
+            @JvmSynthetic internal fun validity(): Int = if (value() == Value._UNKNOWN) 0 else 1
+
+            override fun equals(other: Any?): Boolean {
+                if (this === other) {
+                    return true
+                }
+
+                return other is Status && value == other.value
+            }
+
+            override fun hashCode() = value.hashCode()
+
+            override fun toString() = value.toString()
+        }
+
+        /**
+         * Category of the suspicion. Possible values: "crime", "sanction", "pep", "adverse_news",
+         * "other".
          */
         class Type @JsonCreator private constructor(private val value: JsonField<String>) : Enum {
 
@@ -1279,26 +1501,26 @@ private constructor(
 
             companion object {
 
-                @JvmField val WATCHLIST = of("Watchlist")
+                @JvmField val CRIME = of("crime")
 
-                @JvmField val PEP = of("PEP")
+                @JvmField val SANCTION = of("sanction")
 
-                @JvmField val SANCTIONS = of("Sanctions")
+                @JvmField val PEP = of("pep")
 
-                @JvmField val RISKY_ENTITY = of("RiskyEntity")
+                @JvmField val ADVERSE_NEWS = of("adverse_news")
 
-                @JvmField val CRIME = of("Crime")
+                @JvmField val OTHER = of("other")
 
                 @JvmStatic fun of(value: String) = Type(JsonField.of(value))
             }
 
             /** An enum containing [Type]'s known values. */
             enum class Known {
-                WATCHLIST,
-                PEP,
-                SANCTIONS,
-                RISKY_ENTITY,
                 CRIME,
+                SANCTION,
+                PEP,
+                ADVERSE_NEWS,
+                OTHER,
             }
 
             /**
@@ -1311,11 +1533,11 @@ private constructor(
              * - It was constructed with an arbitrary value using the [of] method.
              */
             enum class Value {
-                WATCHLIST,
-                PEP,
-                SANCTIONS,
-                RISKY_ENTITY,
                 CRIME,
+                SANCTION,
+                PEP,
+                ADVERSE_NEWS,
+                OTHER,
                 /** An enum member indicating that [Type] was instantiated with an unknown value. */
                 _UNKNOWN,
             }
@@ -1329,11 +1551,11 @@ private constructor(
              */
             fun value(): Value =
                 when (this) {
-                    WATCHLIST -> Value.WATCHLIST
-                    PEP -> Value.PEP
-                    SANCTIONS -> Value.SANCTIONS
-                    RISKY_ENTITY -> Value.RISKY_ENTITY
                     CRIME -> Value.CRIME
+                    SANCTION -> Value.SANCTION
+                    PEP -> Value.PEP
+                    ADVERSE_NEWS -> Value.ADVERSE_NEWS
+                    OTHER -> Value.OTHER
                     else -> Value._UNKNOWN
                 }
 
@@ -1348,11 +1570,11 @@ private constructor(
              */
             fun known(): Known =
                 when (this) {
-                    WATCHLIST -> Known.WATCHLIST
-                    PEP -> Known.PEP
-                    SANCTIONS -> Known.SANCTIONS
-                    RISKY_ENTITY -> Known.RISKY_ENTITY
                     CRIME -> Known.CRIME
+                    SANCTION -> Known.SANCTION
+                    PEP -> Known.PEP
+                    ADVERSE_NEWS -> Known.ADVERSE_NEWS
+                    OTHER -> Known.OTHER
                     else -> throw DataleonInvalidDataException("Unknown Type: $value")
                 }
 
@@ -1402,7 +1624,7 @@ private constructor(
                     return true
                 }
 
-                return /* spotless:off */ other is Type && value == other.value /* spotless:on */
+                return other is Type && value == other.value
             }
 
             override fun hashCode() = value.hashCode()
@@ -1415,17 +1637,38 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is AmlSuspicion && caption == other.caption && checked == other.checked && relation == other.relation && schema == other.schema && score == other.score && source == other.source && type == other.type && additionalProperties == other.additionalProperties /* spotless:on */
+            return other is AmlSuspicion &&
+                caption == other.caption &&
+                country == other.country &&
+                gender == other.gender &&
+                relation == other.relation &&
+                schema == other.schema &&
+                score == other.score &&
+                source == other.source &&
+                status == other.status &&
+                type == other.type &&
+                additionalProperties == other.additionalProperties
         }
 
-        /* spotless:off */
-        private val hashCode: Int by lazy { Objects.hash(caption, checked, relation, schema, score, source, type, additionalProperties) }
-        /* spotless:on */
+        private val hashCode: Int by lazy {
+            Objects.hash(
+                caption,
+                country,
+                gender,
+                relation,
+                schema,
+                score,
+                source,
+                status,
+                type,
+                additionalProperties,
+            )
+        }
 
         override fun hashCode(): Int = hashCode
 
         override fun toString() =
-            "AmlSuspicion{caption=$caption, checked=$checked, relation=$relation, schema=$schema, score=$score, source=$source, type=$type, additionalProperties=$additionalProperties}"
+            "AmlSuspicion{caption=$caption, country=$country, gender=$gender, relation=$relation, schema=$schema, score=$score, source=$source, status=$status, type=$type, additionalProperties=$additionalProperties}"
     }
 
     /** Digital certificate associated with the individual, if any. */
@@ -1631,12 +1874,16 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is Certificat && id == other.id && createdAt == other.createdAt && filename == other.filename && additionalProperties == other.additionalProperties /* spotless:on */
+            return other is Certificat &&
+                id == other.id &&
+                createdAt == other.createdAt &&
+                filename == other.filename &&
+                additionalProperties == other.additionalProperties
         }
 
-        /* spotless:off */
-        private val hashCode: Int by lazy { Objects.hash(id, createdAt, filename, additionalProperties) }
-        /* spotless:on */
+        private val hashCode: Int by lazy {
+            Objects.hash(id, createdAt, filename, additionalProperties)
+        }
 
         override fun hashCode(): Int = hashCode
 
@@ -2318,12 +2565,45 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is IdentityCard && id == other.id && backDocumentSignedUrl == other.backDocumentSignedUrl && birthPlace == other.birthPlace && birthday == other.birthday && country == other.country && expirationDate == other.expirationDate && firstName == other.firstName && frontDocumentSignedUrl == other.frontDocumentSignedUrl && gender == other.gender && issueDate == other.issueDate && lastName == other.lastName && mrzLine1 == other.mrzLine1 && mrzLine2 == other.mrzLine2 && mrzLine3 == other.mrzLine3 && type == other.type && additionalProperties == other.additionalProperties /* spotless:on */
+            return other is IdentityCard &&
+                id == other.id &&
+                backDocumentSignedUrl == other.backDocumentSignedUrl &&
+                birthPlace == other.birthPlace &&
+                birthday == other.birthday &&
+                country == other.country &&
+                expirationDate == other.expirationDate &&
+                firstName == other.firstName &&
+                frontDocumentSignedUrl == other.frontDocumentSignedUrl &&
+                gender == other.gender &&
+                issueDate == other.issueDate &&
+                lastName == other.lastName &&
+                mrzLine1 == other.mrzLine1 &&
+                mrzLine2 == other.mrzLine2 &&
+                mrzLine3 == other.mrzLine3 &&
+                type == other.type &&
+                additionalProperties == other.additionalProperties
         }
 
-        /* spotless:off */
-        private val hashCode: Int by lazy { Objects.hash(id, backDocumentSignedUrl, birthPlace, birthday, country, expirationDate, firstName, frontDocumentSignedUrl, gender, issueDate, lastName, mrzLine1, mrzLine2, mrzLine3, type, additionalProperties) }
-        /* spotless:on */
+        private val hashCode: Int by lazy {
+            Objects.hash(
+                id,
+                backDocumentSignedUrl,
+                birthPlace,
+                birthday,
+                country,
+                expirationDate,
+                firstName,
+                frontDocumentSignedUrl,
+                gender,
+                issueDate,
+                lastName,
+                mrzLine1,
+                mrzLine2,
+                mrzLine3,
+                type,
+                additionalProperties,
+            )
+        }
 
         override fun hashCode(): Int = hashCode
 
@@ -2775,12 +3055,33 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is Person && birthday == other.birthday && email == other.email && faceImageSignedUrl == other.faceImageSignedUrl && firstName == other.firstName && fullName == other.fullName && gender == other.gender && lastName == other.lastName && maidenName == other.maidenName && phoneNumber == other.phoneNumber && additionalProperties == other.additionalProperties /* spotless:on */
+            return other is Person &&
+                birthday == other.birthday &&
+                email == other.email &&
+                faceImageSignedUrl == other.faceImageSignedUrl &&
+                firstName == other.firstName &&
+                fullName == other.fullName &&
+                gender == other.gender &&
+                lastName == other.lastName &&
+                maidenName == other.maidenName &&
+                phoneNumber == other.phoneNumber &&
+                additionalProperties == other.additionalProperties
         }
 
-        /* spotless:off */
-        private val hashCode: Int by lazy { Objects.hash(birthday, email, faceImageSignedUrl, firstName, fullName, gender, lastName, maidenName, phoneNumber, additionalProperties) }
-        /* spotless:on */
+        private val hashCode: Int by lazy {
+            Objects.hash(
+                birthday,
+                email,
+                faceImageSignedUrl,
+                firstName,
+                fullName,
+                gender,
+                lastName,
+                maidenName,
+                phoneNumber,
+                additionalProperties,
+            )
+        }
 
         override fun hashCode(): Int = hashCode
 
@@ -2984,12 +3285,14 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is Property && name == other.name && type == other.type && value == other.value && additionalProperties == other.additionalProperties /* spotless:on */
+            return other is Property &&
+                name == other.name &&
+                type == other.type &&
+                value == other.value &&
+                additionalProperties == other.additionalProperties
         }
 
-        /* spotless:off */
         private val hashCode: Int by lazy { Objects.hash(name, type, value, additionalProperties) }
-        /* spotless:on */
 
         override fun hashCode(): Int = hashCode
 
@@ -3193,12 +3496,16 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is Risk && code == other.code && reason == other.reason && score == other.score && additionalProperties == other.additionalProperties /* spotless:on */
+            return other is Risk &&
+                code == other.code &&
+                reason == other.reason &&
+                score == other.score &&
+                additionalProperties == other.additionalProperties
         }
 
-        /* spotless:off */
-        private val hashCode: Int by lazy { Objects.hash(code, reason, score, additionalProperties) }
-        /* spotless:on */
+        private val hashCode: Int by lazy {
+            Objects.hash(code, reason, score, additionalProperties)
+        }
 
         override fun hashCode(): Int = hashCode
 
@@ -3440,12 +3747,17 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is Tag && key == other.key && private_ == other.private_ && type == other.type && value == other.value && additionalProperties == other.additionalProperties /* spotless:on */
+            return other is Tag &&
+                key == other.key &&
+                private_ == other.private_ &&
+                type == other.type &&
+                value == other.value &&
+                additionalProperties == other.additionalProperties
         }
 
-        /* spotless:off */
-        private val hashCode: Int by lazy { Objects.hash(key, private_, type, value, additionalProperties) }
-        /* spotless:on */
+        private val hashCode: Int by lazy {
+            Objects.hash(key, private_, type, value, additionalProperties)
+        }
 
         override fun hashCode(): Int = hashCode
 
@@ -3456,6 +3768,7 @@ private constructor(
     /** Technical metadata related to the request (e.g., QR code settings, language). */
     class TechnicalData
     private constructor(
+        private val activeAmlSuspicions: JsonField<Boolean>,
         private val apiVersion: JsonField<Long>,
         private val approvedAt: JsonField<OffsetDateTime>,
         private val callbackUrl: JsonField<String>,
@@ -3472,6 +3785,7 @@ private constructor(
         private val qrCode: JsonField<String>,
         private val rawData: JsonField<Boolean>,
         private val rejectedAt: JsonField<OffsetDateTime>,
+        private val sessionDuration: JsonField<Long>,
         private val startedAt: JsonField<OffsetDateTime>,
         private val transferAt: JsonField<OffsetDateTime>,
         private val transferMode: JsonField<String>,
@@ -3480,6 +3794,9 @@ private constructor(
 
         @JsonCreator
         private constructor(
+            @JsonProperty("active_aml_suspicions")
+            @ExcludeMissing
+            activeAmlSuspicions: JsonField<Boolean> = JsonMissing.of(),
             @JsonProperty("api_version")
             @ExcludeMissing
             apiVersion: JsonField<Long> = JsonMissing.of(),
@@ -3524,6 +3841,9 @@ private constructor(
             @JsonProperty("rejected_at")
             @ExcludeMissing
             rejectedAt: JsonField<OffsetDateTime> = JsonMissing.of(),
+            @JsonProperty("session_duration")
+            @ExcludeMissing
+            sessionDuration: JsonField<Long> = JsonMissing.of(),
             @JsonProperty("started_at")
             @ExcludeMissing
             startedAt: JsonField<OffsetDateTime> = JsonMissing.of(),
@@ -3534,6 +3854,7 @@ private constructor(
             @ExcludeMissing
             transferMode: JsonField<String> = JsonMissing.of(),
         ) : this(
+            activeAmlSuspicions,
             apiVersion,
             approvedAt,
             callbackUrl,
@@ -3550,11 +3871,22 @@ private constructor(
             qrCode,
             rawData,
             rejectedAt,
+            sessionDuration,
             startedAt,
             transferAt,
             transferMode,
             mutableMapOf(),
         )
+
+        /**
+         * Flag indicating whether there are active research AML (Anti-Money Laundering) suspicions
+         * for the object when you apply for a new entry or get an existing one.
+         *
+         * @throws DataleonInvalidDataException if the JSON field has an unexpected type (e.g. if
+         *   the server responded with an unexpected value).
+         */
+        fun activeAmlSuspicions(): Optional<Boolean> =
+            activeAmlSuspicions.getOptional("active_aml_suspicions")
 
         /**
          * Version number of the API used.
@@ -3689,6 +4021,14 @@ private constructor(
         fun rejectedAt(): Optional<OffsetDateTime> = rejectedAt.getOptional("rejected_at")
 
         /**
+         * Duration of the user session in seconds.
+         *
+         * @throws DataleonInvalidDataException if the JSON field has an unexpected type (e.g. if
+         *   the server responded with an unexpected value).
+         */
+        fun sessionDuration(): Optional<Long> = sessionDuration.getOptional("session_duration")
+
+        /**
          * Timestamp when the process started.
          *
          * @throws DataleonInvalidDataException if the JSON field has an unexpected type (e.g. if
@@ -3711,6 +4051,16 @@ private constructor(
          *   the server responded with an unexpected value).
          */
         fun transferMode(): Optional<String> = transferMode.getOptional("transfer_mode")
+
+        /**
+         * Returns the raw JSON value of [activeAmlSuspicions].
+         *
+         * Unlike [activeAmlSuspicions], this method doesn't throw if the JSON field has an
+         * unexpected type.
+         */
+        @JsonProperty("active_aml_suspicions")
+        @ExcludeMissing
+        fun _activeAmlSuspicions(): JsonField<Boolean> = activeAmlSuspicions
 
         /**
          * Returns the raw JSON value of [apiVersion].
@@ -3852,6 +4202,16 @@ private constructor(
         fun _rejectedAt(): JsonField<OffsetDateTime> = rejectedAt
 
         /**
+         * Returns the raw JSON value of [sessionDuration].
+         *
+         * Unlike [sessionDuration], this method doesn't throw if the JSON field has an unexpected
+         * type.
+         */
+        @JsonProperty("session_duration")
+        @ExcludeMissing
+        fun _sessionDuration(): JsonField<Long> = sessionDuration
+
+        /**
          * Returns the raw JSON value of [startedAt].
          *
          * Unlike [startedAt], this method doesn't throw if the JSON field has an unexpected type.
@@ -3900,6 +4260,7 @@ private constructor(
         /** A builder for [TechnicalData]. */
         class Builder internal constructor() {
 
+            private var activeAmlSuspicions: JsonField<Boolean> = JsonMissing.of()
             private var apiVersion: JsonField<Long> = JsonMissing.of()
             private var approvedAt: JsonField<OffsetDateTime> = JsonMissing.of()
             private var callbackUrl: JsonField<String> = JsonMissing.of()
@@ -3916,6 +4277,7 @@ private constructor(
             private var qrCode: JsonField<String> = JsonMissing.of()
             private var rawData: JsonField<Boolean> = JsonMissing.of()
             private var rejectedAt: JsonField<OffsetDateTime> = JsonMissing.of()
+            private var sessionDuration: JsonField<Long> = JsonMissing.of()
             private var startedAt: JsonField<OffsetDateTime> = JsonMissing.of()
             private var transferAt: JsonField<OffsetDateTime> = JsonMissing.of()
             private var transferMode: JsonField<String> = JsonMissing.of()
@@ -3923,6 +4285,7 @@ private constructor(
 
             @JvmSynthetic
             internal fun from(technicalData: TechnicalData) = apply {
+                activeAmlSuspicions = technicalData.activeAmlSuspicions
                 apiVersion = technicalData.apiVersion
                 approvedAt = technicalData.approvedAt
                 callbackUrl = technicalData.callbackUrl
@@ -3939,10 +4302,29 @@ private constructor(
                 qrCode = technicalData.qrCode
                 rawData = technicalData.rawData
                 rejectedAt = technicalData.rejectedAt
+                sessionDuration = technicalData.sessionDuration
                 startedAt = technicalData.startedAt
                 transferAt = technicalData.transferAt
                 transferMode = technicalData.transferMode
                 additionalProperties = technicalData.additionalProperties.toMutableMap()
+            }
+
+            /**
+             * Flag indicating whether there are active research AML (Anti-Money Laundering)
+             * suspicions for the object when you apply for a new entry or get an existing one.
+             */
+            fun activeAmlSuspicions(activeAmlSuspicions: Boolean) =
+                activeAmlSuspicions(JsonField.of(activeAmlSuspicions))
+
+            /**
+             * Sets [Builder.activeAmlSuspicions] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.activeAmlSuspicions] with a well-typed [Boolean]
+             * value instead. This method is primarily for setting the field to an undocumented or
+             * not yet supported value.
+             */
+            fun activeAmlSuspicions(activeAmlSuspicions: JsonField<Boolean>) = apply {
+                this.activeAmlSuspicions = activeAmlSuspicions
             }
 
             /** Version number of the API used. */
@@ -4177,6 +4559,21 @@ private constructor(
                 this.rejectedAt = rejectedAt
             }
 
+            /** Duration of the user session in seconds. */
+            fun sessionDuration(sessionDuration: Long) =
+                sessionDuration(JsonField.of(sessionDuration))
+
+            /**
+             * Sets [Builder.sessionDuration] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.sessionDuration] with a well-typed [Long] value
+             * instead. This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
+            fun sessionDuration(sessionDuration: JsonField<Long>) = apply {
+                this.sessionDuration = sessionDuration
+            }
+
             /** Timestamp when the process started. */
             fun startedAt(startedAt: OffsetDateTime) = startedAt(JsonField.of(startedAt))
 
@@ -4245,6 +4642,7 @@ private constructor(
              */
             fun build(): TechnicalData =
                 TechnicalData(
+                    activeAmlSuspicions,
                     apiVersion,
                     approvedAt,
                     callbackUrl,
@@ -4261,6 +4659,7 @@ private constructor(
                     qrCode,
                     rawData,
                     rejectedAt,
+                    sessionDuration,
                     startedAt,
                     transferAt,
                     transferMode,
@@ -4275,6 +4674,7 @@ private constructor(
                 return@apply
             }
 
+            activeAmlSuspicions()
             apiVersion()
             approvedAt()
             callbackUrl()
@@ -4291,6 +4691,7 @@ private constructor(
             qrCode()
             rawData()
             rejectedAt()
+            sessionDuration()
             startedAt()
             transferAt()
             transferMode()
@@ -4313,7 +4714,8 @@ private constructor(
          */
         @JvmSynthetic
         internal fun validity(): Int =
-            (if (apiVersion.asKnown().isPresent) 1 else 0) +
+            (if (activeAmlSuspicions.asKnown().isPresent) 1 else 0) +
+                (if (apiVersion.asKnown().isPresent) 1 else 0) +
                 (if (approvedAt.asKnown().isPresent) 1 else 0) +
                 (if (callbackUrl.asKnown().isPresent) 1 else 0) +
                 (if (callbackUrlNotification.asKnown().isPresent) 1 else 0) +
@@ -4329,6 +4731,7 @@ private constructor(
                 (if (qrCode.asKnown().isPresent) 1 else 0) +
                 (if (rawData.asKnown().isPresent) 1 else 0) +
                 (if (rejectedAt.asKnown().isPresent) 1 else 0) +
+                (if (sessionDuration.asKnown().isPresent) 1 else 0) +
                 (if (startedAt.asKnown().isPresent) 1 else 0) +
                 (if (transferAt.asKnown().isPresent) 1 else 0) +
                 (if (transferMode.asKnown().isPresent) 1 else 0)
@@ -4338,17 +4741,62 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is TechnicalData && apiVersion == other.apiVersion && approvedAt == other.approvedAt && callbackUrl == other.callbackUrl && callbackUrlNotification == other.callbackUrlNotification && disableNotification == other.disableNotification && disableNotificationDate == other.disableNotificationDate && exportType == other.exportType && finishedAt == other.finishedAt && ip == other.ip && language == other.language && locationIp == other.locationIp && needReviewAt == other.needReviewAt && notificationConfirmation == other.notificationConfirmation && qrCode == other.qrCode && rawData == other.rawData && rejectedAt == other.rejectedAt && startedAt == other.startedAt && transferAt == other.transferAt && transferMode == other.transferMode && additionalProperties == other.additionalProperties /* spotless:on */
+            return other is TechnicalData &&
+                activeAmlSuspicions == other.activeAmlSuspicions &&
+                apiVersion == other.apiVersion &&
+                approvedAt == other.approvedAt &&
+                callbackUrl == other.callbackUrl &&
+                callbackUrlNotification == other.callbackUrlNotification &&
+                disableNotification == other.disableNotification &&
+                disableNotificationDate == other.disableNotificationDate &&
+                exportType == other.exportType &&
+                finishedAt == other.finishedAt &&
+                ip == other.ip &&
+                language == other.language &&
+                locationIp == other.locationIp &&
+                needReviewAt == other.needReviewAt &&
+                notificationConfirmation == other.notificationConfirmation &&
+                qrCode == other.qrCode &&
+                rawData == other.rawData &&
+                rejectedAt == other.rejectedAt &&
+                sessionDuration == other.sessionDuration &&
+                startedAt == other.startedAt &&
+                transferAt == other.transferAt &&
+                transferMode == other.transferMode &&
+                additionalProperties == other.additionalProperties
         }
 
-        /* spotless:off */
-        private val hashCode: Int by lazy { Objects.hash(apiVersion, approvedAt, callbackUrl, callbackUrlNotification, disableNotification, disableNotificationDate, exportType, finishedAt, ip, language, locationIp, needReviewAt, notificationConfirmation, qrCode, rawData, rejectedAt, startedAt, transferAt, transferMode, additionalProperties) }
-        /* spotless:on */
+        private val hashCode: Int by lazy {
+            Objects.hash(
+                activeAmlSuspicions,
+                apiVersion,
+                approvedAt,
+                callbackUrl,
+                callbackUrlNotification,
+                disableNotification,
+                disableNotificationDate,
+                exportType,
+                finishedAt,
+                ip,
+                language,
+                locationIp,
+                needReviewAt,
+                notificationConfirmation,
+                qrCode,
+                rawData,
+                rejectedAt,
+                sessionDuration,
+                startedAt,
+                transferAt,
+                transferMode,
+                additionalProperties,
+            )
+        }
 
         override fun hashCode(): Int = hashCode
 
         override fun toString() =
-            "TechnicalData{apiVersion=$apiVersion, approvedAt=$approvedAt, callbackUrl=$callbackUrl, callbackUrlNotification=$callbackUrlNotification, disableNotification=$disableNotification, disableNotificationDate=$disableNotificationDate, exportType=$exportType, finishedAt=$finishedAt, ip=$ip, language=$language, locationIp=$locationIp, needReviewAt=$needReviewAt, notificationConfirmation=$notificationConfirmation, qrCode=$qrCode, rawData=$rawData, rejectedAt=$rejectedAt, startedAt=$startedAt, transferAt=$transferAt, transferMode=$transferMode, additionalProperties=$additionalProperties}"
+            "TechnicalData{activeAmlSuspicions=$activeAmlSuspicions, apiVersion=$apiVersion, approvedAt=$approvedAt, callbackUrl=$callbackUrl, callbackUrlNotification=$callbackUrlNotification, disableNotification=$disableNotification, disableNotificationDate=$disableNotificationDate, exportType=$exportType, finishedAt=$finishedAt, ip=$ip, language=$language, locationIp=$locationIp, needReviewAt=$needReviewAt, notificationConfirmation=$notificationConfirmation, qrCode=$qrCode, rawData=$rawData, rejectedAt=$rejectedAt, sessionDuration=$sessionDuration, startedAt=$startedAt, transferAt=$transferAt, transferMode=$transferMode, additionalProperties=$additionalProperties}"
     }
 
     override fun equals(other: Any?): Boolean {
@@ -4356,12 +4804,55 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is Individual && id == other.id && amlSuspicions == other.amlSuspicions && authUrl == other.authUrl && certificat == other.certificat && checks == other.checks && createdAt == other.createdAt && documents == other.documents && identityCard == other.identityCard && number == other.number && person == other.person && portalUrl == other.portalUrl && properties == other.properties && risk == other.risk && sourceId == other.sourceId && state == other.state && status == other.status && tags == other.tags && technicalData == other.technicalData && webviewUrl == other.webviewUrl && workspaceId == other.workspaceId && additionalProperties == other.additionalProperties /* spotless:on */
+        return other is Individual &&
+            id == other.id &&
+            amlSuspicions == other.amlSuspicions &&
+            authUrl == other.authUrl &&
+            certificat == other.certificat &&
+            checks == other.checks &&
+            createdAt == other.createdAt &&
+            documents == other.documents &&
+            identityCard == other.identityCard &&
+            number == other.number &&
+            person == other.person &&
+            portalUrl == other.portalUrl &&
+            properties == other.properties &&
+            risk == other.risk &&
+            sourceId == other.sourceId &&
+            state == other.state &&
+            status == other.status &&
+            tags == other.tags &&
+            technicalData == other.technicalData &&
+            webviewUrl == other.webviewUrl &&
+            workspaceId == other.workspaceId &&
+            additionalProperties == other.additionalProperties
     }
 
-    /* spotless:off */
-    private val hashCode: Int by lazy { Objects.hash(id, amlSuspicions, authUrl, certificat, checks, createdAt, documents, identityCard, number, person, portalUrl, properties, risk, sourceId, state, status, tags, technicalData, webviewUrl, workspaceId, additionalProperties) }
-    /* spotless:on */
+    private val hashCode: Int by lazy {
+        Objects.hash(
+            id,
+            amlSuspicions,
+            authUrl,
+            certificat,
+            checks,
+            createdAt,
+            documents,
+            identityCard,
+            number,
+            person,
+            portalUrl,
+            properties,
+            risk,
+            sourceId,
+            state,
+            status,
+            tags,
+            technicalData,
+            webviewUrl,
+            workspaceId,
+            additionalProperties,
+        )
+    }
 
     override fun hashCode(): Int = hashCode
 

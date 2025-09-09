@@ -273,12 +273,18 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is Check && masked == other.masked && message == other.message && name == other.name && validate == other.validate && weight == other.weight && additionalProperties == other.additionalProperties /* spotless:on */
+        return other is Check &&
+            masked == other.masked &&
+            message == other.message &&
+            name == other.name &&
+            validate == other.validate &&
+            weight == other.weight &&
+            additionalProperties == other.additionalProperties
     }
 
-    /* spotless:off */
-    private val hashCode: Int by lazy { Objects.hash(masked, message, name, validate, weight, additionalProperties) }
-    /* spotless:on */
+    private val hashCode: Int by lazy {
+        Objects.hash(masked, message, name, validate, weight, additionalProperties)
+    }
 
     override fun hashCode(): Int = hashCode
 

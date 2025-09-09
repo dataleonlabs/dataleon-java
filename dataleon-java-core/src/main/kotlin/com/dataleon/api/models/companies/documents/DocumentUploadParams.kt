@@ -168,7 +168,7 @@ private constructor(
         fun file(file: ByteArray) = apply { body.file(file) }
 
         /** File to upload (required) */
-        fun file(file: Path) = apply { body.file(file) }
+        fun file(path: Path) = apply { body.file(path) }
 
         /** URL of the file to upload (either `file` or `url` is required) */
         fun url(url: String) = apply { body.url(url) }
@@ -462,11 +462,11 @@ private constructor(
             fun file(file: ByteArray) = file(file.inputStream())
 
             /** File to upload (required) */
-            fun file(file: Path) =
+            fun file(path: Path) =
                 file(
                     MultipartField.builder<InputStream>()
-                        .value(file.inputStream())
-                        .filename(file.name)
+                        .value(path.inputStream())
+                        .filename(path.name)
                         .build()
                 )
 
@@ -548,12 +548,16 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is Body && documentType == other.documentType && file == other.file && url == other.url && additionalProperties == other.additionalProperties /* spotless:on */
+            return other is Body &&
+                documentType == other.documentType &&
+                file == other.file &&
+                url == other.url &&
+                additionalProperties == other.additionalProperties
         }
 
-        /* spotless:off */
-        private val hashCode: Int by lazy { Objects.hash(documentType, file, url, additionalProperties) }
-        /* spotless:on */
+        private val hashCode: Int by lazy {
+            Objects.hash(documentType, file, url, additionalProperties)
+        }
 
         override fun hashCode(): Int = hashCode
 
@@ -577,13 +581,9 @@ private constructor(
 
         companion object {
 
-            @JvmField val BANK_STATEMENTS = of("bank_statements")
-
             @JvmField val LIASSE_FISCALE = of("liasse_fiscale")
 
             @JvmField val AMORTISED_LOAN_SCHEDULE = of("amortised_loan_schedule")
-
-            @JvmField val ACCOUNTING = of("accounting")
 
             @JvmField val INVOICE = of("invoice")
 
@@ -591,33 +591,100 @@ private constructor(
 
             @JvmField val COMPANY_STATUTS = of("company_statuts")
 
+            @JvmField val REGISTRATION_COMPANY_CERTIFICATE = of("registration_company_certificate")
+
             @JvmField val KBIS = of("kbis")
 
             @JvmField val RIB = of("rib")
 
+            @JvmField val LIVRET_FAMILLE = of("livret_famille")
+
+            @JvmField val BIRTH_CERTIFICATE = of("birth_certificate")
+
+            @JvmField val PAYSLIP = of("payslip")
+
+            @JvmField val SOCIAL_SECURITY_CARD = of("social_security_card")
+
+            @JvmField val VEHICLE_REGISTRATION_CERTIFICATE = of("vehicle_registration_certificate")
+
             @JvmField val CARTE_GRISE = of("carte_grise")
 
-            @JvmField val PROOF_ADDRESS = of("proof_address")
+            @JvmField val CRIMINAL_RECORD_EXTRACT = of("criminal_record_extract")
+
+            @JvmField val PROOF_OF_ADDRESS = of("proof_of_address")
+
+            @JvmField val IDENTITY_CARD_FRONT = of("identity_card_front")
+
+            @JvmField val IDENTITY_CARD_BACK = of("identity_card_back")
+
+            @JvmField val DRIVER_LICENSE_FRONT = of("driver_license_front")
+
+            @JvmField val DRIVER_LICENSE_BACK = of("driver_license_back")
 
             @JvmField val IDENTITY_DOCUMENT = of("identity_document")
+
+            @JvmField val DRIVER_LICENSE = of("driver_license")
+
+            @JvmField val PASSPORT = of("passport")
+
+            @JvmField val TAX = of("tax")
+
+            @JvmField val CERTIFICATE_OF_INCORPORATION = of("certificate_of_incorporation")
+
+            @JvmField val CERTIFICATE_OF_GOOD_STANDING = of("certificate_of_good_standing")
+
+            @JvmField val LCB_FT_LAB_AML_POLICIES = of("lcb_ft_lab_aml_policies")
+
+            @JvmField val NIU_ENTREPRISE = of("niu_entreprise")
+
+            @JvmField val FINANCIAL_STATEMENTS = of("financial_statements")
+
+            @JvmField val RCCM = of("rccm")
+
+            @JvmField val PROOF_OF_SOURCE_FUNDS = of("proof_of_source_funds")
+
+            @JvmField val ORGANIZATIONAL_CHART = of("organizational_chart")
+
+            @JvmField val RISK_POLICIES = of("risk_policies")
 
             @JvmStatic fun of(value: String) = DocumentType(JsonField.of(value))
         }
 
         /** An enum containing [DocumentType]'s known values. */
         enum class Known {
-            BANK_STATEMENTS,
             LIASSE_FISCALE,
             AMORTISED_LOAN_SCHEDULE,
-            ACCOUNTING,
             INVOICE,
             RECEIPT,
             COMPANY_STATUTS,
+            REGISTRATION_COMPANY_CERTIFICATE,
             KBIS,
             RIB,
+            LIVRET_FAMILLE,
+            BIRTH_CERTIFICATE,
+            PAYSLIP,
+            SOCIAL_SECURITY_CARD,
+            VEHICLE_REGISTRATION_CERTIFICATE,
             CARTE_GRISE,
-            PROOF_ADDRESS,
+            CRIMINAL_RECORD_EXTRACT,
+            PROOF_OF_ADDRESS,
+            IDENTITY_CARD_FRONT,
+            IDENTITY_CARD_BACK,
+            DRIVER_LICENSE_FRONT,
+            DRIVER_LICENSE_BACK,
             IDENTITY_DOCUMENT,
+            DRIVER_LICENSE,
+            PASSPORT,
+            TAX,
+            CERTIFICATE_OF_INCORPORATION,
+            CERTIFICATE_OF_GOOD_STANDING,
+            LCB_FT_LAB_AML_POLICIES,
+            NIU_ENTREPRISE,
+            FINANCIAL_STATEMENTS,
+            RCCM,
+            PROOF_OF_SOURCE_FUNDS,
+            ORGANIZATIONAL_CHART,
+            RISK_POLICIES,
         }
 
         /**
@@ -630,18 +697,39 @@ private constructor(
          * - It was constructed with an arbitrary value using the [of] method.
          */
         enum class Value {
-            BANK_STATEMENTS,
             LIASSE_FISCALE,
             AMORTISED_LOAN_SCHEDULE,
-            ACCOUNTING,
             INVOICE,
             RECEIPT,
             COMPANY_STATUTS,
+            REGISTRATION_COMPANY_CERTIFICATE,
             KBIS,
             RIB,
+            LIVRET_FAMILLE,
+            BIRTH_CERTIFICATE,
+            PAYSLIP,
+            SOCIAL_SECURITY_CARD,
+            VEHICLE_REGISTRATION_CERTIFICATE,
             CARTE_GRISE,
-            PROOF_ADDRESS,
+            CRIMINAL_RECORD_EXTRACT,
+            PROOF_OF_ADDRESS,
+            IDENTITY_CARD_FRONT,
+            IDENTITY_CARD_BACK,
+            DRIVER_LICENSE_FRONT,
+            DRIVER_LICENSE_BACK,
             IDENTITY_DOCUMENT,
+            DRIVER_LICENSE,
+            PASSPORT,
+            TAX,
+            CERTIFICATE_OF_INCORPORATION,
+            CERTIFICATE_OF_GOOD_STANDING,
+            LCB_FT_LAB_AML_POLICIES,
+            NIU_ENTREPRISE,
+            FINANCIAL_STATEMENTS,
+            RCCM,
+            PROOF_OF_SOURCE_FUNDS,
+            ORGANIZATIONAL_CHART,
+            RISK_POLICIES,
             /**
              * An enum member indicating that [DocumentType] was instantiated with an unknown value.
              */
@@ -657,18 +745,39 @@ private constructor(
          */
         fun value(): Value =
             when (this) {
-                BANK_STATEMENTS -> Value.BANK_STATEMENTS
                 LIASSE_FISCALE -> Value.LIASSE_FISCALE
                 AMORTISED_LOAN_SCHEDULE -> Value.AMORTISED_LOAN_SCHEDULE
-                ACCOUNTING -> Value.ACCOUNTING
                 INVOICE -> Value.INVOICE
                 RECEIPT -> Value.RECEIPT
                 COMPANY_STATUTS -> Value.COMPANY_STATUTS
+                REGISTRATION_COMPANY_CERTIFICATE -> Value.REGISTRATION_COMPANY_CERTIFICATE
                 KBIS -> Value.KBIS
                 RIB -> Value.RIB
+                LIVRET_FAMILLE -> Value.LIVRET_FAMILLE
+                BIRTH_CERTIFICATE -> Value.BIRTH_CERTIFICATE
+                PAYSLIP -> Value.PAYSLIP
+                SOCIAL_SECURITY_CARD -> Value.SOCIAL_SECURITY_CARD
+                VEHICLE_REGISTRATION_CERTIFICATE -> Value.VEHICLE_REGISTRATION_CERTIFICATE
                 CARTE_GRISE -> Value.CARTE_GRISE
-                PROOF_ADDRESS -> Value.PROOF_ADDRESS
+                CRIMINAL_RECORD_EXTRACT -> Value.CRIMINAL_RECORD_EXTRACT
+                PROOF_OF_ADDRESS -> Value.PROOF_OF_ADDRESS
+                IDENTITY_CARD_FRONT -> Value.IDENTITY_CARD_FRONT
+                IDENTITY_CARD_BACK -> Value.IDENTITY_CARD_BACK
+                DRIVER_LICENSE_FRONT -> Value.DRIVER_LICENSE_FRONT
+                DRIVER_LICENSE_BACK -> Value.DRIVER_LICENSE_BACK
                 IDENTITY_DOCUMENT -> Value.IDENTITY_DOCUMENT
+                DRIVER_LICENSE -> Value.DRIVER_LICENSE
+                PASSPORT -> Value.PASSPORT
+                TAX -> Value.TAX
+                CERTIFICATE_OF_INCORPORATION -> Value.CERTIFICATE_OF_INCORPORATION
+                CERTIFICATE_OF_GOOD_STANDING -> Value.CERTIFICATE_OF_GOOD_STANDING
+                LCB_FT_LAB_AML_POLICIES -> Value.LCB_FT_LAB_AML_POLICIES
+                NIU_ENTREPRISE -> Value.NIU_ENTREPRISE
+                FINANCIAL_STATEMENTS -> Value.FINANCIAL_STATEMENTS
+                RCCM -> Value.RCCM
+                PROOF_OF_SOURCE_FUNDS -> Value.PROOF_OF_SOURCE_FUNDS
+                ORGANIZATIONAL_CHART -> Value.ORGANIZATIONAL_CHART
+                RISK_POLICIES -> Value.RISK_POLICIES
                 else -> Value._UNKNOWN
             }
 
@@ -683,18 +792,39 @@ private constructor(
          */
         fun known(): Known =
             when (this) {
-                BANK_STATEMENTS -> Known.BANK_STATEMENTS
                 LIASSE_FISCALE -> Known.LIASSE_FISCALE
                 AMORTISED_LOAN_SCHEDULE -> Known.AMORTISED_LOAN_SCHEDULE
-                ACCOUNTING -> Known.ACCOUNTING
                 INVOICE -> Known.INVOICE
                 RECEIPT -> Known.RECEIPT
                 COMPANY_STATUTS -> Known.COMPANY_STATUTS
+                REGISTRATION_COMPANY_CERTIFICATE -> Known.REGISTRATION_COMPANY_CERTIFICATE
                 KBIS -> Known.KBIS
                 RIB -> Known.RIB
+                LIVRET_FAMILLE -> Known.LIVRET_FAMILLE
+                BIRTH_CERTIFICATE -> Known.BIRTH_CERTIFICATE
+                PAYSLIP -> Known.PAYSLIP
+                SOCIAL_SECURITY_CARD -> Known.SOCIAL_SECURITY_CARD
+                VEHICLE_REGISTRATION_CERTIFICATE -> Known.VEHICLE_REGISTRATION_CERTIFICATE
                 CARTE_GRISE -> Known.CARTE_GRISE
-                PROOF_ADDRESS -> Known.PROOF_ADDRESS
+                CRIMINAL_RECORD_EXTRACT -> Known.CRIMINAL_RECORD_EXTRACT
+                PROOF_OF_ADDRESS -> Known.PROOF_OF_ADDRESS
+                IDENTITY_CARD_FRONT -> Known.IDENTITY_CARD_FRONT
+                IDENTITY_CARD_BACK -> Known.IDENTITY_CARD_BACK
+                DRIVER_LICENSE_FRONT -> Known.DRIVER_LICENSE_FRONT
+                DRIVER_LICENSE_BACK -> Known.DRIVER_LICENSE_BACK
                 IDENTITY_DOCUMENT -> Known.IDENTITY_DOCUMENT
+                DRIVER_LICENSE -> Known.DRIVER_LICENSE
+                PASSPORT -> Known.PASSPORT
+                TAX -> Known.TAX
+                CERTIFICATE_OF_INCORPORATION -> Known.CERTIFICATE_OF_INCORPORATION
+                CERTIFICATE_OF_GOOD_STANDING -> Known.CERTIFICATE_OF_GOOD_STANDING
+                LCB_FT_LAB_AML_POLICIES -> Known.LCB_FT_LAB_AML_POLICIES
+                NIU_ENTREPRISE -> Known.NIU_ENTREPRISE
+                FINANCIAL_STATEMENTS -> Known.FINANCIAL_STATEMENTS
+                RCCM -> Known.RCCM
+                PROOF_OF_SOURCE_FUNDS -> Known.PROOF_OF_SOURCE_FUNDS
+                ORGANIZATIONAL_CHART -> Known.ORGANIZATIONAL_CHART
+                RISK_POLICIES -> Known.RISK_POLICIES
                 else -> throw DataleonInvalidDataException("Unknown DocumentType: $value")
             }
 
@@ -744,7 +874,7 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is DocumentType && value == other.value /* spotless:on */
+            return other is DocumentType && value == other.value
         }
 
         override fun hashCode() = value.hashCode()
@@ -757,10 +887,15 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is DocumentUploadParams && companyId == other.companyId && body == other.body && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
+        return other is DocumentUploadParams &&
+            companyId == other.companyId &&
+            body == other.body &&
+            additionalHeaders == other.additionalHeaders &&
+            additionalQueryParams == other.additionalQueryParams
     }
 
-    override fun hashCode(): Int = /* spotless:off */ Objects.hash(companyId, body, additionalHeaders, additionalQueryParams) /* spotless:on */
+    override fun hashCode(): Int =
+        Objects.hash(companyId, body, additionalHeaders, additionalQueryParams)
 
     override fun toString() =
         "DocumentUploadParams{companyId=$companyId, body=$body, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
