@@ -2622,6 +2622,7 @@ private constructor(
         private val gender: JsonField<String>,
         private val lastName: JsonField<String>,
         private val maidenName: JsonField<String>,
+        private val nationality: JsonField<String>,
         private val phoneNumber: JsonField<String>,
         private val additionalProperties: MutableMap<String, JsonValue>,
     ) {
@@ -2648,6 +2649,9 @@ private constructor(
             @JsonProperty("maiden_name")
             @ExcludeMissing
             maidenName: JsonField<String> = JsonMissing.of(),
+            @JsonProperty("nationality")
+            @ExcludeMissing
+            nationality: JsonField<String> = JsonMissing.of(),
             @JsonProperty("phone_number")
             @ExcludeMissing
             phoneNumber: JsonField<String> = JsonMissing.of(),
@@ -2660,6 +2664,7 @@ private constructor(
             gender,
             lastName,
             maidenName,
+            nationality,
             phoneNumber,
             mutableMapOf(),
         )
@@ -2728,6 +2733,14 @@ private constructor(
          *   the server responded with an unexpected value).
          */
         fun maidenName(): Optional<String> = maidenName.getOptional("maiden_name")
+
+        /**
+         * Nationality of the individual (ISO 3166-1 alpha-3 country code).
+         *
+         * @throws DataleonInvalidDataException if the JSON field has an unexpected type (e.g. if
+         *   the server responded with an unexpected value).
+         */
+        fun nationality(): Optional<String> = nationality.getOptional("nationality")
 
         /**
          * Contact phone number including country code.
@@ -2799,6 +2812,15 @@ private constructor(
         fun _maidenName(): JsonField<String> = maidenName
 
         /**
+         * Returns the raw JSON value of [nationality].
+         *
+         * Unlike [nationality], this method doesn't throw if the JSON field has an unexpected type.
+         */
+        @JsonProperty("nationality")
+        @ExcludeMissing
+        fun _nationality(): JsonField<String> = nationality
+
+        /**
          * Returns the raw JSON value of [phoneNumber].
          *
          * Unlike [phoneNumber], this method doesn't throw if the JSON field has an unexpected type.
@@ -2836,6 +2858,7 @@ private constructor(
             private var gender: JsonField<String> = JsonMissing.of()
             private var lastName: JsonField<String> = JsonMissing.of()
             private var maidenName: JsonField<String> = JsonMissing.of()
+            private var nationality: JsonField<String> = JsonMissing.of()
             private var phoneNumber: JsonField<String> = JsonMissing.of()
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
@@ -2849,6 +2872,7 @@ private constructor(
                 gender = person.gender
                 lastName = person.lastName
                 maidenName = person.maidenName
+                nationality = person.nationality
                 phoneNumber = person.phoneNumber
                 additionalProperties = person.additionalProperties.toMutableMap()
             }
@@ -2952,6 +2976,20 @@ private constructor(
              */
             fun maidenName(maidenName: JsonField<String>) = apply { this.maidenName = maidenName }
 
+            /** Nationality of the individual (ISO 3166-1 alpha-3 country code). */
+            fun nationality(nationality: String) = nationality(JsonField.of(nationality))
+
+            /**
+             * Sets [Builder.nationality] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.nationality] with a well-typed [String] value
+             * instead. This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
+            fun nationality(nationality: JsonField<String>) = apply {
+                this.nationality = nationality
+            }
+
             /** Contact phone number including country code. */
             fun phoneNumber(phoneNumber: String) = phoneNumber(JsonField.of(phoneNumber))
 
@@ -3000,6 +3038,7 @@ private constructor(
                     gender,
                     lastName,
                     maidenName,
+                    nationality,
                     phoneNumber,
                     additionalProperties.toMutableMap(),
                 )
@@ -3020,6 +3059,7 @@ private constructor(
             gender()
             lastName()
             maidenName()
+            nationality()
             phoneNumber()
             validated = true
         }
@@ -3048,6 +3088,7 @@ private constructor(
                 (if (gender.asKnown().isPresent) 1 else 0) +
                 (if (lastName.asKnown().isPresent) 1 else 0) +
                 (if (maidenName.asKnown().isPresent) 1 else 0) +
+                (if (nationality.asKnown().isPresent) 1 else 0) +
                 (if (phoneNumber.asKnown().isPresent) 1 else 0)
 
         override fun equals(other: Any?): Boolean {
@@ -3064,6 +3105,7 @@ private constructor(
                 gender == other.gender &&
                 lastName == other.lastName &&
                 maidenName == other.maidenName &&
+                nationality == other.nationality &&
                 phoneNumber == other.phoneNumber &&
                 additionalProperties == other.additionalProperties
         }
@@ -3078,6 +3120,7 @@ private constructor(
                 gender,
                 lastName,
                 maidenName,
+                nationality,
                 phoneNumber,
                 additionalProperties,
             )
@@ -3086,7 +3129,7 @@ private constructor(
         override fun hashCode(): Int = hashCode
 
         override fun toString() =
-            "Person{birthday=$birthday, email=$email, faceImageSignedUrl=$faceImageSignedUrl, firstName=$firstName, fullName=$fullName, gender=$gender, lastName=$lastName, maidenName=$maidenName, phoneNumber=$phoneNumber, additionalProperties=$additionalProperties}"
+            "Person{birthday=$birthday, email=$email, faceImageSignedUrl=$faceImageSignedUrl, firstName=$firstName, fullName=$fullName, gender=$gender, lastName=$lastName, maidenName=$maidenName, nationality=$nationality, phoneNumber=$phoneNumber, additionalProperties=$additionalProperties}"
     }
 
     /** Represents a generic property key-value pair with a specified type. */
@@ -3776,6 +3819,7 @@ private constructor(
         private val disableNotification: JsonField<Boolean>,
         private val disableNotificationDate: JsonField<OffsetDateTime>,
         private val exportType: JsonField<String>,
+        private val filteringScoreAmlSuspicions: JsonField<Float>,
         private val finishedAt: JsonField<OffsetDateTime>,
         private val ip: JsonField<String>,
         private val language: JsonField<String>,
@@ -3818,6 +3862,9 @@ private constructor(
             @JsonProperty("export_type")
             @ExcludeMissing
             exportType: JsonField<String> = JsonMissing.of(),
+            @JsonProperty("filtering_score_aml_suspicions")
+            @ExcludeMissing
+            filteringScoreAmlSuspicions: JsonField<Float> = JsonMissing.of(),
             @JsonProperty("finished_at")
             @ExcludeMissing
             finishedAt: JsonField<OffsetDateTime> = JsonMissing.of(),
@@ -3862,6 +3909,7 @@ private constructor(
             disableNotification,
             disableNotificationDate,
             exportType,
+            filteringScoreAmlSuspicions,
             finishedAt,
             ip,
             language,
@@ -3946,6 +3994,15 @@ private constructor(
          *   the server responded with an unexpected value).
          */
         fun exportType(): Optional<String> = exportType.getOptional("export_type")
+
+        /**
+         * Minimum filtering score (between 0 and 1) for AML suspicions to be considered.
+         *
+         * @throws DataleonInvalidDataException if the JSON field has an unexpected type (e.g. if
+         *   the server responded with an unexpected value).
+         */
+        fun filteringScoreAmlSuspicions(): Optional<Float> =
+            filteringScoreAmlSuspicions.getOptional("filtering_score_aml_suspicions")
 
         /**
          * Timestamp when the process finished.
@@ -4127,6 +4184,16 @@ private constructor(
         fun _exportType(): JsonField<String> = exportType
 
         /**
+         * Returns the raw JSON value of [filteringScoreAmlSuspicions].
+         *
+         * Unlike [filteringScoreAmlSuspicions], this method doesn't throw if the JSON field has an
+         * unexpected type.
+         */
+        @JsonProperty("filtering_score_aml_suspicions")
+        @ExcludeMissing
+        fun _filteringScoreAmlSuspicions(): JsonField<Float> = filteringScoreAmlSuspicions
+
+        /**
          * Returns the raw JSON value of [finishedAt].
          *
          * Unlike [finishedAt], this method doesn't throw if the JSON field has an unexpected type.
@@ -4268,6 +4335,7 @@ private constructor(
             private var disableNotification: JsonField<Boolean> = JsonMissing.of()
             private var disableNotificationDate: JsonField<OffsetDateTime> = JsonMissing.of()
             private var exportType: JsonField<String> = JsonMissing.of()
+            private var filteringScoreAmlSuspicions: JsonField<Float> = JsonMissing.of()
             private var finishedAt: JsonField<OffsetDateTime> = JsonMissing.of()
             private var ip: JsonField<String> = JsonMissing.of()
             private var language: JsonField<String> = JsonMissing.of()
@@ -4293,6 +4361,7 @@ private constructor(
                 disableNotification = technicalData.disableNotification
                 disableNotificationDate = technicalData.disableNotificationDate
                 exportType = technicalData.exportType
+                filteringScoreAmlSuspicions = technicalData.filteringScoreAmlSuspicions
                 finishedAt = technicalData.finishedAt
                 ip = technicalData.ip
                 language = technicalData.language
@@ -4431,6 +4500,21 @@ private constructor(
              * supported value.
              */
             fun exportType(exportType: JsonField<String>) = apply { this.exportType = exportType }
+
+            /** Minimum filtering score (between 0 and 1) for AML suspicions to be considered. */
+            fun filteringScoreAmlSuspicions(filteringScoreAmlSuspicions: Float) =
+                filteringScoreAmlSuspicions(JsonField.of(filteringScoreAmlSuspicions))
+
+            /**
+             * Sets [Builder.filteringScoreAmlSuspicions] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.filteringScoreAmlSuspicions] with a well-typed
+             * [Float] value instead. This method is primarily for setting the field to an
+             * undocumented or not yet supported value.
+             */
+            fun filteringScoreAmlSuspicions(filteringScoreAmlSuspicions: JsonField<Float>) = apply {
+                this.filteringScoreAmlSuspicions = filteringScoreAmlSuspicions
+            }
 
             /** Timestamp when the process finished. */
             fun finishedAt(finishedAt: OffsetDateTime) = finishedAt(JsonField.of(finishedAt))
@@ -4650,6 +4734,7 @@ private constructor(
                     disableNotification,
                     disableNotificationDate,
                     exportType,
+                    filteringScoreAmlSuspicions,
                     finishedAt,
                     ip,
                     language,
@@ -4682,6 +4767,7 @@ private constructor(
             disableNotification()
             disableNotificationDate()
             exportType()
+            filteringScoreAmlSuspicions()
             finishedAt()
             ip()
             language()
@@ -4722,6 +4808,7 @@ private constructor(
                 (if (disableNotification.asKnown().isPresent) 1 else 0) +
                 (if (disableNotificationDate.asKnown().isPresent) 1 else 0) +
                 (if (exportType.asKnown().isPresent) 1 else 0) +
+                (if (filteringScoreAmlSuspicions.asKnown().isPresent) 1 else 0) +
                 (if (finishedAt.asKnown().isPresent) 1 else 0) +
                 (if (ip.asKnown().isPresent) 1 else 0) +
                 (if (language.asKnown().isPresent) 1 else 0) +
@@ -4750,6 +4837,7 @@ private constructor(
                 disableNotification == other.disableNotification &&
                 disableNotificationDate == other.disableNotificationDate &&
                 exportType == other.exportType &&
+                filteringScoreAmlSuspicions == other.filteringScoreAmlSuspicions &&
                 finishedAt == other.finishedAt &&
                 ip == other.ip &&
                 language == other.language &&
@@ -4776,6 +4864,7 @@ private constructor(
                 disableNotification,
                 disableNotificationDate,
                 exportType,
+                filteringScoreAmlSuspicions,
                 finishedAt,
                 ip,
                 language,
@@ -4796,7 +4885,7 @@ private constructor(
         override fun hashCode(): Int = hashCode
 
         override fun toString() =
-            "TechnicalData{activeAmlSuspicions=$activeAmlSuspicions, apiVersion=$apiVersion, approvedAt=$approvedAt, callbackUrl=$callbackUrl, callbackUrlNotification=$callbackUrlNotification, disableNotification=$disableNotification, disableNotificationDate=$disableNotificationDate, exportType=$exportType, finishedAt=$finishedAt, ip=$ip, language=$language, locationIp=$locationIp, needReviewAt=$needReviewAt, notificationConfirmation=$notificationConfirmation, qrCode=$qrCode, rawData=$rawData, rejectedAt=$rejectedAt, sessionDuration=$sessionDuration, startedAt=$startedAt, transferAt=$transferAt, transferMode=$transferMode, additionalProperties=$additionalProperties}"
+            "TechnicalData{activeAmlSuspicions=$activeAmlSuspicions, apiVersion=$apiVersion, approvedAt=$approvedAt, callbackUrl=$callbackUrl, callbackUrlNotification=$callbackUrlNotification, disableNotification=$disableNotification, disableNotificationDate=$disableNotificationDate, exportType=$exportType, filteringScoreAmlSuspicions=$filteringScoreAmlSuspicions, finishedAt=$finishedAt, ip=$ip, language=$language, locationIp=$locationIp, needReviewAt=$needReviewAt, notificationConfirmation=$notificationConfirmation, qrCode=$qrCode, rawData=$rawData, rejectedAt=$rejectedAt, sessionDuration=$sessionDuration, startedAt=$startedAt, transferAt=$transferAt, transferMode=$transferMode, additionalProperties=$additionalProperties}"
     }
 
     override fun equals(other: Any?): Boolean {
