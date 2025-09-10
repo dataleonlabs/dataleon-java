@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.1.0-alpha.3 (2025-09-10)
+
+Full Changelog: [v0.1.0-alpha.2...v0.1.0-alpha.3](https://github.com/dataleonlabs/dataleon-java/compare/v0.1.0-alpha.2...v0.1.0-alpha.3)
+
+### Features
+
+* **api:** api update ([4a04782](https://github.com/dataleonlabs/dataleon-java/commit/4a047828982ce3dc5adfcf7403101000f631d458))
+
 ## 0.1.0-alpha.2 (2025-09-04)
 
 Full Changelog: [v0.1.0-alpha.1...v0.1.0-alpha.2](https://github.com/dataleonlabs/dataleon-java/compare/v0.1.0-alpha.1...v0.1.0-alpha.2)
