@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.1.0-alpha.4 (2025-09-13)
+
+Full Changelog: [v0.1.0-alpha.3...v0.1.0-alpha.4](https://github.com/dataleonlabs/dataleon-java/compare/v0.1.0-alpha.3...v0.1.0-alpha.4)
+
+### Chores
+
+* improve formatter performance ([4085e15](https://github.com/dataleonlabs/dataleon-java/commit/4085e15b32174ccdbfbe5b46815c4da8ffc2c678))
+* **internal:** codegen related update ([5aeeaf9](https://github.com/dataleonlabs/dataleon-java/commit/5aeeaf9d9b55cb337a77e59bc81f6316afd70c32))
+* **internal:** codegen related update ([83c9652](https://github.com/dataleonlabs/dataleon-java/commit/83c9652ef4c6ace23a72a037f9d167ff2f64f3ea))
+
 ## 0.1.0-alpha.3 (2025-09-10)
 
 Full Changelog: [v0.1.0-alpha.2...v0.1.0-alpha.3](https://github.com/dataleonlabs/dataleon-java/compare/v0.1.0-alpha.2...v0.1.0-alpha.3)
