@@ -1,5 +1,24 @@
 # Changelog
 
+## 0.1.0-alpha.5 (2025-09-20)
+
+Full Changelog: [v0.1.0-alpha.4...v0.1.0-alpha.5](https://github.com/dataleonlabs/dataleon-java/compare/v0.1.0-alpha.4...v0.1.0-alpha.5)
+
+### Features
+
+* **client:** expose sleeper option ([5d70f6b](https://github.com/dataleonlabs/dataleon-java/commit/5d70f6b07802414fb5b1c5933778d721acb2bb80))
+
+
+### Bug Fixes
+
+* **client:** ensure single timer is created per client ([5d70f6b](https://github.com/dataleonlabs/dataleon-java/commit/5d70f6b07802414fb5b1c5933778d721acb2bb80))
+* **client:** incorrect `getPackageVersion` impl ([51e34a3](https://github.com/dataleonlabs/dataleon-java/commit/51e34a3cbdb5f7edf59d51e3ec110bb6aa506de3))
+
+
+### Chores
+
+* improve formatter performance ([a464120](https://github.com/dataleonlabs/dataleon-java/commit/a4641205374692cc0c27cbf69c86b9295e4cf923))
+
 ## 0.1.0-alpha.4 (2025-09-13)
 
 Full Changelog: [v0.1.0-alpha.3...v0.1.0-alpha.4](https://github.com/dataleonlabs/dataleon-java/compare/v0.1.0-alpha.3...v0.1.0-alpha.4)
