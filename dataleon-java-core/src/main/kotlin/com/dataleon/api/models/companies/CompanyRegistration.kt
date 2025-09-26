@@ -24,6 +24,7 @@ import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
 
 class CompanyRegistration
+@JsonCreator(mode = JsonCreator.Mode.DISABLED)
 private constructor(
     private val amlSuspicions: JsonField<List<AmlSuspicion>>,
     private val certificat: JsonField<Certificat>,
@@ -685,6 +686,7 @@ private constructor(
      * Includes metadata such as risk score, origin, and linked watchlist types.
      */
     class AmlSuspicion
+    @JsonCreator(mode = JsonCreator.Mode.DISABLED)
     private constructor(
         private val caption: JsonField<String>,
         private val country: JsonField<String>,
@@ -1441,6 +1443,7 @@ private constructor(
      * filename.
      */
     class Certificat
+    @JsonCreator(mode = JsonCreator.Mode.DISABLED)
     private constructor(
         private val id: JsonField<String>,
         private val createdAt: JsonField<OffsetDateTime>,
@@ -1664,6 +1667,7 @@ private constructor(
      * and address.
      */
     class Company
+    @JsonCreator(mode = JsonCreator.Mode.DISABLED)
     private constructor(
         private val address: JsonField<String>,
         private val closureDate: JsonField<LocalDate>,
@@ -2550,6 +2554,7 @@ private constructor(
 
         /** Contact information for the company, including email, phone number, and address. */
         class Contact
+        @JsonCreator(mode = JsonCreator.Mode.DISABLED)
         private constructor(
             private val department: JsonField<String>,
             private val email: JsonField<String>,
@@ -2932,6 +2937,7 @@ private constructor(
 
     /** Represents a member or actor of a company, including personal and ownership information. */
     class Member
+    @JsonCreator(mode = JsonCreator.Mode.DISABLED)
     private constructor(
         private val id: JsonField<String>,
         private val address: JsonField<String>,
@@ -4336,6 +4342,7 @@ private constructor(
 
     /** Represents a generic property key-value pair with a specified type. */
     class Property
+    @JsonCreator(mode = JsonCreator.Mode.DISABLED)
     private constructor(
         private val name: JsonField<String>,
         private val type: JsonField<String>,
@@ -4550,6 +4557,7 @@ private constructor(
      * score.
      */
     class Risk
+    @JsonCreator(mode = JsonCreator.Mode.DISABLED)
     private constructor(
         private val code: JsonField<String>,
         private val reason: JsonField<String>,
@@ -4766,6 +4774,7 @@ private constructor(
      * URLs.
      */
     class TechnicalData
+    @JsonCreator(mode = JsonCreator.Mode.DISABLED)
     private constructor(
         private val activeAmlSuspicions: JsonField<Boolean>,
         private val apiVersion: JsonField<Long>,

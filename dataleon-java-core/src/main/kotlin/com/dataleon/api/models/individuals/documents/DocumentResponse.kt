@@ -19,6 +19,7 @@ import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
 
 class DocumentResponse
+@JsonCreator(mode = JsonCreator.Mode.DISABLED)
 private constructor(
     private val documents: JsonField<List<Document>>,
     private val totalDocument: JsonField<Long>,
@@ -208,6 +209,7 @@ private constructor(
      * contract.
      */
     class Document
+    @JsonCreator(mode = JsonCreator.Mode.DISABLED)
     private constructor(
         private val id: JsonField<String>,
         private val documentType: JsonField<String>,
