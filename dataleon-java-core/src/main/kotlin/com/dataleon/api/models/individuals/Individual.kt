@@ -26,6 +26,7 @@ import kotlin.jvm.optionals.getOrNull
  * Represents a single individual record, including identification, status, and associated metadata.
  */
 class Individual
+@JsonCreator(mode = JsonCreator.Mode.DISABLED)
 private constructor(
     private val id: JsonField<String>,
     private val amlSuspicions: JsonField<List<AmlSuspicion>>,
@@ -920,6 +921,7 @@ private constructor(
      * Includes metadata such as risk score, origin, and linked watchlist types.
      */
     class AmlSuspicion
+    @JsonCreator(mode = JsonCreator.Mode.DISABLED)
     private constructor(
         private val caption: JsonField<String>,
         private val country: JsonField<String>,
@@ -1673,6 +1675,7 @@ private constructor(
 
     /** Digital certificate associated with the individual, if any. */
     class Certificat
+    @JsonCreator(mode = JsonCreator.Mode.DISABLED)
     private constructor(
         private val id: JsonField<String>,
         private val createdAt: JsonField<OffsetDateTime>,
@@ -1893,6 +1896,7 @@ private constructor(
 
     /** Reference to the individual's identity document. */
     class IdentityCard
+    @JsonCreator(mode = JsonCreator.Mode.DISABLED)
     private constructor(
         private val id: JsonField<String>,
         private val backDocumentSignedUrl: JsonField<String>,
@@ -2613,6 +2617,7 @@ private constructor(
 
     /** Personal details of the individual, such as name, date of birth, and contact info. */
     class Person
+    @JsonCreator(mode = JsonCreator.Mode.DISABLED)
     private constructor(
         private val birthday: JsonField<String>,
         private val email: JsonField<String>,
@@ -3134,6 +3139,7 @@ private constructor(
 
     /** Represents a generic property key-value pair with a specified type. */
     class Property
+    @JsonCreator(mode = JsonCreator.Mode.DISABLED)
     private constructor(
         private val name: JsonField<String>,
         private val type: JsonField<String>,
@@ -3345,6 +3351,7 @@ private constructor(
 
     /** Risk assessment associated with the individual. */
     class Risk
+    @JsonCreator(mode = JsonCreator.Mode.DISABLED)
     private constructor(
         private val code: JsonField<String>,
         private val reason: JsonField<String>,
@@ -3561,6 +3568,7 @@ private constructor(
      * or companies.
      */
     class Tag
+    @JsonCreator(mode = JsonCreator.Mode.DISABLED)
     private constructor(
         private val key: JsonField<String>,
         private val private_: JsonField<Boolean>,
@@ -3810,6 +3818,7 @@ private constructor(
 
     /** Technical metadata related to the request (e.g., QR code settings, language). */
     class TechnicalData
+    @JsonCreator(mode = JsonCreator.Mode.DISABLED)
     private constructor(
         private val activeAmlSuspicions: JsonField<Boolean>,
         private val apiVersion: JsonField<Long>,
