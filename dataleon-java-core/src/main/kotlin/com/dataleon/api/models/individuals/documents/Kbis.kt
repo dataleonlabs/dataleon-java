@@ -23,6 +23,7 @@ import kotlin.jvm.optionals.getOrNull
 
 /** A document representing official registration data from the KBIS (France). */
 class Kbis
+@JsonCreator(mode = JsonCreator.Mode.DISABLED)
 private constructor(
     private val activities: JsonField<String>,
     private val address: JsonField<String>,
@@ -706,6 +707,7 @@ private constructor(
 
     /** A member (person or entity) associated with the company from a KBIS document. */
     class Member
+    @JsonCreator(mode = JsonCreator.Mode.DISABLED)
     private constructor(
         private val id: JsonField<String>,
         private val address: JsonField<String>,

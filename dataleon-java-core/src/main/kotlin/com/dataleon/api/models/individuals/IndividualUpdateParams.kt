@@ -349,6 +349,7 @@ private constructor(
     override fun _queryParams(): QueryParams = additionalQueryParams
 
     class Body
+    @JsonCreator(mode = JsonCreator.Mode.DISABLED)
     private constructor(
         private val workspaceId: JsonField<String>,
         private val person: JsonField<Person>,
@@ -635,6 +636,7 @@ private constructor(
 
     /** Personal information about the individual. */
     class Person
+    @JsonCreator(mode = JsonCreator.Mode.DISABLED)
     private constructor(
         private val birthday: JsonField<String>,
         private val email: JsonField<String>,
@@ -1201,6 +1203,7 @@ private constructor(
 
     /** Technical metadata related to the request or processing. */
     class TechnicalData
+    @JsonCreator(mode = JsonCreator.Mode.DISABLED)
     private constructor(
         private val activeAmlSuspicions: JsonField<Boolean>,
         private val callbackUrl: JsonField<String>,
