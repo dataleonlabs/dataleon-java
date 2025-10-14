@@ -93,6 +93,14 @@ internal class ErrorHandlingTest {
                                 .callbackUrlNotification("https://example.com/notify")
                                 .filteringScoreAmlSuspicions(0.75f)
                                 .language("fra")
+                                .portalSteps(
+                                    listOf(
+                                        IndividualCreateParams.TechnicalData.PortalStep
+                                            .IDENTITY_VERIFICATION,
+                                        IndividualCreateParams.TechnicalData.PortalStep.SELFIE,
+                                        IndividualCreateParams.TechnicalData.PortalStep.FACE_MATCH,
+                                    )
+                                )
                                 .rawData(true)
                                 .build()
                         )
@@ -140,6 +148,14 @@ internal class ErrorHandlingTest {
                                 .callbackUrlNotification("https://example.com/notify")
                                 .filteringScoreAmlSuspicions(0.75f)
                                 .language("fra")
+                                .portalSteps(
+                                    listOf(
+                                        IndividualCreateParams.TechnicalData.PortalStep
+                                            .IDENTITY_VERIFICATION,
+                                        IndividualCreateParams.TechnicalData.PortalStep.SELFIE,
+                                        IndividualCreateParams.TechnicalData.PortalStep.FACE_MATCH,
+                                    )
+                                )
                                 .rawData(true)
                                 .build()
                         )
@@ -187,6 +203,14 @@ internal class ErrorHandlingTest {
                                 .callbackUrlNotification("https://example.com/notify")
                                 .filteringScoreAmlSuspicions(0.75f)
                                 .language("fra")
+                                .portalSteps(
+                                    listOf(
+                                        IndividualCreateParams.TechnicalData.PortalStep
+                                            .IDENTITY_VERIFICATION,
+                                        IndividualCreateParams.TechnicalData.PortalStep.SELFIE,
+                                        IndividualCreateParams.TechnicalData.PortalStep.FACE_MATCH,
+                                    )
+                                )
                                 .rawData(true)
                                 .build()
                         )
@@ -234,6 +258,14 @@ internal class ErrorHandlingTest {
                                 .callbackUrlNotification("https://example.com/notify")
                                 .filteringScoreAmlSuspicions(0.75f)
                                 .language("fra")
+                                .portalSteps(
+                                    listOf(
+                                        IndividualCreateParams.TechnicalData.PortalStep
+                                            .IDENTITY_VERIFICATION,
+                                        IndividualCreateParams.TechnicalData.PortalStep.SELFIE,
+                                        IndividualCreateParams.TechnicalData.PortalStep.FACE_MATCH,
+                                    )
+                                )
                                 .rawData(true)
                                 .build()
                         )
@@ -281,6 +313,14 @@ internal class ErrorHandlingTest {
                                 .callbackUrlNotification("https://example.com/notify")
                                 .filteringScoreAmlSuspicions(0.75f)
                                 .language("fra")
+                                .portalSteps(
+                                    listOf(
+                                        IndividualCreateParams.TechnicalData.PortalStep
+                                            .IDENTITY_VERIFICATION,
+                                        IndividualCreateParams.TechnicalData.PortalStep.SELFIE,
+                                        IndividualCreateParams.TechnicalData.PortalStep.FACE_MATCH,
+                                    )
+                                )
                                 .rawData(true)
                                 .build()
                         )
@@ -328,6 +368,14 @@ internal class ErrorHandlingTest {
                                 .callbackUrlNotification("https://example.com/notify")
                                 .filteringScoreAmlSuspicions(0.75f)
                                 .language("fra")
+                                .portalSteps(
+                                    listOf(
+                                        IndividualCreateParams.TechnicalData.PortalStep
+                                            .IDENTITY_VERIFICATION,
+                                        IndividualCreateParams.TechnicalData.PortalStep.SELFIE,
+                                        IndividualCreateParams.TechnicalData.PortalStep.FACE_MATCH,
+                                    )
+                                )
                                 .rawData(true)
                                 .build()
                         )
@@ -375,6 +423,14 @@ internal class ErrorHandlingTest {
                                 .callbackUrlNotification("https://example.com/notify")
                                 .filteringScoreAmlSuspicions(0.75f)
                                 .language("fra")
+                                .portalSteps(
+                                    listOf(
+                                        IndividualCreateParams.TechnicalData.PortalStep
+                                            .IDENTITY_VERIFICATION,
+                                        IndividualCreateParams.TechnicalData.PortalStep.SELFIE,
+                                        IndividualCreateParams.TechnicalData.PortalStep.FACE_MATCH,
+                                    )
+                                )
                                 .rawData(true)
                                 .build()
                         )
@@ -422,6 +478,14 @@ internal class ErrorHandlingTest {
                                 .callbackUrlNotification("https://example.com/notify")
                                 .filteringScoreAmlSuspicions(0.75f)
                                 .language("fra")
+                                .portalSteps(
+                                    listOf(
+                                        IndividualCreateParams.TechnicalData.PortalStep
+                                            .IDENTITY_VERIFICATION,
+                                        IndividualCreateParams.TechnicalData.PortalStep.SELFIE,
+                                        IndividualCreateParams.TechnicalData.PortalStep.FACE_MATCH,
+                                    )
+                                )
                                 .rawData(true)
                                 .build()
                         )
@@ -469,6 +533,14 @@ internal class ErrorHandlingTest {
                                 .callbackUrlNotification("https://example.com/notify")
                                 .filteringScoreAmlSuspicions(0.75f)
                                 .language("fra")
+                                .portalSteps(
+                                    listOf(
+                                        IndividualCreateParams.TechnicalData.PortalStep
+                                            .IDENTITY_VERIFICATION,
+                                        IndividualCreateParams.TechnicalData.PortalStep.SELFIE,
+                                        IndividualCreateParams.TechnicalData.PortalStep.FACE_MATCH,
+                                    )
+                                )
                                 .rawData(true)
                                 .build()
                         )
@@ -516,6 +588,14 @@ internal class ErrorHandlingTest {
                                 .callbackUrlNotification("https://example.com/notify")
                                 .filteringScoreAmlSuspicions(0.75f)
                                 .language("fra")
+                                .portalSteps(
+                                    listOf(
+                                        IndividualCreateParams.TechnicalData.PortalStep
+                                            .IDENTITY_VERIFICATION,
+                                        IndividualCreateParams.TechnicalData.PortalStep.SELFIE,
+                                        IndividualCreateParams.TechnicalData.PortalStep.FACE_MATCH,
+                                    )
+                                )
                                 .rawData(true)
                                 .build()
                         )
@@ -563,6 +643,14 @@ internal class ErrorHandlingTest {
                                 .callbackUrlNotification("https://example.com/notify")
                                 .filteringScoreAmlSuspicions(0.75f)
                                 .language("fra")
+                                .portalSteps(
+                                    listOf(
+                                        IndividualCreateParams.TechnicalData.PortalStep
+                                            .IDENTITY_VERIFICATION,
+                                        IndividualCreateParams.TechnicalData.PortalStep.SELFIE,
+                                        IndividualCreateParams.TechnicalData.PortalStep.FACE_MATCH,
+                                    )
+                                )
                                 .rawData(true)
                                 .build()
                         )
@@ -610,6 +698,14 @@ internal class ErrorHandlingTest {
                                 .callbackUrlNotification("https://example.com/notify")
                                 .filteringScoreAmlSuspicions(0.75f)
                                 .language("fra")
+                                .portalSteps(
+                                    listOf(
+                                        IndividualCreateParams.TechnicalData.PortalStep
+                                            .IDENTITY_VERIFICATION,
+                                        IndividualCreateParams.TechnicalData.PortalStep.SELFIE,
+                                        IndividualCreateParams.TechnicalData.PortalStep.FACE_MATCH,
+                                    )
+                                )
                                 .rawData(true)
                                 .build()
                         )
@@ -657,6 +753,14 @@ internal class ErrorHandlingTest {
                                 .callbackUrlNotification("https://example.com/notify")
                                 .filteringScoreAmlSuspicions(0.75f)
                                 .language("fra")
+                                .portalSteps(
+                                    listOf(
+                                        IndividualCreateParams.TechnicalData.PortalStep
+                                            .IDENTITY_VERIFICATION,
+                                        IndividualCreateParams.TechnicalData.PortalStep.SELFIE,
+                                        IndividualCreateParams.TechnicalData.PortalStep.FACE_MATCH,
+                                    )
+                                )
                                 .rawData(true)
                                 .build()
                         )
@@ -704,6 +808,14 @@ internal class ErrorHandlingTest {
                                 .callbackUrlNotification("https://example.com/notify")
                                 .filteringScoreAmlSuspicions(0.75f)
                                 .language("fra")
+                                .portalSteps(
+                                    listOf(
+                                        IndividualCreateParams.TechnicalData.PortalStep
+                                            .IDENTITY_VERIFICATION,
+                                        IndividualCreateParams.TechnicalData.PortalStep.SELFIE,
+                                        IndividualCreateParams.TechnicalData.PortalStep.FACE_MATCH,
+                                    )
+                                )
                                 .rawData(true)
                                 .build()
                         )
@@ -751,6 +863,14 @@ internal class ErrorHandlingTest {
                                 .callbackUrlNotification("https://example.com/notify")
                                 .filteringScoreAmlSuspicions(0.75f)
                                 .language("fra")
+                                .portalSteps(
+                                    listOf(
+                                        IndividualCreateParams.TechnicalData.PortalStep
+                                            .IDENTITY_VERIFICATION,
+                                        IndividualCreateParams.TechnicalData.PortalStep.SELFIE,
+                                        IndividualCreateParams.TechnicalData.PortalStep.FACE_MATCH,
+                                    )
+                                )
                                 .rawData(true)
                                 .build()
                         )
@@ -798,6 +918,14 @@ internal class ErrorHandlingTest {
                                 .callbackUrlNotification("https://example.com/notify")
                                 .filteringScoreAmlSuspicions(0.75f)
                                 .language("fra")
+                                .portalSteps(
+                                    listOf(
+                                        IndividualCreateParams.TechnicalData.PortalStep
+                                            .IDENTITY_VERIFICATION,
+                                        IndividualCreateParams.TechnicalData.PortalStep.SELFIE,
+                                        IndividualCreateParams.TechnicalData.PortalStep.FACE_MATCH,
+                                    )
+                                )
                                 .rawData(true)
                                 .build()
                         )
@@ -843,6 +971,14 @@ internal class ErrorHandlingTest {
                                 .callbackUrlNotification("https://example.com/notify")
                                 .filteringScoreAmlSuspicions(0.75f)
                                 .language("fra")
+                                .portalSteps(
+                                    listOf(
+                                        IndividualCreateParams.TechnicalData.PortalStep
+                                            .IDENTITY_VERIFICATION,
+                                        IndividualCreateParams.TechnicalData.PortalStep.SELFIE,
+                                        IndividualCreateParams.TechnicalData.PortalStep.FACE_MATCH,
+                                    )
+                                )
                                 .rawData(true)
                                 .build()
                         )
