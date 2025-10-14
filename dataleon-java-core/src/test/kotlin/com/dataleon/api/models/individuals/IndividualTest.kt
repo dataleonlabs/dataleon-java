@@ -160,6 +160,13 @@ internal class IndividualTest {
                         .locationIp("203.0.113.45")
                         .needReviewAt(null)
                         .notificationConfirmation(false)
+                        .portalSteps(
+                            listOf(
+                                Individual.TechnicalData.PortalStep.IDENTITY_VERIFICATION,
+                                Individual.TechnicalData.PortalStep.SELFIE,
+                                Individual.TechnicalData.PortalStep.FACE_MATCH,
+                            )
+                        )
                         .qrCode("false")
                         .rawData(true)
                         .rejectedAt(null)
@@ -326,6 +333,13 @@ internal class IndividualTest {
                     .locationIp("203.0.113.45")
                     .needReviewAt(null)
                     .notificationConfirmation(false)
+                    .portalSteps(
+                        listOf(
+                            Individual.TechnicalData.PortalStep.IDENTITY_VERIFICATION,
+                            Individual.TechnicalData.PortalStep.SELFIE,
+                            Individual.TechnicalData.PortalStep.FACE_MATCH,
+                        )
+                    )
                     .qrCode("false")
                     .rawData(true)
                     .rejectedAt(null)
@@ -486,6 +500,13 @@ internal class IndividualTest {
                         .locationIp("203.0.113.45")
                         .needReviewAt(null)
                         .notificationConfirmation(false)
+                        .portalSteps(
+                            listOf(
+                                Individual.TechnicalData.PortalStep.IDENTITY_VERIFICATION,
+                                Individual.TechnicalData.PortalStep.SELFIE,
+                                Individual.TechnicalData.PortalStep.FACE_MATCH,
+                            )
+                        )
                         .qrCode("false")
                         .rawData(true)
                         .rejectedAt(null)

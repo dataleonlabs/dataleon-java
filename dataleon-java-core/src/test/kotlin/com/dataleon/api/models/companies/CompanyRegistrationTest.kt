@@ -206,6 +206,13 @@ internal class CompanyRegistrationTest {
                         .locationIp("203.0.113.45")
                         .needReviewAt(null)
                         .notificationConfirmation(false)
+                        .portalSteps(
+                            listOf(
+                                CompanyRegistration.TechnicalData.PortalStep.IDENTITY_VERIFICATION,
+                                CompanyRegistration.TechnicalData.PortalStep.SELFIE,
+                                CompanyRegistration.TechnicalData.PortalStep.FACE_MATCH,
+                            )
+                        )
                         .qrCode("false")
                         .rawData(true)
                         .rejectedAt(null)
@@ -414,6 +421,13 @@ internal class CompanyRegistrationTest {
                     .locationIp("203.0.113.45")
                     .needReviewAt(null)
                     .notificationConfirmation(false)
+                    .portalSteps(
+                        listOf(
+                            CompanyRegistration.TechnicalData.PortalStep.IDENTITY_VERIFICATION,
+                            CompanyRegistration.TechnicalData.PortalStep.SELFIE,
+                            CompanyRegistration.TechnicalData.PortalStep.FACE_MATCH,
+                        )
+                    )
                     .qrCode("false")
                     .rawData(true)
                     .rejectedAt(null)
@@ -618,6 +632,13 @@ internal class CompanyRegistrationTest {
                         .locationIp("203.0.113.45")
                         .needReviewAt(null)
                         .notificationConfirmation(false)
+                        .portalSteps(
+                            listOf(
+                                CompanyRegistration.TechnicalData.PortalStep.IDENTITY_VERIFICATION,
+                                CompanyRegistration.TechnicalData.PortalStep.SELFIE,
+                                CompanyRegistration.TechnicalData.PortalStep.FACE_MATCH,
+                            )
+                        )
                         .qrCode("false")
                         .rawData(true)
                         .rejectedAt(null)
