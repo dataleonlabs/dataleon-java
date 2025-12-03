@@ -312,13 +312,13 @@ The SDK uses the standard [OkHttp logging interceptor](https://github.com/square
 Enable logging by setting the `DATALEON_LOG` environment variable to `info`:
 
 ```sh
-$ export DATALEON_LOG=info
+export DATALEON_LOG=info
 ```
 
 Or to `debug` for more verbose logging:
 
 ```sh
-$ export DATALEON_LOG=debug
+export DATALEON_LOG=debug
 ```
 
 ## ProGuard and R8
