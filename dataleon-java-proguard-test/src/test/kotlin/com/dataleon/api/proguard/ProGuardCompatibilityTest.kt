@@ -132,6 +132,7 @@ internal class ProGuardCompatibilityTest {
                         .birthPlace("Paris")
                         .birthday("01/01/1990")
                         .country("FR")
+                        .entitlementDate("entitlement_date")
                         .expirationDate("2030-01-01")
                         .firstName("John")
                         .frontDocumentSignedUrl("https://cdn.example.com/front.jpg")
