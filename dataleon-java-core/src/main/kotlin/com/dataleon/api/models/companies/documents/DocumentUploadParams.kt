@@ -597,6 +597,8 @@ private constructor(
 
             @JvmField val RIB = of("rib")
 
+            @JvmField val CHECK = of("check")
+
             @JvmField val LIVRET_FAMILLE = of("livret_famille")
 
             @JvmField val BIRTH_CERTIFICATE = of("birth_certificate")
@@ -660,6 +662,7 @@ private constructor(
             REGISTRATION_COMPANY_CERTIFICATE,
             KBIS,
             RIB,
+            CHECK,
             LIVRET_FAMILLE,
             BIRTH_CERTIFICATE,
             PAYSLIP,
@@ -705,6 +708,7 @@ private constructor(
             REGISTRATION_COMPANY_CERTIFICATE,
             KBIS,
             RIB,
+            CHECK,
             LIVRET_FAMILLE,
             BIRTH_CERTIFICATE,
             PAYSLIP,
@@ -753,6 +757,7 @@ private constructor(
                 REGISTRATION_COMPANY_CERTIFICATE -> Value.REGISTRATION_COMPANY_CERTIFICATE
                 KBIS -> Value.KBIS
                 RIB -> Value.RIB
+                CHECK -> Value.CHECK
                 LIVRET_FAMILLE -> Value.LIVRET_FAMILLE
                 BIRTH_CERTIFICATE -> Value.BIRTH_CERTIFICATE
                 PAYSLIP -> Value.PAYSLIP
@@ -800,6 +805,7 @@ private constructor(
                 REGISTRATION_COMPANY_CERTIFICATE -> Known.REGISTRATION_COMPANY_CERTIFICATE
                 KBIS -> Known.KBIS
                 RIB -> Known.RIB
+                CHECK -> Known.CHECK
                 LIVRET_FAMILLE -> Known.LIVRET_FAMILLE
                 BIRTH_CERTIFICATE -> Known.BIRTH_CERTIFICATE
                 PAYSLIP -> Known.PAYSLIP
