@@ -191,6 +191,7 @@ internal class ProGuardCompatibilityTest {
                         .activeAmlSuspicions(false)
                         .apiVersion(2L)
                         .approvedAt(OffsetDateTime.parse("2025-05-01T12:00:00Z"))
+                        .approvedBy("user:john.doe")
                         .callbackUrl("https://example.com/callback")
                         .callbackUrlNotification("https://example.com/notify")
                         .disableNotification(false)
@@ -202,6 +203,7 @@ internal class ProGuardCompatibilityTest {
                         .language("fra")
                         .locationIp("203.0.113.45")
                         .needReviewAt(null)
+                        .needReviewBy("user:reviewer01")
                         .notificationConfirmation(false)
                         .portalSteps(
                             listOf(
@@ -213,6 +215,7 @@ internal class ProGuardCompatibilityTest {
                         .qrCode("false")
                         .rawData(true)
                         .rejectedAt(null)
+                        .rejectedBy("user:jane.doe")
                         .sessionDuration(45L)
                         .startedAt(OffsetDateTime.parse("2025-05-05T13:00:00Z"))
                         .transferAt(OffsetDateTime.parse("2025-07-12T14:00:00Z"))
