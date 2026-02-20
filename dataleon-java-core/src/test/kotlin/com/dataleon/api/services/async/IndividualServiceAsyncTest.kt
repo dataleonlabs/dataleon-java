@@ -2,7 +2,6 @@
 
 package com.dataleon.api.services.async
 
-import com.dataleon.api.TestServerExtension
 import com.dataleon.api.client.okhttp.DataleonOkHttpClientAsync
 import com.dataleon.api.models.individuals.IndividualCreateParams
 import com.dataleon.api.models.individuals.IndividualListParams
@@ -11,19 +10,13 @@ import com.dataleon.api.models.individuals.IndividualUpdateParams
 import java.time.LocalDate
 import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.extension.ExtendWith
 
-@ExtendWith(TestServerExtension::class)
 internal class IndividualServiceAsyncTest {
 
     @Disabled("Prism tests are disabled")
     @Test
     fun create() {
-        val client =
-            DataleonOkHttpClientAsync.builder()
-                .baseUrl(TestServerExtension.BASE_URL)
-                .apiKey("My API Key")
-                .build()
+        val client = DataleonOkHttpClientAsync.builder().apiKey("My API Key").build()
         val individualServiceAsync = client.individuals()
 
         val individualFuture =
@@ -71,11 +64,7 @@ internal class IndividualServiceAsyncTest {
     @Disabled("Prism tests are disabled")
     @Test
     fun retrieve() {
-        val client =
-            DataleonOkHttpClientAsync.builder()
-                .baseUrl(TestServerExtension.BASE_URL)
-                .apiKey("My API Key")
-                .build()
+        val client = DataleonOkHttpClientAsync.builder().apiKey("My API Key").build()
         val individualServiceAsync = client.individuals()
 
         val individualFuture =
@@ -94,11 +83,7 @@ internal class IndividualServiceAsyncTest {
     @Disabled("Prism tests are disabled")
     @Test
     fun update() {
-        val client =
-            DataleonOkHttpClientAsync.builder()
-                .baseUrl(TestServerExtension.BASE_URL)
-                .apiKey("My API Key")
-                .build()
+        val client = DataleonOkHttpClientAsync.builder().apiKey("My API Key").build()
         val individualServiceAsync = client.individuals()
 
         val individualFuture =
@@ -147,11 +132,7 @@ internal class IndividualServiceAsyncTest {
     @Disabled("Prism tests are disabled")
     @Test
     fun list() {
-        val client =
-            DataleonOkHttpClientAsync.builder()
-                .baseUrl(TestServerExtension.BASE_URL)
-                .apiKey("My API Key")
-                .build()
+        val client = DataleonOkHttpClientAsync.builder().apiKey("My API Key").build()
         val individualServiceAsync = client.individuals()
 
         val individualsFuture =
@@ -175,11 +156,7 @@ internal class IndividualServiceAsyncTest {
     @Disabled("Prism tests are disabled")
     @Test
     fun delete() {
-        val client =
-            DataleonOkHttpClientAsync.builder()
-                .baseUrl(TestServerExtension.BASE_URL)
-                .apiKey("My API Key")
-                .build()
+        val client = DataleonOkHttpClientAsync.builder().apiKey("My API Key").build()
         val individualServiceAsync = client.individuals()
 
         val future = individualServiceAsync.delete("individual_id")

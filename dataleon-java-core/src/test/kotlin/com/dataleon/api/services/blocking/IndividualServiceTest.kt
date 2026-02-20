@@ -2,7 +2,6 @@
 
 package com.dataleon.api.services.blocking
 
-import com.dataleon.api.TestServerExtension
 import com.dataleon.api.client.okhttp.DataleonOkHttpClient
 import com.dataleon.api.models.individuals.IndividualCreateParams
 import com.dataleon.api.models.individuals.IndividualListParams
@@ -11,19 +10,13 @@ import com.dataleon.api.models.individuals.IndividualUpdateParams
 import java.time.LocalDate
 import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.extension.ExtendWith
 
-@ExtendWith(TestServerExtension::class)
 internal class IndividualServiceTest {
 
     @Disabled("Prism tests are disabled")
     @Test
     fun create() {
-        val client =
-            DataleonOkHttpClient.builder()
-                .baseUrl(TestServerExtension.BASE_URL)
-                .apiKey("My API Key")
-                .build()
+        val client = DataleonOkHttpClient.builder().apiKey("My API Key").build()
         val individualService = client.individuals()
 
         val individual =
@@ -70,11 +63,7 @@ internal class IndividualServiceTest {
     @Disabled("Prism tests are disabled")
     @Test
     fun retrieve() {
-        val client =
-            DataleonOkHttpClient.builder()
-                .baseUrl(TestServerExtension.BASE_URL)
-                .apiKey("My API Key")
-                .build()
+        val client = DataleonOkHttpClient.builder().apiKey("My API Key").build()
         val individualService = client.individuals()
 
         val individual =
@@ -92,11 +81,7 @@ internal class IndividualServiceTest {
     @Disabled("Prism tests are disabled")
     @Test
     fun update() {
-        val client =
-            DataleonOkHttpClient.builder()
-                .baseUrl(TestServerExtension.BASE_URL)
-                .apiKey("My API Key")
-                .build()
+        val client = DataleonOkHttpClient.builder().apiKey("My API Key").build()
         val individualService = client.individuals()
 
         val individual =
@@ -144,11 +129,7 @@ internal class IndividualServiceTest {
     @Disabled("Prism tests are disabled")
     @Test
     fun list() {
-        val client =
-            DataleonOkHttpClient.builder()
-                .baseUrl(TestServerExtension.BASE_URL)
-                .apiKey("My API Key")
-                .build()
+        val client = DataleonOkHttpClient.builder().apiKey("My API Key").build()
         val individualService = client.individuals()
 
         val individuals =
@@ -171,11 +152,7 @@ internal class IndividualServiceTest {
     @Disabled("Prism tests are disabled")
     @Test
     fun delete() {
-        val client =
-            DataleonOkHttpClient.builder()
-                .baseUrl(TestServerExtension.BASE_URL)
-                .apiKey("My API Key")
-                .build()
+        val client = DataleonOkHttpClient.builder().apiKey("My API Key").build()
         val individualService = client.individuals()
 
         individualService.delete("individual_id")
