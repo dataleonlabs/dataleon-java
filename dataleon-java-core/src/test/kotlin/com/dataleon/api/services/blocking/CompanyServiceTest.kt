@@ -2,7 +2,6 @@
 
 package com.dataleon.api.services.blocking
 
-import com.dataleon.api.TestServerExtension
 import com.dataleon.api.client.okhttp.DataleonOkHttpClient
 import com.dataleon.api.models.companies.CompanyCreateParams
 import com.dataleon.api.models.companies.CompanyListParams
@@ -11,19 +10,13 @@ import com.dataleon.api.models.companies.CompanyUpdateParams
 import java.time.LocalDate
 import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.extension.ExtendWith
 
-@ExtendWith(TestServerExtension::class)
 internal class CompanyServiceTest {
 
     @Disabled("Prism tests are disabled")
     @Test
     fun create() {
-        val client =
-            DataleonOkHttpClient.builder()
-                .baseUrl(TestServerExtension.BASE_URL)
-                .apiKey("My API Key")
-                .build()
+        val client = DataleonOkHttpClient.builder().apiKey("My API Key").build()
         val companyService = client.companies()
 
         val companyRegistration =
@@ -75,11 +68,7 @@ internal class CompanyServiceTest {
     @Disabled("Prism tests are disabled")
     @Test
     fun retrieve() {
-        val client =
-            DataleonOkHttpClient.builder()
-                .baseUrl(TestServerExtension.BASE_URL)
-                .apiKey("My API Key")
-                .build()
+        val client = DataleonOkHttpClient.builder().apiKey("My API Key").build()
         val companyService = client.companies()
 
         val companyRegistration =
@@ -97,11 +86,7 @@ internal class CompanyServiceTest {
     @Disabled("Prism tests are disabled")
     @Test
     fun update() {
-        val client =
-            DataleonOkHttpClient.builder()
-                .baseUrl(TestServerExtension.BASE_URL)
-                .apiKey("My API Key")
-                .build()
+        val client = DataleonOkHttpClient.builder().apiKey("My API Key").build()
         val companyService = client.companies()
 
         val companyRegistration =
@@ -154,11 +139,7 @@ internal class CompanyServiceTest {
     @Disabled("Prism tests are disabled")
     @Test
     fun list() {
-        val client =
-            DataleonOkHttpClient.builder()
-                .baseUrl(TestServerExtension.BASE_URL)
-                .apiKey("My API Key")
-                .build()
+        val client = DataleonOkHttpClient.builder().apiKey("My API Key").build()
         val companyService = client.companies()
 
         val companyRegistrations =
@@ -181,11 +162,7 @@ internal class CompanyServiceTest {
     @Disabled("Prism tests are disabled")
     @Test
     fun delete() {
-        val client =
-            DataleonOkHttpClient.builder()
-                .baseUrl(TestServerExtension.BASE_URL)
-                .apiKey("My API Key")
-                .build()
+        val client = DataleonOkHttpClient.builder().apiKey("My API Key").build()
         val companyService = client.companies()
 
         companyService.delete("company_id")
