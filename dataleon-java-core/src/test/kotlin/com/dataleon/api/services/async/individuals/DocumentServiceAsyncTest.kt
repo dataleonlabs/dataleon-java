@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test
 
 internal class DocumentServiceAsyncTest {
 
-    @Disabled("Prism tests are disabled")
+    @Disabled("Mock server tests are disabled")
     @Test
     fun list() {
         val client = DataleonOkHttpClientAsync.builder().apiKey("My API Key").build()
@@ -21,7 +21,7 @@ internal class DocumentServiceAsyncTest {
         documentResponse.validate()
     }
 
-    @Disabled("Prism tests are disabled")
+    @Disabled("Mock server tests are disabled")
     @Test
     fun upload() {
         val client = DataleonOkHttpClientAsync.builder().apiKey("My API Key").build()
