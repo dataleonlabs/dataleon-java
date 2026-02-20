@@ -13,7 +13,7 @@ import org.junit.jupiter.api.Test
 
 internal class CompanyServiceAsyncTest {
 
-    @Disabled("Prism tests are disabled")
+    @Disabled("Mock server tests are disabled")
     @Test
     fun create() {
         val client = DataleonOkHttpClientAsync.builder().apiKey("My API Key").build()
@@ -66,7 +66,7 @@ internal class CompanyServiceAsyncTest {
         companyRegistration.validate()
     }
 
-    @Disabled("Prism tests are disabled")
+    @Disabled("Mock server tests are disabled")
     @Test
     fun retrieve() {
         val client = DataleonOkHttpClientAsync.builder().apiKey("My API Key").build()
@@ -85,7 +85,7 @@ internal class CompanyServiceAsyncTest {
         companyRegistration.validate()
     }
 
-    @Disabled("Prism tests are disabled")
+    @Disabled("Mock server tests are disabled")
     @Test
     fun update() {
         val client = DataleonOkHttpClientAsync.builder().apiKey("My API Key").build()
@@ -139,7 +139,7 @@ internal class CompanyServiceAsyncTest {
         companyRegistration.validate()
     }
 
-    @Disabled("Prism tests are disabled")
+    @Disabled("Mock server tests are disabled")
     @Test
     fun list() {
         val client = DataleonOkHttpClientAsync.builder().apiKey("My API Key").build()
@@ -163,7 +163,7 @@ internal class CompanyServiceAsyncTest {
         companyRegistrations.forEach { it.validate() }
     }
 
-    @Disabled("Prism tests are disabled")
+    @Disabled("Mock server tests are disabled")
     @Test
     fun delete() {
         val client = DataleonOkHttpClientAsync.builder().apiKey("My API Key").build()
