@@ -14,7 +14,7 @@ internal class DocumentUploadParamsTest {
         DocumentUploadParams.builder()
             .individualId("individual_id")
             .documentType(DocumentUploadParams.DocumentType.LIASSE_FISCALE)
-            .file("some content".byteInputStream())
+            .file("Example data".byteInputStream())
             .url("https://example.com/sample.pdf")
             .build()
     }
@@ -38,7 +38,7 @@ internal class DocumentUploadParamsTest {
             DocumentUploadParams.builder()
                 .individualId("individual_id")
                 .documentType(DocumentUploadParams.DocumentType.LIASSE_FISCALE)
-                .file("some content".byteInputStream())
+                .file("Example data".byteInputStream())
                 .url("https://example.com/sample.pdf")
                 .build()
 
@@ -56,7 +56,7 @@ internal class DocumentUploadParamsTest {
                 mapOf(
                         "document_type" to
                             MultipartField.of(DocumentUploadParams.DocumentType.LIASSE_FISCALE),
-                        "file" to MultipartField.of("some content".byteInputStream()),
+                        "file" to MultipartField.of("Example data".byteInputStream()),
                         "url" to MultipartField.of("https://example.com/sample.pdf"),
                     )
                     .mapValues { (_, field) ->

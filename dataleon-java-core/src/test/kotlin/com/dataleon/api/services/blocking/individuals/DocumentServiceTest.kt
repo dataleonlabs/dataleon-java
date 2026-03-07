@@ -31,7 +31,7 @@ internal class DocumentServiceTest {
                 DocumentUploadParams.builder()
                     .individualId("individual_id")
                     .documentType(DocumentUploadParams.DocumentType.LIASSE_FISCALE)
-                    .file("some content".byteInputStream())
+                    .file("Example data".byteInputStream())
                     .url("https://example.com/sample.pdf")
                     .build()
             )
