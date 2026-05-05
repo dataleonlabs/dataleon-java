@@ -633,6 +633,14 @@ private constructor(
 
     private var validated: Boolean = false
 
+    /**
+     * Validates that the types of all values in this object match their expected types recursively.
+     *
+     * This method is _not_ forwards compatible with new types from the API for existing fields.
+     *
+     * @throws DataleonInvalidDataException if any value type in this object doesn't match its
+     *   expected type.
+     */
     fun validate(): CompanyRegistration = apply {
         if (validated) {
             return@apply
@@ -1068,6 +1076,15 @@ private constructor(
 
         private var validated: Boolean = false
 
+        /**
+         * Validates that the types of all values in this object match their expected types
+         * recursively.
+         *
+         * This method is _not_ forwards compatible with new types from the API for existing fields.
+         *
+         * @throws DataleonInvalidDataException if any value type in this object doesn't match its
+         *   expected type.
+         */
         fun validate(): AmlSuspicion = apply {
             if (validated) {
                 return@apply
@@ -1212,6 +1229,16 @@ private constructor(
 
             private var validated: Boolean = false
 
+            /**
+             * Validates that the types of all values in this object match their expected types
+             * recursively.
+             *
+             * This method is _not_ forwards compatible with new types from the API for existing
+             * fields.
+             *
+             * @throws DataleonInvalidDataException if any value type in this object doesn't match
+             *   its expected type.
+             */
             fun validate(): Status = apply {
                 if (validated) {
                     return@apply
@@ -1361,6 +1388,16 @@ private constructor(
 
             private var validated: Boolean = false
 
+            /**
+             * Validates that the types of all values in this object match their expected types
+             * recursively.
+             *
+             * This method is _not_ forwards compatible with new types from the API for existing
+             * fields.
+             *
+             * @throws DataleonInvalidDataException if any value type in this object doesn't match
+             *   its expected type.
+             */
             fun validate(): Type = apply {
                 if (validated) {
                     return@apply
@@ -1609,6 +1646,15 @@ private constructor(
 
         private var validated: Boolean = false
 
+        /**
+         * Validates that the types of all values in this object match their expected types
+         * recursively.
+         *
+         * This method is _not_ forwards compatible with new types from the API for existing fields.
+         *
+         * @throws DataleonInvalidDataException if any value type in this object doesn't match its
+         *   expected type.
+         */
         fun validate(): Certificat = apply {
             if (validated) {
                 return@apply
@@ -2487,6 +2533,15 @@ private constructor(
 
         private var validated: Boolean = false
 
+        /**
+         * Validates that the types of all values in this object match their expected types
+         * recursively.
+         *
+         * This method is _not_ forwards compatible with new types from the API for existing fields.
+         *
+         * @throws DataleonInvalidDataException if any value type in this object doesn't match its
+         *   expected type.
+         */
         fun validate(): Company = apply {
             if (validated) {
                 return@apply
@@ -2808,6 +2863,16 @@ private constructor(
 
             private var validated: Boolean = false
 
+            /**
+             * Validates that the types of all values in this object match their expected types
+             * recursively.
+             *
+             * This method is _not_ forwards compatible with new types from the API for existing
+             * fields.
+             *
+             * @throws DataleonInvalidDataException if any value type in this object doesn't match
+             *   its expected type.
+             */
             fun validate(): Contact = apply {
                 if (validated) {
                     return@apply
@@ -3934,6 +3999,15 @@ private constructor(
 
         private var validated: Boolean = false
 
+        /**
+         * Validates that the types of all values in this object match their expected types
+         * recursively.
+         *
+         * This method is _not_ forwards compatible with new types from the API for existing fields.
+         *
+         * @throws DataleonInvalidDataException if any value type in this object doesn't match its
+         *   expected type.
+         */
         fun validate(): Member = apply {
             if (validated) {
                 return@apply
@@ -4105,6 +4179,16 @@ private constructor(
 
             private var validated: Boolean = false
 
+            /**
+             * Validates that the types of all values in this object match their expected types
+             * recursively.
+             *
+             * This method is _not_ forwards compatible with new types from the API for existing
+             * fields.
+             *
+             * @throws DataleonInvalidDataException if any value type in this object doesn't match
+             *   its expected type.
+             */
             fun validate(): Source = apply {
                 if (validated) {
                     return@apply
@@ -4233,6 +4317,16 @@ private constructor(
 
             private var validated: Boolean = false
 
+            /**
+             * Validates that the types of all values in this object match their expected types
+             * recursively.
+             *
+             * This method is _not_ forwards compatible with new types from the API for existing
+             * fields.
+             *
+             * @throws DataleonInvalidDataException if any value type in this object doesn't match
+             *   its expected type.
+             */
             fun validate(): Type = apply {
                 if (validated) {
                     return@apply
@@ -4501,6 +4595,15 @@ private constructor(
 
         private var validated: Boolean = false
 
+        /**
+         * Validates that the types of all values in this object match their expected types
+         * recursively.
+         *
+         * This method is _not_ forwards compatible with new types from the API for existing fields.
+         *
+         * @throws DataleonInvalidDataException if any value type in this object doesn't match its
+         *   expected type.
+         */
         fun validate(): Property = apply {
             if (validated) {
                 return@apply
@@ -4716,6 +4819,15 @@ private constructor(
 
         private var validated: Boolean = false
 
+        /**
+         * Validates that the types of all values in this object match their expected types
+         * recursively.
+         *
+         * This method is _not_ forwards compatible with new types from the API for existing fields.
+         *
+         * @throws DataleonInvalidDataException if any value type in this object doesn't match its
+         *   expected type.
+         */
         fun validate(): Risk = apply {
             if (validated) {
                 return@apply
@@ -5895,6 +6007,15 @@ private constructor(
 
         private var validated: Boolean = false
 
+        /**
+         * Validates that the types of all values in this object match their expected types
+         * recursively.
+         *
+         * This method is _not_ forwards compatible with new types from the API for existing fields.
+         *
+         * @throws DataleonInvalidDataException if any value type in this object doesn't match its
+         *   expected type.
+         */
         fun validate(): TechnicalData = apply {
             if (validated) {
                 return@apply
@@ -6083,6 +6204,16 @@ private constructor(
 
             private var validated: Boolean = false
 
+            /**
+             * Validates that the types of all values in this object match their expected types
+             * recursively.
+             *
+             * This method is _not_ forwards compatible with new types from the API for existing
+             * fields.
+             *
+             * @throws DataleonInvalidDataException if any value type in this object doesn't match
+             *   its expected type.
+             */
             fun validate(): PortalStep = apply {
                 if (validated) {
                     return@apply

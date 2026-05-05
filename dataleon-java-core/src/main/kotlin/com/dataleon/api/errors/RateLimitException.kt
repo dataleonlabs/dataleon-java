@@ -5,12 +5,16 @@ package com.dataleon.api.errors
 import com.dataleon.api.core.JsonValue
 import com.dataleon.api.core.checkRequired
 import com.dataleon.api.core.http.Headers
+import com.dataleon.api.core.jsonMapper
 import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
 
 class RateLimitException
 private constructor(private val headers: Headers, private val body: JsonValue, cause: Throwable?) :
-    DataleonServiceException("429: $body", cause) {
+    DataleonServiceException(
+        "429: ${if (body.isMissing()) "Unknown" else jsonMapper().writeValueAsString(body)}",
+        cause,
+    ) {
 
     override fun statusCode(): Int = 429
 
