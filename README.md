@@ -424,6 +424,21 @@ DataleonClient client = DataleonOkHttpClient.builder()
     .build();
 ```
 
+If the proxy responds with `407 Proxy Authentication Required`, supply credentials by also configuring `proxyAuthenticator`:
+
+```java
+import com.dataleon.api.client.DataleonClient;
+import com.dataleon.api.client.okhttp.DataleonOkHttpClient;
+import com.dataleon.api.core.http.ProxyAuthenticator;
+
+DataleonClient client = DataleonOkHttpClient.builder()
+    .fromEnv()
+    .proxy(...)
+    // Or a custom implementation of `ProxyAuthenticator`.
+    .proxyAuthenticator(ProxyAuthenticator.basic("username", "password"))
+    .build();
+```
+
 ### Connection pooling
 
 To customize the underlying OkHttp connection pool, configure the client using the `maxIdleConnections` and `keepAliveDuration` methods:
