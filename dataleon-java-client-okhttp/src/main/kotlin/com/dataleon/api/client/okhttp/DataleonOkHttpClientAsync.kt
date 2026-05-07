@@ -5,6 +5,7 @@ package com.dataleon.api.client.okhttp
 import com.dataleon.api.client.DataleonClientAsync
 import com.dataleon.api.client.DataleonClientAsyncImpl
 import com.dataleon.api.core.ClientOptions
+import com.dataleon.api.core.LogLevel
 import com.dataleon.api.core.Sleeper
 import com.dataleon.api.core.Timeout
 import com.dataleon.api.core.http.Headers
@@ -276,6 +277,15 @@ class DataleonOkHttpClientAsync private constructor() {
          * Defaults to 2.
          */
         fun maxRetries(maxRetries: Int) = apply { clientOptions.maxRetries(maxRetries) }
+
+        /**
+         * The level at which to log request and response information.
+         *
+         * [fromEnv] will set the level from environment variables. See [LogLevel.fromEnv].
+         *
+         * Defaults to [LogLevel.fromEnv].
+         */
+        fun logLevel(logLevel: LogLevel) = apply { clientOptions.logLevel(logLevel) }
 
         /**
          * API key needed to authorize requests. You must provide a valid API key in the `Api-Key`

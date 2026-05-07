@@ -4,6 +4,7 @@ package com.dataleon.api.core
 
 import com.dataleon.api.core.http.Headers
 import com.dataleon.api.core.http.HttpClient
+import com.dataleon.api.core.http.LoggingHttpClient
 import com.dataleon.api.core.http.PhantomReachableClosingHttpClient
 import com.dataleon.api.core.http.QueryParams
 import com.dataleon.api.core.http.RetryingHttpClient
@@ -97,6 +98,14 @@ private constructor(
      */
     @get:JvmName("maxRetries") val maxRetries: Int,
     /**
+     * The level at which to log request and response information.
+     *
+     * [fromEnv] will set the level from environment variables. See [LogLevel.fromEnv].
+     *
+     * Defaults to [LogLevel.fromEnv].
+     */
+    @get:JvmName("logLevel") val logLevel: LogLevel,
+    /**
      * API key needed to authorize requests. You must provide a valid API key in the `Api-Key`
      * header. Get your API key from the Dataleon dashboard.
      */
@@ -155,6 +164,7 @@ private constructor(
         private var responseValidation: Boolean = false
         private var timeout: Timeout = Timeout.default()
         private var maxRetries: Int = 2
+        private var logLevel: LogLevel = LogLevel.fromEnv()
         private var apiKey: String? = null
 
         @JvmSynthetic
@@ -170,6 +180,7 @@ private constructor(
             responseValidation = clientOptions.responseValidation
             timeout = clientOptions.timeout
             maxRetries = clientOptions.maxRetries
+            logLevel = clientOptions.logLevel
             apiKey = clientOptions.apiKey
         }
 
@@ -281,6 +292,15 @@ private constructor(
         fun maxRetries(maxRetries: Int) = apply { this.maxRetries = maxRetries }
 
         /**
+         * The level at which to log request and response information.
+         *
+         * [fromEnv] will set the level from environment variables. See [LogLevel.fromEnv].
+         *
+         * Defaults to [LogLevel.fromEnv].
+         */
+        fun logLevel(logLevel: LogLevel) = apply { this.logLevel = logLevel }
+
+        /**
          * API key needed to authorize requests. You must provide a valid API key in the `Api-Key`
          * header. Get your API key from the Dataleon dashboard.
          */
@@ -381,6 +401,7 @@ private constructor(
          * System properties take precedence over environment variables.
          */
         fun fromEnv() = apply {
+            logLevel(LogLevel.fromEnv())
             (System.getProperty("dataleon.baseUrl") ?: System.getenv("DATALEON_BASE_URL"))?.let {
                 baseUrl(it)
             }
@@ -437,7 +458,13 @@ private constructor(
             return ClientOptions(
                 httpClient,
                 RetryingHttpClient.builder()
-                    .httpClient(httpClient)
+                    .httpClient(
+                        LoggingHttpClient.builder()
+                            .httpClient(httpClient)
+                            .clock(clock)
+                            .level(logLevel)
+                            .build()
+                    )
                     .sleeper(sleeper)
                     .clock(clock)
                     .maxRetries(maxRetries)
@@ -452,6 +479,7 @@ private constructor(
                 responseValidation,
                 timeout,
                 maxRetries,
+                logLevel,
                 apiKey,
             )
         }
