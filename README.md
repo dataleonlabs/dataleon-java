@@ -3,7 +3,7 @@
 <!-- x-release-please-start-version -->
 
 [![Maven Central](https://img.shields.io/maven-central/v/com.dataleon.api/dataleon-java)](https://central.sonatype.com/artifact/com.dataleon.api/dataleon-java/0.1.0-alpha.4)
-[![javadoc](https://javadoc.io/badge2/com.dataleon.api/dataleon-java/0.1.0-alpha.4/javadoc.svg)](https://javadoc.io/doc/com.dataleon.api/dataleon-java/0.1.0-alpha.4)
+[![javadoc](https://javadoc.io/badge2/com.dataleon.api/dataleon-java/javadoc.svg)](https://javadoc.io/doc/com.dataleon.api/dataleon-java/0.1.0-alpha.4)
 
 <!-- x-release-please-end -->
 
