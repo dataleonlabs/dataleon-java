@@ -22,6 +22,7 @@ import kotlin.jvm.optionals.getOrNull
 
 /** Represents a general document with metadata, verification checks, and extracted data. */
 class GenericDocument
+@JsonCreator(mode = JsonCreator.Mode.DISABLED)
 private constructor(
     private val id: JsonField<String>,
     private val checks: JsonField<List<Check>>,
@@ -470,6 +471,14 @@ private constructor(
 
     private var validated: Boolean = false
 
+    /**
+     * Validates that the types of all values in this object match their expected types recursively.
+     *
+     * This method is _not_ forwards compatible with new types from the API for existing fields.
+     *
+     * @throws DataleonInvalidDataException if any value type in this object doesn't match its
+     *   expected type.
+     */
     fun validate(): GenericDocument = apply {
         if (validated) {
             return@apply
@@ -515,6 +524,7 @@ private constructor(
             (values.asKnown().getOrNull()?.sumOf { it.validity().toInt() } ?: 0)
 
     class Table
+    @JsonCreator(mode = JsonCreator.Mode.DISABLED)
     private constructor(
         private val operation: JsonField<List<JsonValue>>,
         private val additionalProperties: MutableMap<String, JsonValue>,
@@ -633,6 +643,15 @@ private constructor(
 
         private var validated: Boolean = false
 
+        /**
+         * Validates that the types of all values in this object match their expected types
+         * recursively.
+         *
+         * This method is _not_ forwards compatible with new types from the API for existing fields.
+         *
+         * @throws DataleonInvalidDataException if any value type in this object doesn't match its
+         *   expected type.
+         */
         fun validate(): Table = apply {
             if (validated) {
                 return@apply
@@ -677,6 +696,7 @@ private constructor(
     }
 
     class Value
+    @JsonCreator(mode = JsonCreator.Mode.DISABLED)
     private constructor(
         private val confidence: JsonField<Double>,
         private val name: JsonField<String>,
@@ -859,6 +879,15 @@ private constructor(
 
         private var validated: Boolean = false
 
+        /**
+         * Validates that the types of all values in this object match their expected types
+         * recursively.
+         *
+         * This method is _not_ forwards compatible with new types from the API for existing fields.
+         *
+         * @throws DataleonInvalidDataException if any value type in this object doesn't match its
+         *   expected type.
+         */
         fun validate(): Value = apply {
             if (validated) {
                 return@apply

@@ -2,7 +2,6 @@
 
 package com.dataleon.api.services.async
 
-import com.dataleon.api.TestServerExtension
 import com.dataleon.api.client.okhttp.DataleonOkHttpClientAsync
 import com.dataleon.api.models.companies.CompanyCreateParams
 import com.dataleon.api.models.companies.CompanyListParams
@@ -11,19 +10,13 @@ import com.dataleon.api.models.companies.CompanyUpdateParams
 import java.time.LocalDate
 import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.extension.ExtendWith
 
-@ExtendWith(TestServerExtension::class)
 internal class CompanyServiceAsyncTest {
 
-    @Disabled("Prism tests are disabled")
+    @Disabled("Mock server tests are disabled")
     @Test
     fun create() {
-        val client =
-            DataleonOkHttpClientAsync.builder()
-                .baseUrl(TestServerExtension.BASE_URL)
-                .apiKey("My API Key")
-                .build()
+        val client = DataleonOkHttpClientAsync.builder().apiKey("My API Key").build()
         val companyServiceAsync = client.companies()
 
         val companyRegistrationFuture =
@@ -57,6 +50,12 @@ internal class CompanyServiceAsyncTest {
                             .callbackUrlNotification("https://example.com/notify")
                             .filteringScoreAmlSuspicions(0.75f)
                             .language("fra")
+                            .addPortalStep(
+                                CompanyCreateParams.TechnicalData.PortalStep.IDENTITY_VERIFICATION
+                            )
+                            .addPortalStep(
+                                CompanyCreateParams.TechnicalData.PortalStep.DOCUMENT_SIGNING
+                            )
                             .rawData(true)
                             .build()
                     )
@@ -67,14 +66,10 @@ internal class CompanyServiceAsyncTest {
         companyRegistration.validate()
     }
 
-    @Disabled("Prism tests are disabled")
+    @Disabled("Mock server tests are disabled")
     @Test
     fun retrieve() {
-        val client =
-            DataleonOkHttpClientAsync.builder()
-                .baseUrl(TestServerExtension.BASE_URL)
-                .apiKey("My API Key")
-                .build()
+        val client = DataleonOkHttpClientAsync.builder().apiKey("My API Key").build()
         val companyServiceAsync = client.companies()
 
         val companyRegistrationFuture =
@@ -90,14 +85,10 @@ internal class CompanyServiceAsyncTest {
         companyRegistration.validate()
     }
 
-    @Disabled("Prism tests are disabled")
+    @Disabled("Mock server tests are disabled")
     @Test
     fun update() {
-        val client =
-            DataleonOkHttpClientAsync.builder()
-                .baseUrl(TestServerExtension.BASE_URL)
-                .apiKey("My API Key")
-                .build()
+        val client = DataleonOkHttpClientAsync.builder().apiKey("My API Key").build()
         val companyServiceAsync = client.companies()
 
         val companyRegistrationFuture =
@@ -132,6 +123,12 @@ internal class CompanyServiceAsyncTest {
                             .callbackUrlNotification("https://example.com/notify")
                             .filteringScoreAmlSuspicions(0.75f)
                             .language("fra")
+                            .addPortalStep(
+                                CompanyUpdateParams.TechnicalData.PortalStep.IDENTITY_VERIFICATION
+                            )
+                            .addPortalStep(
+                                CompanyUpdateParams.TechnicalData.PortalStep.DOCUMENT_SIGNING
+                            )
                             .rawData(true)
                             .build()
                     )
@@ -142,14 +139,10 @@ internal class CompanyServiceAsyncTest {
         companyRegistration.validate()
     }
 
-    @Disabled("Prism tests are disabled")
+    @Disabled("Mock server tests are disabled")
     @Test
     fun list() {
-        val client =
-            DataleonOkHttpClientAsync.builder()
-                .baseUrl(TestServerExtension.BASE_URL)
-                .apiKey("My API Key")
-                .build()
+        val client = DataleonOkHttpClientAsync.builder().apiKey("My API Key").build()
         val companyServiceAsync = client.companies()
 
         val companyRegistrationsFuture =
@@ -170,14 +163,10 @@ internal class CompanyServiceAsyncTest {
         companyRegistrations.forEach { it.validate() }
     }
 
-    @Disabled("Prism tests are disabled")
+    @Disabled("Mock server tests are disabled")
     @Test
     fun delete() {
-        val client =
-            DataleonOkHttpClientAsync.builder()
-                .baseUrl(TestServerExtension.BASE_URL)
-                .apiKey("My API Key")
-                .build()
+        val client = DataleonOkHttpClientAsync.builder().apiKey("My API Key").build()
         val companyServiceAsync = client.companies()
 
         val future = companyServiceAsync.delete("company_id")

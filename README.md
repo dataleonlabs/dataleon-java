@@ -2,8 +2,8 @@
 
 <!-- x-release-please-start-version -->
 
-[![Maven Central](https://img.shields.io/maven-central/v/com.dataleon.api/dataleon-java)](https://central.sonatype.com/artifact/com.dataleon.api/dataleon-java/0.1.0-alpha.4)
-[![javadoc](https://javadoc.io/badge2/com.dataleon.api/dataleon-java/0.1.0-alpha.4/javadoc.svg)](https://javadoc.io/doc/com.dataleon.api/dataleon-java/0.1.0-alpha.4)
+[![Maven Central](https://img.shields.io/maven-central/v/com.dataleon.api/dataleon-java)](https://central.sonatype.com/artifact/com.dataleon.api/dataleon-java/0.1.0-alpha.5)
+[![javadoc](https://javadoc.io/badge2/com.dataleon.api/dataleon-java/javadoc.svg)](https://javadoc.io/doc/com.dataleon.api/dataleon-java/0.1.0-alpha.5)
 
 <!-- x-release-please-end -->
 
@@ -11,9 +11,18 @@ The Dataleon Java SDK provides convenient access to the [Dataleon REST API](http
 
 It is generated with [Stainless](https://www.stainless.com/).
 
+## MCP Server
+
+Use the Dataleon MCP Server to enable AI assistants to interact with this API, allowing them to explore endpoints, make test requests, and use documentation to help integrate this SDK into your application.
+
+[![Add to Cursor](https://cursor.com/deeplink/mcp-install-dark.svg)](https://cursor.com/en-US/install-mcp?name=%40dataleon%2Fdataleon-mcp&config=eyJjb21tYW5kIjoibnB4IiwiYXJncyI6WyIteSIsIkBkYXRhbGVvbi9kYXRhbGVvbi1tY3AiXSwiZW52Ijp7IkRBVEFMRU9OX0FQSV9LRVkiOiJNeSBBUEkgS2V5In19)
+[![Install in VS Code](https://img.shields.io/badge/_-Add_to_VS_Code-blue?style=for-the-badge&logo=data:image/svg%2bxml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGZpbGw9Im5vbmUiIHZpZXdCb3g9IjAgMCA0MCA0MCI+PHBhdGggZmlsbD0iI0VFRSIgZmlsbC1ydWxlPSJldmVub2RkIiBkPSJNMzAuMjM1IDM5Ljg4NGEyLjQ5MSAyLjQ5MSAwIDAgMS0xLjc4MS0uNzNMMTIuNyAyNC43OGwtMy40NiAyLjYyNC0zLjQwNiAyLjU4MmExLjY2NSAxLjY2NSAwIDAgMS0xLjA4Mi4zMzggMS42NjQgMS42NjQgMCAwIDEtMS4wNDYtLjQzMWwtMi4yLTJhMS42NjYgMS42NjYgMCAwIDEgMC0yLjQ2M0w3LjQ1OCAyMCA0LjY3IDE3LjQ1MyAxLjUwNyAxNC41N2ExLjY2NSAxLjY2NSAwIDAgMSAwLTIuNDYzbDIuMi0yYTEuNjY1IDEuNjY1IDAgMCAxIDIuMTMtLjA5N2w2Ljg2MyA1LjIwOUwyOC40NTIuODQ0YTIuNDg4IDIuNDg4IDAgMCAxIDEuODQxLS43MjljLjM1MS4wMDkuNjk5LjA5MSAxLjAxOS4yNDVsOC4yMzYgMy45NjFhMi41IDIuNSAwIDAgMSAxLjQxNSAyLjI1M3YuMDk5LS4wNDVWMzMuMzd2LS4wNDUuMDk1YTIuNTAxIDIuNTAxIDAgMCAxLTEuNDE2IDIuMjU3bC04LjIzNSAzLjk2MWEyLjQ5MiAyLjQ5MiAwIDAgMS0xLjA3Ny4yNDZabS43MTYtMjguOTQ3LTExLjk0OCA5LjA2MiAxMS45NTIgOS4wNjUtLjAwNC0xOC4xMjdaIi8+PC9zdmc+)](https://vscode.stainless.com/mcp/%7B%22name%22%3A%22%40dataleon%2Fdataleon-mcp%22%2C%22command%22%3A%22npx%22%2C%22args%22%3A%5B%22-y%22%2C%22%40dataleon%2Fdataleon-mcp%22%5D%2C%22env%22%3A%7B%22DATALEON_API_KEY%22%3A%22My%20API%20Key%22%7D%7D)
+
+> Note: You may need to set environment variables in your MCP client.
+
 <!-- x-release-please-start-version -->
 
-The REST API documentation can be found on [docs.dataleon.ai](https://docs.dataleon.ai). Javadocs are available on [javadoc.io](https://javadoc.io/doc/com.dataleon.api/dataleon-java/0.1.0-alpha.4).
+The REST API documentation can be found on [docs.dataleon.ai](https://docs.dataleon.ai). Javadocs are available on [javadoc.io](https://javadoc.io/doc/com.dataleon.api/dataleon-java/0.1.0-alpha.5).
 
 <!-- x-release-please-end -->
 
@@ -24,7 +33,7 @@ The REST API documentation can be found on [docs.dataleon.ai](https://docs.datal
 ### Gradle
 
 ```kotlin
-implementation("com.dataleon.api:dataleon-java:0.1.0-alpha.4")
+implementation("com.dataleon.api:dataleon-java:0.1.0-alpha.5")
 ```
 
 ### Maven
@@ -33,7 +42,7 @@ implementation("com.dataleon.api:dataleon-java:0.1.0-alpha.4")
 <dependency>
   <groupId>com.dataleon.api</groupId>
   <artifactId>dataleon-java</artifactId>
-  <version>0.1.0-alpha.4</version>
+  <version>0.1.0-alpha.5</version>
 </dependency>
 ```
 
@@ -307,18 +316,29 @@ The SDK throws custom unchecked exception types:
 
 ## Logging
 
-The SDK uses the standard [OkHttp logging interceptor](https://github.com/square/okhttp/tree/master/okhttp-logging-interceptor).
-
 Enable logging by setting the `DATALEON_LOG` environment variable to `info`:
 
 ```sh
-$ export DATALEON_LOG=info
+export DATALEON_LOG=info
 ```
 
 Or to `debug` for more verbose logging:
 
 ```sh
-$ export DATALEON_LOG=debug
+export DATALEON_LOG=debug
+```
+
+Or configure the client manually using the `logLevel` method:
+
+```java
+import com.dataleon.api.client.DataleonClient;
+import com.dataleon.api.client.okhttp.DataleonOkHttpClient;
+import com.dataleon.api.core.LogLevel;
+
+DataleonClient client = DataleonOkHttpClient.builder()
+    .fromEnv()
+    .logLevel(LogLevel.INFO)
+    .build();
 ```
 
 ## ProGuard and R8
@@ -337,6 +357,8 @@ If the SDK threw an exception, but you're _certain_ the version is compatible, t
 
 > [!CAUTION]
 > We make no guarantee that the SDK works correctly when the Jackson version check is disabled.
+
+Also note that there are bugs in older Jackson versions that can affect the SDK. We don't work around all Jackson bugs ([example](https://github.com/FasterXML/jackson-databind/issues/3240)) and expect users to upgrade Jackson for those instead.
 
 ## Network options
 
@@ -412,6 +434,40 @@ DataleonClient client = DataleonOkHttpClient.builder()
     ))
     .build();
 ```
+
+If the proxy responds with `407 Proxy Authentication Required`, supply credentials by also configuring `proxyAuthenticator`:
+
+```java
+import com.dataleon.api.client.DataleonClient;
+import com.dataleon.api.client.okhttp.DataleonOkHttpClient;
+import com.dataleon.api.core.http.ProxyAuthenticator;
+
+DataleonClient client = DataleonOkHttpClient.builder()
+    .fromEnv()
+    .proxy(...)
+    // Or a custom implementation of `ProxyAuthenticator`.
+    .proxyAuthenticator(ProxyAuthenticator.basic("username", "password"))
+    .build();
+```
+
+### Connection pooling
+
+To customize the underlying OkHttp connection pool, configure the client using the `maxIdleConnections` and `keepAliveDuration` methods:
+
+```java
+import com.dataleon.api.client.DataleonClient;
+import com.dataleon.api.client.okhttp.DataleonOkHttpClient;
+import java.time.Duration;
+
+DataleonClient client = DataleonOkHttpClient.builder()
+    .fromEnv()
+    // If `maxIdleConnections` is set, then `keepAliveDuration` must be set, and vice versa.
+    .maxIdleConnections(10)
+    .keepAliveDuration(Duration.ofMinutes(2))
+    .build();
+```
+
+If both options are unset, OkHttp's default connection pool settings are used.
 
 ### HTTPS
 
@@ -629,7 +685,9 @@ In rare cases, the API may return a response that doesn't match the expected typ
 
 By default, the SDK will not throw an exception in this case. It will throw [`DataleonInvalidDataException`](dataleon-java-core/src/main/kotlin/com/dataleon/api/errors/DataleonInvalidDataException.kt) only if you directly access the property.
 
-If you would prefer to check that the response is completely well-typed upfront, then either call `validate()`:
+Validating the response is _not_ forwards compatible with new types from the API for existing fields.
+
+If you would still prefer to check that the response is completely well-typed upfront, then either call `validate()`:
 
 ```java
 import com.dataleon.api.models.individuals.Individual;

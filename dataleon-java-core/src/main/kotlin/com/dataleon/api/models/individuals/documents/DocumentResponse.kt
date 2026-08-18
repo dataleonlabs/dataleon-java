@@ -19,6 +19,7 @@ import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
 
 class DocumentResponse
+@JsonCreator(mode = JsonCreator.Mode.DISABLED)
 private constructor(
     private val documents: JsonField<List<Document>>,
     private val totalDocument: JsonField<Long>,
@@ -175,6 +176,14 @@ private constructor(
 
     private var validated: Boolean = false
 
+    /**
+     * Validates that the types of all values in this object match their expected types recursively.
+     *
+     * This method is _not_ forwards compatible with new types from the API for existing fields.
+     *
+     * @throws DataleonInvalidDataException if any value type in this object doesn't match its
+     *   expected type.
+     */
     fun validate(): DocumentResponse = apply {
         if (validated) {
             return@apply
@@ -208,6 +217,7 @@ private constructor(
      * contract.
      */
     class Document
+    @JsonCreator(mode = JsonCreator.Mode.DISABLED)
     private constructor(
         private val id: JsonField<String>,
         private val documentType: JsonField<String>,
@@ -559,6 +569,15 @@ private constructor(
 
         private var validated: Boolean = false
 
+        /**
+         * Validates that the types of all values in this object match their expected types
+         * recursively.
+         *
+         * This method is _not_ forwards compatible with new types from the API for existing fields.
+         *
+         * @throws DataleonInvalidDataException if any value type in this object doesn't match its
+         *   expected type.
+         */
         fun validate(): Document = apply {
             if (validated) {
                 return@apply

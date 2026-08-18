@@ -4,6 +4,7 @@ package com.dataleon.api.core
 
 import com.dataleon.api.core.http.Headers
 import com.dataleon.api.core.http.HttpClient
+import com.dataleon.api.core.http.LoggingHttpClient
 import com.dataleon.api.core.http.PhantomReachableClosingHttpClient
 import com.dataleon.api.core.http.QueryParams
 import com.dataleon.api.core.http.RetryingHttpClient
@@ -41,6 +42,16 @@ private constructor(
      */
     @get:JvmName("jsonMapper") val jsonMapper: JsonMapper,
     /**
+     * The interface to use for delaying execution, like during retries.
+     *
+     * This is primarily useful for using fake delays in tests.
+     *
+     * Defaults to real execution delays.
+     *
+     * This class takes ownership of the sleeper and closes it when closed.
+     */
+    @get:JvmName("sleeper") val sleeper: Sleeper,
+    /**
      * The clock to use for operations that require timing, like retries.
      *
      * This is primarily useful for using a fake clock in tests.
@@ -55,6 +66,9 @@ private constructor(
     @get:JvmName("queryParams") val queryParams: QueryParams,
     /**
      * Whether to call `validate` on every response before returning it.
+     *
+     * Setting this to `true` is _not_ forwards compatible with new types from the API for existing
+     * fields.
      *
      * Defaults to false, which means the shape of the response will not be validated upfront.
      * Instead, validation will only occur for the parts of the response that are accessed.
@@ -83,6 +97,14 @@ private constructor(
      * Defaults to 2.
      */
     @get:JvmName("maxRetries") val maxRetries: Int,
+    /**
+     * The level at which to log request and response information.
+     *
+     * [fromEnv] will set the level from environment variables. See [LogLevel.fromEnv].
+     *
+     * Defaults to [LogLevel.fromEnv].
+     */
+    @get:JvmName("logLevel") val logLevel: LogLevel,
     /**
      * API key needed to authorize requests. You must provide a valid API key in the `Api-Key`
      * header. Get your API key from the Dataleon dashboard.
@@ -134,6 +156,7 @@ private constructor(
         private var httpClient: HttpClient? = null
         private var checkJacksonVersionCompatibility: Boolean = true
         private var jsonMapper: JsonMapper = jsonMapper()
+        private var sleeper: Sleeper? = null
         private var clock: Clock = Clock.systemUTC()
         private var baseUrl: String? = null
         private var headers: Headers.Builder = Headers.builder()
@@ -141,6 +164,7 @@ private constructor(
         private var responseValidation: Boolean = false
         private var timeout: Timeout = Timeout.default()
         private var maxRetries: Int = 2
+        private var logLevel: LogLevel = LogLevel.fromEnv()
         private var apiKey: String? = null
 
         @JvmSynthetic
@@ -148,6 +172,7 @@ private constructor(
             httpClient = clientOptions.originalHttpClient
             checkJacksonVersionCompatibility = clientOptions.checkJacksonVersionCompatibility
             jsonMapper = clientOptions.jsonMapper
+            sleeper = clientOptions.sleeper
             clock = clientOptions.clock
             baseUrl = clientOptions.baseUrl
             headers = clientOptions.headers.toBuilder()
@@ -155,6 +180,7 @@ private constructor(
             responseValidation = clientOptions.responseValidation
             timeout = clientOptions.timeout
             maxRetries = clientOptions.maxRetries
+            logLevel = clientOptions.logLevel
             apiKey = clientOptions.apiKey
         }
 
@@ -189,6 +215,17 @@ private constructor(
         fun jsonMapper(jsonMapper: JsonMapper) = apply { this.jsonMapper = jsonMapper }
 
         /**
+         * The interface to use for delaying execution, like during retries.
+         *
+         * This is primarily useful for using fake delays in tests.
+         *
+         * Defaults to real execution delays.
+         *
+         * This class takes ownership of the sleeper and closes it when closed.
+         */
+        fun sleeper(sleeper: Sleeper) = apply { this.sleeper = PhantomReachableSleeper(sleeper) }
+
+        /**
          * The clock to use for operations that require timing, like retries.
          *
          * This is primarily useful for using a fake clock in tests.
@@ -209,6 +246,9 @@ private constructor(
 
         /**
          * Whether to call `validate` on every response before returning it.
+         *
+         * Setting this to `true` is _not_ forwards compatible with new types from the API for
+         * existing fields.
          *
          * Defaults to false, which means the shape of the response will not be validated upfront.
          * Instead, validation will only occur for the parts of the response that are accessed.
@@ -250,6 +290,15 @@ private constructor(
          * Defaults to 2.
          */
         fun maxRetries(maxRetries: Int) = apply { this.maxRetries = maxRetries }
+
+        /**
+         * The level at which to log request and response information.
+         *
+         * [fromEnv] will set the level from environment variables. See [LogLevel.fromEnv].
+         *
+         * Defaults to [LogLevel.fromEnv].
+         */
+        fun logLevel(logLevel: LogLevel) = apply { this.logLevel = logLevel }
 
         /**
          * API key needed to authorize requests. You must provide a valid API key in the `Api-Key`
@@ -352,11 +401,20 @@ private constructor(
          * System properties take precedence over environment variables.
          */
         fun fromEnv() = apply {
+            logLevel(LogLevel.fromEnv())
             (System.getProperty("dataleon.baseUrl") ?: System.getenv("DATALEON_BASE_URL"))?.let {
                 baseUrl(it)
             }
             (System.getProperty("dataleon.apiKey") ?: System.getenv("DATALEON_API_KEY"))?.let {
                 apiKey(it)
+            }
+            System.getenv("DATALEON_CUSTOM_HEADERS")?.let { customHeadersEnv ->
+                for (line in customHeadersEnv.split("\n")) {
+                    val colon = line.indexOf(':')
+                    if (colon >= 0) {
+                        putHeader(line.substring(0, colon).trim(), line.substring(colon + 1).trim())
+                    }
+                }
             }
         }
 
@@ -375,6 +433,7 @@ private constructor(
          */
         fun build(): ClientOptions {
             val httpClient = checkRequired("httpClient", httpClient)
+            val sleeper = sleeper ?: PhantomReachableSleeper(DefaultSleeper())
             val apiKey = checkRequired("apiKey", apiKey)
 
             val headers = Headers.builder()
@@ -386,23 +445,33 @@ private constructor(
             headers.put("X-Stainless-Package-Version", getPackageVersion())
             headers.put("X-Stainless-Runtime", "JRE")
             headers.put("X-Stainless-Runtime-Version", getJavaVersion())
-            apiKey.let {
-                if (!it.isEmpty()) {
-                    headers.put("Api-Key", it)
-                }
-            }
+            headers.put("X-Stainless-Kotlin-Version", KotlinVersion.CURRENT.toString())
+            // We replace after all the default headers to allow end-users to overwrite them.
             headers.replaceAll(this.headers.build())
             queryParams.replaceAll(this.queryParams.build())
+            apiKey.let {
+                if (!it.isEmpty()) {
+                    headers.replace("Api-Key", it)
+                }
+            }
 
             return ClientOptions(
                 httpClient,
                 RetryingHttpClient.builder()
-                    .httpClient(httpClient)
+                    .httpClient(
+                        LoggingHttpClient.builder()
+                            .httpClient(httpClient)
+                            .clock(clock)
+                            .level(logLevel)
+                            .build()
+                    )
+                    .sleeper(sleeper)
                     .clock(clock)
                     .maxRetries(maxRetries)
                     .build(),
                 checkJacksonVersionCompatibility,
                 jsonMapper,
+                sleeper,
                 clock,
                 baseUrl,
                 headers.build(),
@@ -410,6 +479,7 @@ private constructor(
                 responseValidation,
                 timeout,
                 maxRetries,
+                logLevel,
                 apiKey,
             )
         }
@@ -427,5 +497,6 @@ private constructor(
      */
     fun close() {
         httpClient.close()
+        sleeper.close()
     }
 }

@@ -2,24 +2,17 @@
 
 package com.dataleon.api.services.async.individuals
 
-import com.dataleon.api.TestServerExtension
 import com.dataleon.api.client.okhttp.DataleonOkHttpClientAsync
 import com.dataleon.api.models.individuals.documents.DocumentUploadParams
 import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.extension.ExtendWith
 
-@ExtendWith(TestServerExtension::class)
 internal class DocumentServiceAsyncTest {
 
-    @Disabled("Prism tests are disabled")
+    @Disabled("Mock server tests are disabled")
     @Test
     fun list() {
-        val client =
-            DataleonOkHttpClientAsync.builder()
-                .baseUrl(TestServerExtension.BASE_URL)
-                .apiKey("My API Key")
-                .build()
+        val client = DataleonOkHttpClientAsync.builder().apiKey("My API Key").build()
         val documentServiceAsync = client.individuals().documents()
 
         val documentResponseFuture = documentServiceAsync.list("individual_id")
@@ -28,14 +21,10 @@ internal class DocumentServiceAsyncTest {
         documentResponse.validate()
     }
 
-    @Disabled("Prism tests are disabled")
+    @Disabled("Mock server tests are disabled")
     @Test
     fun upload() {
-        val client =
-            DataleonOkHttpClientAsync.builder()
-                .baseUrl(TestServerExtension.BASE_URL)
-                .apiKey("My API Key")
-                .build()
+        val client = DataleonOkHttpClientAsync.builder().apiKey("My API Key").build()
         val documentServiceAsync = client.individuals().documents()
 
         val genericDocumentFuture =
@@ -43,7 +32,7 @@ internal class DocumentServiceAsyncTest {
                 DocumentUploadParams.builder()
                     .individualId("individual_id")
                     .documentType(DocumentUploadParams.DocumentType.LIASSE_FISCALE)
-                    .file("some content".byteInputStream())
+                    .file("Example data".byteInputStream())
                     .url("https://example.com/sample.pdf")
                     .build()
             )

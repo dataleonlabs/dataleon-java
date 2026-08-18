@@ -90,6 +90,7 @@ internal class IndividualTest {
                         .birthPlace("Paris")
                         .birthday("01/01/1990")
                         .country("FR")
+                        .entitlementDate("entitlement_date")
                         .expirationDate("2030-01-01")
                         .firstName("John")
                         .frontDocumentSignedUrl("https://cdn.example.com/front.jpg")
@@ -148,6 +149,7 @@ internal class IndividualTest {
                         .activeAmlSuspicions(false)
                         .apiVersion(2L)
                         .approvedAt(OffsetDateTime.parse("2025-05-01T12:00:00Z"))
+                        .approvedBy("user:john.doe")
                         .callbackUrl("https://example.com/callback")
                         .callbackUrlNotification("https://example.com/notify")
                         .disableNotification(false)
@@ -159,10 +161,19 @@ internal class IndividualTest {
                         .language("fra")
                         .locationIp("203.0.113.45")
                         .needReviewAt(null)
+                        .needReviewBy("user:reviewer01")
                         .notificationConfirmation(false)
+                        .portalSteps(
+                            listOf(
+                                Individual.TechnicalData.PortalStep.IDENTITY_VERIFICATION,
+                                Individual.TechnicalData.PortalStep.SELFIE,
+                                Individual.TechnicalData.PortalStep.FACE_MATCH,
+                            )
+                        )
                         .qrCode("false")
                         .rawData(true)
                         .rejectedAt(null)
+                        .rejectedBy("user:jane.doe")
                         .sessionDuration(45L)
                         .startedAt(OffsetDateTime.parse("2025-05-05T13:00:00Z"))
                         .transferAt(OffsetDateTime.parse("2025-07-12T14:00:00Z"))
@@ -251,6 +262,7 @@ internal class IndividualTest {
                     .birthPlace("Paris")
                     .birthday("01/01/1990")
                     .country("FR")
+                    .entitlementDate("entitlement_date")
                     .expirationDate("2030-01-01")
                     .firstName("John")
                     .frontDocumentSignedUrl("https://cdn.example.com/front.jpg")
@@ -314,6 +326,7 @@ internal class IndividualTest {
                     .activeAmlSuspicions(false)
                     .apiVersion(2L)
                     .approvedAt(OffsetDateTime.parse("2025-05-01T12:00:00Z"))
+                    .approvedBy("user:john.doe")
                     .callbackUrl("https://example.com/callback")
                     .callbackUrlNotification("https://example.com/notify")
                     .disableNotification(false)
@@ -325,10 +338,19 @@ internal class IndividualTest {
                     .language("fra")
                     .locationIp("203.0.113.45")
                     .needReviewAt(null)
+                    .needReviewBy("user:reviewer01")
                     .notificationConfirmation(false)
+                    .portalSteps(
+                        listOf(
+                            Individual.TechnicalData.PortalStep.IDENTITY_VERIFICATION,
+                            Individual.TechnicalData.PortalStep.SELFIE,
+                            Individual.TechnicalData.PortalStep.FACE_MATCH,
+                        )
+                    )
                     .qrCode("false")
                     .rawData(true)
                     .rejectedAt(null)
+                    .rejectedBy("user:jane.doe")
                     .sessionDuration(45L)
                     .startedAt(OffsetDateTime.parse("2025-05-05T13:00:00Z"))
                     .transferAt(OffsetDateTime.parse("2025-07-12T14:00:00Z"))
@@ -416,6 +438,7 @@ internal class IndividualTest {
                         .birthPlace("Paris")
                         .birthday("01/01/1990")
                         .country("FR")
+                        .entitlementDate("entitlement_date")
                         .expirationDate("2030-01-01")
                         .firstName("John")
                         .frontDocumentSignedUrl("https://cdn.example.com/front.jpg")
@@ -474,6 +497,7 @@ internal class IndividualTest {
                         .activeAmlSuspicions(false)
                         .apiVersion(2L)
                         .approvedAt(OffsetDateTime.parse("2025-05-01T12:00:00Z"))
+                        .approvedBy("user:john.doe")
                         .callbackUrl("https://example.com/callback")
                         .callbackUrlNotification("https://example.com/notify")
                         .disableNotification(false)
@@ -485,10 +509,19 @@ internal class IndividualTest {
                         .language("fra")
                         .locationIp("203.0.113.45")
                         .needReviewAt(null)
+                        .needReviewBy("user:reviewer01")
                         .notificationConfirmation(false)
+                        .portalSteps(
+                            listOf(
+                                Individual.TechnicalData.PortalStep.IDENTITY_VERIFICATION,
+                                Individual.TechnicalData.PortalStep.SELFIE,
+                                Individual.TechnicalData.PortalStep.FACE_MATCH,
+                            )
+                        )
                         .qrCode("false")
                         .rawData(true)
                         .rejectedAt(null)
+                        .rejectedBy("user:jane.doe")
                         .sessionDuration(45L)
                         .startedAt(OffsetDateTime.parse("2025-05-05T13:00:00Z"))
                         .transferAt(OffsetDateTime.parse("2025-07-12T14:00:00Z"))

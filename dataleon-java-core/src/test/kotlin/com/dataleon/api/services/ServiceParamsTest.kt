@@ -36,7 +36,7 @@ internal class ServiceParamsTest {
                 .build()
     }
 
-    @Disabled("Prism tests are disabled")
+    @Disabled("Mock server tests are disabled")
     @Test
     fun create() {
         val individualService = client.individuals()
@@ -65,6 +65,14 @@ internal class ServiceParamsTest {
                         .callbackUrlNotification("https://example.com/notify")
                         .filteringScoreAmlSuspicions(0.75f)
                         .language("fra")
+                        .portalSteps(
+                            listOf(
+                                IndividualCreateParams.TechnicalData.PortalStep
+                                    .IDENTITY_VERIFICATION,
+                                IndividualCreateParams.TechnicalData.PortalStep.SELFIE,
+                                IndividualCreateParams.TechnicalData.PortalStep.FACE_MATCH,
+                            )
+                        )
                         .rawData(true)
                         .build()
                 )
