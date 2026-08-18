@@ -2,8 +2,8 @@
 
 <!-- x-release-please-start-version -->
 
-[![Maven Central](https://img.shields.io/maven-central/v/com.dataleon.api/dataleon-java)](https://central.sonatype.com/artifact/com.dataleon.api/dataleon-java/0.1.0-alpha.4)
-[![javadoc](https://javadoc.io/badge2/com.dataleon.api/dataleon-java/javadoc.svg)](https://javadoc.io/doc/com.dataleon.api/dataleon-java/0.1.0-alpha.4)
+[![Maven Central](https://img.shields.io/maven-central/v/com.dataleon.api/dataleon-java)](https://central.sonatype.com/artifact/com.dataleon.api/dataleon-java/0.1.0-alpha.5)
+[![javadoc](https://javadoc.io/badge2/com.dataleon.api/dataleon-java/javadoc.svg)](https://javadoc.io/doc/com.dataleon.api/dataleon-java/0.1.0-alpha.5)
 
 <!-- x-release-please-end -->
 
@@ -22,7 +22,7 @@ Use the Dataleon MCP Server to enable AI assistants to interact with this API, a
 
 <!-- x-release-please-start-version -->
 
-The REST API documentation can be found on [docs.dataleon.ai](https://docs.dataleon.ai). Javadocs are available on [javadoc.io](https://javadoc.io/doc/com.dataleon.api/dataleon-java/0.1.0-alpha.4).
+The REST API documentation can be found on [docs.dataleon.ai](https://docs.dataleon.ai). Javadocs are available on [javadoc.io](https://javadoc.io/doc/com.dataleon.api/dataleon-java/0.1.0-alpha.5).
 
 <!-- x-release-please-end -->
 
@@ -33,7 +33,7 @@ The REST API documentation can be found on [docs.dataleon.ai](https://docs.datal
 ### Gradle
 
 ```kotlin
-implementation("com.dataleon.api:dataleon-java:0.1.0-alpha.4")
+implementation("com.dataleon.api:dataleon-java:0.1.0-alpha.5")
 ```
 
 ### Maven
@@ -42,7 +42,7 @@ implementation("com.dataleon.api:dataleon-java:0.1.0-alpha.4")
 <dependency>
   <groupId>com.dataleon.api</groupId>
   <artifactId>dataleon-java</artifactId>
-  <version>0.1.0-alpha.4</version>
+  <version>0.1.0-alpha.5</version>
 </dependency>
 ```
 
